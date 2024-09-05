@@ -7,8 +7,17 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import Container from "../../components/shared/layout/Container";
 import { IoMdCloseCircle } from "react-icons/io";
 import LogInForm from "../../components/authComponents/LogInForm";
+import { useState } from "react";
+import DialogBox from "../../components/reusables/DialogBox";
 
 function LogIn() {
+    const [showModal, setShowModal] = useState(false);
+    const [isDeleteInProgress, setIsDeleteInProgress] = useState(false);
+
+    function handleSubmission() {
+        setIsDeleteInProgress(true);
+    }
+
     return (
         <Container>
             <motion.div
@@ -44,7 +53,9 @@ function LogIn() {
                             <h2 className="font-semibold text-2xl lg:text-3xl leading-9 text-center mb-5">
                                 Welcome back
                             </h2>
-                            <LogInForm />
+                            <LogInForm
+                                setShowModal={setShowModal}
+                            />
                             <p className="text-[#B3B1B1] text-sm text-center mt-5">
                                 Don&apos;t have an account?{" "}
                                 <span className="font-semibold underline text-[#00dd00]">
@@ -61,6 +72,16 @@ function LogIn() {
                         className="bg-white rounded-full transition ease-in-out hover:scale-110 duration-300"
                     />
                 </Link>
+                {showModal && (
+                    <DialogBox
+                        message="Are you sure you want to delete?"
+                        okText="Yes"
+                        cancelText="No"
+                        isDeleteInProgress={isDeleteInProgress}
+                        handleSubmission={handleSubmission}
+                        setShowModal={setShowModal}
+                    />
+                )}
             </motion.div>
         </Container>
     );

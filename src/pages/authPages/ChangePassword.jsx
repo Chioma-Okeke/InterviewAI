@@ -13,7 +13,7 @@ function ChangePassword() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ ease: "easeInOut", duration: 0.6, delay: 0.2 }}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] md:w-[50%] lg:w-[40%]"
+                className="mx-auto w-[85%] md:w-[50%] lg:w-[40%] my-12"
             >
                 <div className="border p-6 shadow-xl rounded-2xl">
                     <h1 className="font-bold text-2xl lg:text-3xl mb-1 text-center">

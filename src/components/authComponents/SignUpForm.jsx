@@ -4,6 +4,7 @@ import { ToastContainer,} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FormInput from "../reusables/FormInput";
 import Button from "../reusables/Button";
+import HiddenInput from "../reusables/HiddenInput";
 
 function SignupForm() {
     const [formData, setFormData] = useState({});
@@ -66,7 +67,7 @@ function SignupForm() {
                     isRequired={true}
                     className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
                 />
-                <FormInput
+                <HiddenInput
                     inputLabel="Password"
                     labelFor="password"
                     inputType="password"
@@ -78,7 +79,7 @@ function SignupForm() {
                     onChange={(e) => handleChange(e)}
                     isRequired={true}
                     showPasswordRequirement={true}
-                    className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow"
+                    className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow"
                 />
                 {/* <PhoneNumber />
         <HiddenInput /> */}

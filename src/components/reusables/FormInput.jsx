@@ -19,7 +19,6 @@ const FormInput = React.forwardRef(function FormInput(
         onChange,
         className,
         inputGroupClassNames,
-        showPasswordRequirement,
         labelClasses,
     },
     ref
@@ -27,14 +26,14 @@ const FormInput = React.forwardRef(function FormInput(
     return (
         <div className={inputGroupClassNames}>
             {inputLabel && (
-                <div className="flex items-start">
+                <div className="flex items-start mb-1">
                     <label
                         className={`block text-[#101928] font-medium ${labelClasses}`}
                         htmlFor={labelFor}
                     >
                         {inputLabel}
                     </label>
-                    {isRequired && <span className="text-red-600 text-sm">*</span>}
+                    {isRequired && <span className="text-red-600 text-base">*</span>}
                 </div>
             )}
             <input
@@ -53,11 +52,6 @@ const FormInput = React.forwardRef(function FormInput(
                 onFocus={onFocus}
                 required
             />
-            {inputType === "password" && showPasswordRequirement && (
-                <p className="text-sm text-[#667185] mt-2">
-                    minimum 8 characters and special character
-                </p>
-            )}
         </div>
     );
 });

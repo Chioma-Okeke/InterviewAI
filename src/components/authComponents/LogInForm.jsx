@@ -11,9 +11,10 @@ import { Link } from "react-router-dom";
 // import FetchClient from "../../ServiceClients/FetchClient";
 // import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import HiddenInput from "../reusables/HiddenInput";
 
-function LogInForm() {
+function LogInForm({ setShowModal }) {
     const [formData, setFormData] = useState({});
     // const { login } = useContext(AuthContext);
     // const navigate = useNavigate();
@@ -38,6 +39,7 @@ function LogInForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         console.log(formData, "data");
+        setShowModal(true);
         // const userAuthentication = new UserAuthentication(FetchClient);
         // try {
         //     const res = await userAuthentication.authenticateUser(formData);
@@ -78,7 +80,7 @@ function LogInForm() {
                     isRequired={true}
                     className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
                 />
-                <FormInput
+                <HiddenInput
                     inputLabel="Password"
                     labelFor="password"
                     inputType="password"
@@ -89,12 +91,14 @@ function LogInForm() {
                     inputValue={formData.password}
                     onChange={(e) => handleChange(e)}
                     isRequired={true}
-                    className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
+                    className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:shadow mb-5"
                 />
                 {/* <PhoneNumber />
         <HiddenInput /> */}
                 <span className="text-end italic font-medium text-sm float-end mb-5">
-                    <Link to="/forgotpassword" className="hover:underline">Forgot Password?</Link>
+                    <Link to="/forgotpassword" className="hover:underline">
+                        Forgot Password?
+                    </Link>
                 </span>
                 <Button className="w-full md:text-base text-white font-semibold px-6 py-4 rounded-md bg-[#00dd00]">
                     Sign in

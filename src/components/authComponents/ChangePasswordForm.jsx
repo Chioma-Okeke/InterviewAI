@@ -6,6 +6,7 @@ import Button from "../reusables/Button";
 // import UserAuthentication from "../../services/AuthServices";
 // import FetchClient from "../../ServiceClients/FetchClient";
 import { ToastContainer } from "react-toastify";
+import HiddenInput from "../reusables/HiddenInput";
 // import { toast } from "react-toastify";
 
 function ChangePasswordForm() {
@@ -63,29 +64,29 @@ function ChangePasswordForm() {
                     onChange={(e) => handleChange(e)}
                     className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
                 />
-                <FormInput
+                <HiddenInput
                     inputLabel="New Password"
                     labelFor="password"
-                    inputType="text"
+                    inputType="password"
                     inputId="password"
                     inputName="password"
                     placeholderText="Enter your new password"
                     ariaLabelName="Password"
                     inputValue={formData.password}
                     onChange={(e) => handleChange(e)}
-                    className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
+                    className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
                 />
-                <FormInput
+                <HiddenInput
                     inputLabel="Confirm Password"
                     labelFor="repeatedPassword"
-                    inputType="text"
+                    inputType="password"
                     inputId="repeatedPassword"
                     inputName="repeatedPassword"
                     placeholderText="Confirm your new password"
                     ariaLabelName="Repeated Password"
                     inputValue={formData.repeatedPassword}
                     onChange={(e) => handleChange(e)}
-                    className="w-full p-4 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
+                    className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow mb-5"
                 />
                 {/* <PhoneNumber />
         <HiddenInput /> */}
