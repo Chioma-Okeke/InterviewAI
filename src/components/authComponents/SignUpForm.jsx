@@ -1,13 +1,17 @@
 // import React from "react";
 import { useState } from "react";
-import { ToastContainer,} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import FormInput from "../reusables/FormInput";
 import Button from "../reusables/Button";
 import HiddenInput from "../reusables/HiddenInput";
+import { UserAuthentication } from "../../services/AuthServices";
+import { FetchClient } from "../../serviceClients/FetchClient";
+import { useNavigate } from "react-router-dom";
 
 function SignupForm() {
     const [formData, setFormData] = useState({});
+    const navigate = useNavigate();
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -23,6 +27,21 @@ function SignupForm() {
     async function handleSubmit(e) {
         e.preventDefault();
         console.log(formData, "data");
+        const userAuthentication = new UserAuthentication(FetchClient);
+        try {
+            const res = await userAuthentication.registerUser(formData);
+            // const data = await res.json()
+            console.log(res, "response");
+            if (res.status === 201) {
+                alert("You have successfully signed up.");
+                //login(res.data.tokens.accessToken, res.data.user._id);
+                navigate("/signin");
+                toast.success("You have successfully signed up.");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("An error occurred while registering you.");
+        }
     }
 
     return (
@@ -79,6 +98,22 @@ function SignupForm() {
                     onChange={(e) => handleChange(e)}
                     isRequired={true}
                     showPasswordRequirement={true}
+                    inputGroupClassNames="mb-5"
+                    className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow"
+                />
+                <HiddenInput
+                    inputLabel="Password"
+                    labelFor="password"
+                    inputType="password"
+                    inputId="password"
+                    inputName="password"
+                    placeholderText="Enter your password"
+                    ariaLabelName="Password"
+                    inputValue={formData.confirmPassword}
+                    onChange={(e) => handleChange(e)}
+                    isRequired={true}
+                    showPasswordRequirement={true}
+                    inputGroupClassNames="mb-5"
                     className="w-full p-2 border border-[#D0D5DD] bg-white rounded-md shadow-sm text-sm focus:outline-none focus:shadow"
                 />
                 {/* <PhoneNumber />
@@ -87,7 +122,7 @@ function SignupForm() {
                     Sign up
                 </Button>
             </form>
-            <ToastContainer/>
+            <ToastContainer />
         </div>
     );
 }

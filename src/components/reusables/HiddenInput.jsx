@@ -1,86 +1,94 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import { IoIosEye, IoIosEyeOff } from "react-icons/io";
+import PropTypes from "prop-types";
+import { PiEyeClosed, PiEye } from "react-icons/pi";
+// import './CustomTextField.css';
 
-const HiddenInput = React.forwardRef(function HiddenInput(
-    {
-        isRequired,
-        inputValue,
-        onMouseEnter,
-        onBlur,
-        onFocus,
-        onMouseLeave,
-        inputLabel,
-        labelFor,
-        inputId,
-        inputName,
-        placeholderText,
-        ariaLabelName,
-        onChange,
-        className,
-        inputGroupClassNames,
-        showPasswordRequirement,
-        labelClasses,
-    },
-    ref
-) {
+const HiddenInput = ({
+    label,
+    placeholder,
+    helperText,
+    error,
+    className,
+    inputValue,
+    inputType,
+    isRequired,
+    onChange,
+    inputId,
+    ariaLabelName,
+    labelFor,
+    inputName,
+    isPasswordField,
+    formGroupClass
+}) => {
+    const [focused, setFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
+    const handleFocus = () => setFocused(true);
+    const handleBlur = () => {
+        if (!inputValue) {
+            setFocused(false);
+        }
+    };
+
     return (
-        <div className={inputGroupClassNames}>
-            {inputLabel && (
-                <div className="flex items-start">
-                    <label
-                        className={`block text-[#101928] font-medium ${labelClasses}`}
-                        htmlFor={labelFor}
-                    >
-                        {inputLabel}
-                    </label>
-                    {isRequired && (
-                        <span className="text-red-600 text-sm">*</span>
-                    )}
-                </div>
-            )}
-            <div className={`flex items-center justify-between ${className}`}>
-                <input
-                    className="w-full p-2 focus:outline-none"
-                    onMouseEnter={onMouseEnter}
-                    ref={ref}
-                    type={showPassword ? "text" : "password"}
-                    id={inputId}
-                    value={inputValue}
-                    name={inputName}
-                    placeholder={placeholderText}
-                    aria-label={ariaLabelName}
-                    onChange={onChange}
-                    onMouseLeave={onMouseLeave}
-                    onBlur={onBlur}
-                    onFocus={onFocus}
-                    required={isRequired}
-                />
-                <div>
+        <div className={`custom-text-field ${error ? "error" : ""} ${formGroupClass}`}>
+            <label
+                className={`${focused || !!inputValue ? "focused" : ""}`}
+                htmlFor={labelFor}
+            >
+                {label}
+                {isRequired && (
+                    <span className="text-red-600 text-base">*</span>
+                )}
+            </label>
+            <input
+                type={showPassword ? "text" : "password"}
+                id={inputId}
+                name={inputName}
+                value={inputValue}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                placeholder={focused ? placeholder : ""}
+                className={`${className} ${!showPassword ? "tracking-widest text-lg" : ""}`}
+                aria-label={ariaLabelName}
+                onChange={onChange}
+            />
+            {isPasswordField && (
+                <div className="absolute right-4 top-4">
                     {showPassword ? (
-                        <IoIosEyeOff
-                            size={25}
+                        <PiEye
+                            color="#C5C6CB"
+                            size={20}
                             cursor={"pointer"}
-                            onClick={() => setShowPassword(false)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowPassword(false);
+                            }}
                         />
                     ) : (
-                        <IoIosEye
-                            size={25}
+                        <PiEyeClosed
+                            color="#C5C6CB"
+                            size={20}
                             cursor={"pointer"}
-                            onClick={() => setShowPassword(true)}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowPassword(true);
+                            }}
                         />
                     )}
                 </div>
-            </div>
-            {showPasswordRequirement && (
-                <p className="text-sm text-[#667185] mt-2">
-                    minimum 8 characters and special character
-                </p>
             )}
+            <span className="helper-text">{helperText}</span>
         </div>
     );
-});
+};
+
+HiddenInput.propTypes = {
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    helperText: PropTypes.string,
+    className: PropTypes.string,
+    error: PropTypes.bool,
+};
 
 export default HiddenInput;
