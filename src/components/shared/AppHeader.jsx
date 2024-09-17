@@ -1,11 +1,8 @@
-import React from "react";
 import LogoDark from "../../assets/logo-black-white.svg";
 import LogoLight from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { CgProfile } from "react-icons/cg";
-import bigScreenNavIcon from "../../assets/sideIcon.svg";
-import MobNavIcon from "../../assets/sideIconMob.svg";
 import { toggleNavBar } from "../../store/navSlice";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -22,7 +19,7 @@ function AppHeader() {
     return (
         <header className="px-8 py-7">
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-8">
+                <div className="flex items-center flex-1 lg:gap-8">
                     {!isSideBarVisible && (
                         <div
                             onClick={toggleSideBar}
@@ -99,7 +96,7 @@ function AppHeader() {
                             </svg>
                         </div>
                     )}
-                    <Link to="/" className="flex items-center gap-2">
+                    <Link to="/" className="flex items-center gap-2 flex-1 justify-center lg:justify-start">
                         {theme === "dark" ? (
                             <img src={LogoDark} alt="Dark Logo" />
                         ) : (
@@ -115,14 +112,14 @@ function AppHeader() {
                     </Link>
                 </div>
 
-                <button
+                {/* <button
                     onClick={() =>
                         setTheme(theme === "dark" ? "light" : "dark")
                     }
                     className="dark:text-primary-light text-primary-dark"
                 >
                     Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-                </button>
+                </button> */}
                 {/* <img src={} alt="" className='rounded-full'/> */}
                 <div className="hidden lg:block">
                     <CgProfile

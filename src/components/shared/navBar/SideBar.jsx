@@ -84,6 +84,7 @@ function SideBar() {
                 <ul>
                     <NavLink
                         to={"/"}
+                        onClick={handleSideBarToggle}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark " +
@@ -106,6 +107,7 @@ function SideBar() {
                     </NavLink>
                     <NavLink
                         to={"/learning"}
+                        onClick={handleSideBarToggle}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark " +
@@ -124,6 +126,7 @@ function SideBar() {
                     </NavLink>
                     <NavLink
                         to={"/practice"}
+                        onClick={handleSideBarToggle}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 p-2 dark:hover:bg-primary-dark " +

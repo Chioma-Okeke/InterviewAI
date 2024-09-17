@@ -3,11 +3,10 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import SideBar from "../navBar/SideBar";
 import AppHeader from "../AppHeader";
-import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 
-function PageLayout({ children }) {
-    const [showSideBar, setShowSideBar] = useState(false);
+function PageLayout() {
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
 
     const sidebarWidth = window.innerWidth > 1280 ? "261px" : "";
@@ -37,7 +36,7 @@ function PageLayout({ children }) {
             >
                 <div className=" flex flex-col dark:bg-primary-dark bg-secondary-light">
                     <AppHeader />
-                    {children}
+                    <Outlet />
                 </div>
             </motion.section>
         </main>
