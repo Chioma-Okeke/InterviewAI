@@ -84,7 +84,7 @@ function SideBar() {
                 <ul>
                     <NavLink
                         to={"/"}
-                        onClick={handleSideBarToggle}
+                        onClick={() => {if (window.innerWidth < 1024) handleSideBarToggle()}}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark " +
@@ -107,7 +107,7 @@ function SideBar() {
                     </NavLink>
                     <NavLink
                         to={"/learning"}
-                        onClick={handleSideBarToggle}
+                        onClick={() => {if (window.innerWidth < 1024) handleSideBarToggle()}}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark " +
@@ -126,7 +126,7 @@ function SideBar() {
                     </NavLink>
                     <NavLink
                         to={"/practice"}
-                        onClick={handleSideBarToggle}
+                        onClick={() => {if (window.innerWidth < 1024) handleSideBarToggle()}}
                         className={({ isActive }) => {
                             return (
                                 "flex items-center gap-3 p-2 dark:hover:bg-primary-dark " +
