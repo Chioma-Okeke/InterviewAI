@@ -112,15 +112,14 @@ function AppHeader() {
                     </Link>
                 </div>
 
-                {/* <button
+                <button
                     onClick={() =>
                         setTheme(theme === "dark" ? "light" : "dark")
                     }
                     className="dark:text-primary-light text-primary-dark"
                 >
                     Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-                </button> */}
-                {/* <img src={} alt="" className='rounded-full'/> */}
+                </button>
                 <div className="hidden lg:block">
                     <CgProfile
                         size={45}
