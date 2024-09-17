@@ -66,3 +66,11 @@
 .custom-text-field.error .helper-text {
   color: red;
 }
+
+.option_container .correct{
+  border-color: #3D9963;
+}
+
+.option_container .wrong{
+  border-color: #E14942
+}

@@ -15,7 +15,8 @@ const CustomTextField = ({
     inputId,
     ariaLabelName,
     labelFor,
-    inputName
+    inputName,
+    formGroupClass,
 }) => {
     const [focused, setFocused] = useState(false);
 
@@ -27,7 +28,7 @@ const CustomTextField = ({
     };
 
     return (
-        <div className={`custom-text-field ${error ? "error" : ""}`}>
+        <div className={`custom-text-field ${error ? "error" : ""} ${formGroupClass}`}>
             <label className={`${focused || !!inputValue ? "focused" : ""}`} htmlFor={labelFor}>
                 {label}
                 {isRequired && <span className="text-red-600 text-base">*</span>}

@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
+import { refreshAccessToken } from "../utils/authUtils";
 
 export const AuthContext = createContext();
 
@@ -18,10 +19,24 @@ export default function AuthProvider({ children }) {
         }
     }, [storedData]);
 
-    function login(newToken, newData) {
+    useEffect(() => {
+        if (token) {
+            const refreshTimeout = setTimeout(() => {
+                refreshAccessToken(setToken, logout)
+            }, 13*60*1000)
+
+            return () => clearTimeout(refreshTimeout)
+        }
+    }, [token])
+
+    function login(newToken, refreshToken, newData) {
         localStorage.setItem(
             "user_date",
-            JSON.stringify({ userToken: newToken, user: newData })
+            JSON.stringify({
+                userToken: newToken,
+                refreshToken: refreshToken,
+                user: newData,
+            })
         );
 
         setToken(newToken);
@@ -39,7 +54,7 @@ export default function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider
-            value={{ token, isAuthenticated, login, logout, userData }}
+            value={{ token, isAuthenticated, login, logout, userData, setToken }}
         >
             {children}
         </AuthContext.Provider>

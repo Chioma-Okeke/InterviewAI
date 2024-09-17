@@ -6,7 +6,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import { motion } from "framer-motion";
 import Container from "../../components/shared/layout/Container";
 import { IoMdCloseCircle } from "react-icons/io";
-import SignUpForm from "../../components/authComponents/SignUpForm";
+// import SignUpForm from "../../components/authComponents/SignUpForm";
 import AuthForm from "../../components/authComponents/AuthForm";
 import Logo from "../../assets/logo.svg"
 
@@ -29,7 +29,7 @@ function SignUp() {
                             </h2>
                         </div>
                         <div>
-                            <AuthForm authGate="signing" buttonText="Create an account"/>
+                            <AuthForm authGate="registering" buttonText="Create an account"/>
                             {/* <LogForm /> */}
                             <p className="text-[#3B3B3B] flex justify-center gap-1 w-full">
                                 Already have an account?

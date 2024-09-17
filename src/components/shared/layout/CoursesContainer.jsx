@@ -13,7 +13,7 @@ function CoursesContainer({ onClick }) {
     const [currentDisplay, setCurrentDisplay] = useState("");
 
     function handleDisplayToggle(e) {
-        setCurrentDisplay(e.target.innerText)
+        setCurrentDisplay(e.target.innerText);
     }
 
     return (
@@ -31,6 +31,7 @@ function CoursesContainer({ onClick }) {
                     <div className="w-full">
                         <CourseHeader
                             handleDisplayToggle={handleDisplayToggle}
+                            currentDisplay={currentDisplay}
                         />
                         <div className="mt-6 mb-8">
                             <CourseBody currentDisplay={currentDisplay} />
@@ -42,8 +43,8 @@ function CoursesContainer({ onClick }) {
                             <QuizCompleted />
                         </div> */}
                         {/* <div className="mt-11">
-                        <QuestionSection />
-                    </div> */}
+                            <QuestionSection />
+                        </div> */}
                         {/* <CourseFooter /> */}
                     </div>
                 </div>
@@ -62,9 +63,11 @@ function CoursesContainer({ onClick }) {
                         <span>Back to Learning Pages</span>
                     </div>
                     <div>
-                        <CourseHeader handleDisplayToggle={handleDisplayToggle}/>
+                        <CourseHeader
+                            handleDisplayToggle={handleDisplayToggle}
+                        />
                         <div className="mt-10 mb-8 px-4">
-                            <CourseBody currentDisplay={currentDisplay}/>
+                            <CourseBody currentDisplay={currentDisplay} />
                         </div>
                         {/* <div>
                         <QuizWelcome />

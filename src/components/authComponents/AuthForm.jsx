@@ -9,18 +9,18 @@ import PropTypes from "prop-types";
 // import axios from "axios"
 import { AuthContext } from "../../contexts/AuthContext";
 import { UserAuthentication } from "../../services/AuthServices";
-import { FetchClient } from "../../serviceClients/FetchClient";
+import FetchClient from "../../serviceClients/FetchClient";
 // import { toast } from "react-toastify";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HiddenInput from "../reusables/HiddenInput";
 import CustomTextField from "../reusables/CustomInputs";
 
-function AuthForm({ setShowModal, buttonText, authGate }) {
+function AuthForm({ buttonText, authGate }) {
     const [formData, setFormData] = useState({});
     const [showOtherFields, setShowOtherFields] = useState(false);
     const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-    const { login } = useContext(AuthContext);
+    const { login, setToken, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -44,26 +44,30 @@ function AuthForm({ setShowModal, buttonText, authGate }) {
     async function handleLogin(e) {
         e.preventDefault();
         console.log(formData, "data");
-        setShowModal(true);
+
         const userAuthentication = new UserAuthentication(FetchClient);
+
         try {
+            let res;
             if (authGate === "registering") {
-                const res = await userAuthentication.authenticateUser(formData);
+                res = await userAuthentication.signUp(formData, {setToken, logout});
                 console.log(res, "response");
                 if (res.status === 201) {
-                    alert("You have successfully signed up.");
-                    //login(res.data.tokens.accessToken, res.data.user._id);
-                    navigate("/signin");
                     toast.success("You have successfully signed up.");
+                    navigate("/login");
                 }
             } else {
-                const res = await userAuthentication.registerUser(formData);
+                res = await userAuthentication.login(formData);
                 // const data = await res.json()
                 console.log(res, "response");
-                if (res.status === 201) {
+                if (res.status === 200) {
                     toast.success("You have successfully signed in.");
+                    login(
+                        res.data.tokens.accessToken,
+                        res.data.tokens.refreshToken,
+                        res.data.user._id
+                    );
                     navigate(from);
-                    login(res.data.tokens.accessToken, res.data.user._id);
                 }
             }
         } catch (err) {
@@ -111,23 +115,42 @@ function AuthForm({ setShowModal, buttonText, authGate }) {
                     isRequired={true}
                 />
                 {showOtherFields && (
-                    <HiddenInput
-                        label="Password"
-                        labelFor="password"
-                        inputId="password"
-                        inputName="password"
-                        placeholder="Enter your password"
-                        helperText="Invalid email address"
-                        inputType="password"
-                        ariaLabelName="Password"
-                        inputValue={formData.password}
-                        // error
-                        isPasswordField={true}
-                        isRequired={true}
-                        className="border-[1.5px] border-[#C5C6CB] py-3 px-2 rounded-[15px]"
-                        onChange={handleChange}
-                        formGroupClass="mt-5"
-                    />
+                    <div>
+                        <HiddenInput
+                            label="Password"
+                            labelFor="password"
+                            inputId="password"
+                            inputName="password"
+                            placeholder="Enter your password"
+                            helperText="Invalid email address"
+                            inputType="password"
+                            ariaLabelName="Password"
+                            inputValue={formData.password}
+                            // error
+                            isPasswordField={true}
+                            isRequired={true}
+                            className="border-[1.5px] border-[#C5C6CB] py-3 px-2 rounded-[15px]"
+                            onChange={handleChange}
+                            formGroupClass="mt-5"
+                        />
+                        <HiddenInput
+                            label="Confirm password"
+                            labelFor="confirmPassword"
+                            inputId="confirmPassword"
+                            inputName="confirmPassword"
+                            placeholder="Confirm your password"
+                            helperText="Invalid email address"
+                            inputType="password"
+                            ariaLabelName="Confirm Password"
+                            inputValue={formData.confirmPassword}
+                            // error
+                            isPasswordField={true}
+                            isRequired={true}
+                            className="border-[1.5px] border-[#C5C6CB] py-3 px-2 rounded-[15px]"
+                            onChange={handleChange}
+                            formGroupClass="mt-5"
+                        />
+                    </div>
                 )}
                 <Button className="w-full mt-8 mb-6 text-white py-[18px] px-5 rounded-[15px] bg-[#3D9963]">
                     {buttonText}

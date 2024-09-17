@@ -4,22 +4,28 @@ export class UserAuthentication {
         this.baseUrl = import.meta.env.VITE_AUTH_BASE_URL
     }
 
-    async signUp(userData) {
+    async signUp(userData, options = {}) {
         try {
-            const response = await this.httpClient.post(`${this.baseUrl}/signup`, userData)
+            const response = await this.httpClient.post(`${this.baseUrl}/signup`, userData, options)
+            if(!response.ok) {
+                throw new Error(`Signup failed: ${response.statusText}`)
+            }
             return response.json()
         } catch (error) {
-            console.error(error)
+            console.error('Signup error', error.message)
             throw error
         }
     }
 
-    async login(userData) {
+    async login(userData, options = {}) {
         try {
-            const response = await this.httpClient.post(`${this.baseUrl}/signin`, userData)
+            const response = await this.httpClient.post(`${this.baseUrl}/signin`, userData, options)
+            if(!response.ok) {
+                throw new Error(`Login failed: ${response.statusText}`)
+            }
             return response.json()
         } catch (error) {
-            console.error(error)
+            console.error('Login error', error.message)
             throw error
         }
     }
@@ -34,10 +40,10 @@ export class UserAuthentication {
             if (response.ok) {
                 return await response.json();
             } else {
-                throw new Error('Failed to log out');
+                throw new Error(`Login failed: ${response.statusText}`);
             }
         } catch (error) {
-            console.error('Logout failed', error)
+            console.error('Logout error', error.message)
             throw error
         }
     }

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Notes() {
   return (
-    <div>Notes</div>
+    <div><p className='text-primary-dark dark:text-primary-light'>Notes</p></div>
   )
 }
 
