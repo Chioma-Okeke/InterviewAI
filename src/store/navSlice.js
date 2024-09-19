@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const init = window.innerWidth > 1024 ? true : false
+
 const navSlice = createSlice({
     name: "nav",
     initialState: {
-        showNavBar: true,
+        showNavBar: init,
     },
     reducers: {
         toggleNavBar: (state) => {

@@ -23,7 +23,6 @@ function AppHeader() {
                     {!isSideBarVisible && (
                         <div
                             onClick={toggleSideBar}
-                            onMouseEnter={toggleSideBar}
                             className="cursor-pointer hover:scale-105"
                         >
                             <svg

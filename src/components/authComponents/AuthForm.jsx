@@ -63,9 +63,9 @@ function AuthForm({ buttonText, authGate }) {
                 if (res.status === 200) {
                     toast.success("You have successfully signed in.");
                     login(
-                        res.data.tokens.accessToken,
-                        res.data.tokens.refreshToken,
-                        res.data.user._id
+                        res.tokens.accessToken,
+                        res.tokens.refreshToken,
+                        res.user._id
                     );
                     navigate(from);
                 }
@@ -133,7 +133,7 @@ function AuthForm({ buttonText, authGate }) {
                             onChange={handleChange}
                             formGroupClass="mt-5"
                         />
-                        <HiddenInput
+                        {authGate === "registering" && <HiddenInput
                             label="Confirm password"
                             labelFor="confirmPassword"
                             inputId="confirmPassword"
@@ -149,7 +149,7 @@ function AuthForm({ buttonText, authGate }) {
                             className="border-[1.5px] border-[#C5C6CB] py-3 px-2 rounded-[15px]"
                             onChange={handleChange}
                             formGroupClass="mt-5"
-                        />
+                        />}
                     </div>
                 )}
                 <Button className="w-full mt-8 mb-6 text-white py-[18px] px-5 rounded-[15px] bg-[#3D9963]">

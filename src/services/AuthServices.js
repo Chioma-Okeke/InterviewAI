@@ -1,49 +1,47 @@
-export class UserAuthentication {
-    constructor(httpClient) {
-        this.httpClient = httpClient
-        this.baseUrl = import.meta.env.VITE_AUTH_BASE_URL
-    }
+import apiClient from "../serviceClients/apiClient"
 
-    async signUp(userData, options = {}) {
+export class UserAuthentication {
+
+    async signUp(userData) {
         try {
-            const response = await this.httpClient.post(`${this.baseUrl}/signup`, userData, options)
-            if(!response.ok) {
-                throw new Error(`Signup failed: ${response.statusText}`)
-            }
-            return response.json()
+            const response = await apiClient.post(`/signup`, userData)
+            return response.data
         } catch (error) {
-            console.error('Signup error', error.message)
+            console.error('Signup error:', error.response?.data || error.message)
             throw error
         }
     }
 
-    async login(userData, options = {}) {
+    async login(userData) {
         try {
-            const response = await this.httpClient.post(`${this.baseUrl}/signin`, userData, options)
-            if(!response.ok) {
-                throw new Error(`Login failed: ${response.statusText}`)
-            }
-            return response.json()
+            const response = await apiClient.post(`/signin`, userData)
+            return response.data
         } catch (error) {
-            console.error('Login error', error.message)
+            console.error('Login error:', error.response?.data || error.message)
             throw error
         }
     }
 
     async logout(token) {
         try {
-            const response = await this.httpClient.post(`${this.baseUrl}/logout`, {}, {
+            const response = await apiClient.post(`/logout`, {}, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            if (response.ok) {
-                return await response.json();
-            } else {
-                throw new Error(`Login failed: ${response.statusText}`);
-            }
+            return response.data
         } catch (error) {
-            console.error('Logout error', error.message)
+            console.error('Logout error:', error.response?.data || error.message)
+            throw error
+        }
+    }
+
+    async verifyEmail () {
+        try {
+            const response = await apiClient.get("/user/verify")
+            return response.data
+        } catch (error) {
+            console.error("Email verification error:", error.response?.data || error.message)
             throw error
         }
     }
