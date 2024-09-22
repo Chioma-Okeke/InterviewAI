@@ -18,7 +18,7 @@ const HiddenInput = ({
     labelFor,
     inputName,
     isPasswordField,
-    formGroupClass
+    formGroupClass,
 }) => {
     const [focused, setFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -31,14 +31,22 @@ const HiddenInput = ({
     };
 
     return (
-        <div className={`custom-text-field ${error ? "error" : ""} ${formGroupClass}`}>
+        <div
+            className={`custom-text-field ${
+                error ? "error" : ""
+            } ${formGroupClass}`}
+        >
             <label
-                className={`${focused || !!inputValue ? "focused" : ""}`}
+                className={`${
+                    focused || !!inputValue
+                        ? "focused dark:bg-primary-dark text-brand-color"
+                        : "text-primary-dark dark:text-ternary-light"
+                }   pl-4`}
                 htmlFor={labelFor}
             >
                 {label}
-                {isRequired && (
-                    <span className="text-red-600 text-base">*</span>
+                {isRequired && focused && (
+                    <span className="text-brand-color text-base">*</span>
                 )}
             </label>
             <input
@@ -49,7 +57,9 @@ const HiddenInput = ({
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 placeholder={focused ? placeholder : ""}
-                className={`${className} ${!showPassword ? "tracking-widest text-lg" : ""}`}
+                className={`${className} ${
+                    !showPassword ? "tracking-widest text-lg" : ""
+                } bg-transparent pl-4 text-primary-dark dark:text-primary-light`}
                 aria-label={ariaLabelName}
                 onChange={onChange}
             />

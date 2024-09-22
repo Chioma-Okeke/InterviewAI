@@ -3,14 +3,17 @@ import { HiOutlineArrowRight } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 function ServiceCard({ Icon, title, description, link }) {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    function handleRedirects () {
-        navigate(link)
+    function handleRedirects() {
+        navigate(link);
     }
 
     return (
-        <div className="sm:w-[398px] rounded-3xl border bg-primary-light dark:bg-ternary-dark dark:border-ternary-dark border-ternary-dark dark:hover:bg-hover-dark flex flex-col justify-between pb-6 cursor-pointer">
+        <div
+            onClick={handleRedirects}
+            className="sm:w-[398px] rounded-3xl border-2 dark:border-ternary-dark border-ternary-dark dark:hover:bg-hover-dark flex flex-col justify-between pb-6 cursor-pointer"
+        >
             <div className="pb-2 px-6 pt-6 flex items-center gap-2 border-b dark:border-[#505050] border-primary-dark">
                 <img src={Icon} alt="" />
                 <p className="text-primary-dark dark:text-primary-light">
@@ -18,7 +21,7 @@ function ServiceCard({ Icon, title, description, link }) {
                 </p>
             </div>
             <div className="p-6">
-                <p className="text-primary-dark dark:text-primary-light">
+                <p className="text-primary-dark dark:text-ternary-light">
                     {description}
                 </p>
             </div>
@@ -40,7 +43,7 @@ ServiceCard.propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
     onclick: PropTypes.func,
-    link: PropTypes.string
+    link: PropTypes.string,
 };
 
 export default ServiceCard;

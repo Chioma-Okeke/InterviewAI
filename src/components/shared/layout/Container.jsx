@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { motion } from "framer-motion";
+import { Outlet } from "react-router-dom";
 
 function Container({ children, className }) {
     return (
@@ -11,7 +12,7 @@ function Container({ children, className }) {
             exit={{ opacity: 0 }}
             className={`max-w-[1560px] w-full mx-auto px-2 sm:px-5 ${className} dark:bg-primary-dark bg-secondary-light`}
         >
-            {children}
+            <Outlet/>
         </motion.div>
     );
 }

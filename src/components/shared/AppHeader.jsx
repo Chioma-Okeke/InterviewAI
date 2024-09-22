@@ -5,12 +5,15 @@ import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { CgProfile } from "react-icons/cg";
 import { toggleNavBar } from "../../store/navSlice";
 import { useDispatch, useSelector } from "react-redux";
+import Button from "../reusables/Button";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 function AppHeader() {
-    const [theme, setTheme] = useThemeSwitcher();
-    console.log("Current theme:", theme);
     const dispatch = useDispatch();
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
+    const [theme, setTheme] = useThemeSwitcher();
+    const { isAuthenticated } = useContext(AuthContext);
 
     function toggleSideBar() {
         dispatch(toggleNavBar());
@@ -95,7 +98,10 @@ function AppHeader() {
                             </svg>
                         </div>
                     )}
-                    <Link to="/" className="flex items-center gap-2 flex-1 justify-center lg:justify-start">
+                    <Link
+                        to="/user/dashboard"
+                        className="flex items-center gap-2 flex-1 justify-center lg:justify-start"
+                    >
                         {theme === "dark" ? (
                             <img src={LogoDark} alt="Dark Logo" />
                         ) : (
@@ -110,21 +116,27 @@ function AppHeader() {
                         </p>
                     </Link>
                 </div>
-
-                <button
-                    onClick={() =>
-                        setTheme(theme === "dark" ? "light" : "dark")
-                    }
-                    className="dark:text-primary-light text-primary-dark"
-                >
-                    Toggle {theme === "dark" ? "Light" : "Dark"} Mode
-                </button>
-                <div className="hidden lg:block">
-                    <CgProfile
-                        size={45}
-                        className="text-primary-dark dark:text-primary-light"
-                    />
-                </div>
+                {isAuthenticated ? (
+                    <div className="hidden lg:block">
+                        <CgProfile
+                            size={45}
+                            className="text-primary-dark dark:text-primary-light"
+                        />
+                    </div>
+                ) : (
+                    <div className="flex gap-4 items-center">
+                        <Link to={"/auth/login"}>
+                            <Button className="bg-white rounded-3xl w-[85px] leading-[20px] h-10">
+                                Log in
+                            </Button>
+                        </Link>
+                        <Link to={"/auth"}>
+                            <Button className="hidden lg:block bg-transparent rounded-3xl px-[15px] h-10 leading-[20px] text-primary-dark dark:text-primary-light border-[0.2px] dark:border-[#6C757D]">
+                                Create an account
+                            </Button>
+                        </Link>
+                    </div>
+                )}
             </div>
         </header>
     );

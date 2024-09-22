@@ -41,7 +41,7 @@ function Learning() {
                 </Button>
             </div>
             <Link
-                to={`/stages`}
+                to={`/user/learning/stages`}
                 state={{ data }}
                 onClick={window.scrollTo(0, 0)}
                 className="text-primary-dark dark:text-primary-light text-2xl font-medium"

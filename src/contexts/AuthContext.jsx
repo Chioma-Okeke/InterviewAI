@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { refreshAccessToken } from "../utils/authUtils";
 import apiClient from "../serviceClients/apiClient";
 
 export const AuthContext = createContext();
@@ -8,7 +7,7 @@ export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
     const [token, setToken] = useState(null);
     const [userData, setUserData] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const storedData = JSON.parse(localStorage.getItem("user_data"));
     const isRefreshing = useRef(false)
     const failedQueue = useRef([]);
@@ -177,7 +176,7 @@ export default function AuthProvider({ children }) {
         setToken(newToken);
         setUserData(newData);
         setIsAuthenticated(true);
-        console.log(isAuthenticated);
+        console.log(isAuthenticated, "incontext");
     }
 
     function logout() {

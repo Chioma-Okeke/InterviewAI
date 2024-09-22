@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 function CareerInterestCard({ title }) {
     return (
-        <div className="py-6 px-3 dark:bg-ternary-dark">
+        <div className="py-6 px-3 dark:bg-ternary-dark rounded-lg">
             <p className="text-primary-dark dark:text-primary-light text-center text-xs">{title}</p>
         </div>
     );

@@ -5,12 +5,13 @@ import FolderIcon from "../../assets/folder.svg";
 import PencilIcon from "../../assets/pencil.svg";
 import LogoOutLine from "../../assets/logooutline.svg";
 import ServiceCard from "../../components/ServiceCard";
+import CourseCard from "../../components/CourseCard";
 
 const stages = [
     {
         Icon: NoteIcon,
         title: "Core Stage",
-        link: "/stages/corestage",
+        link: "/user/learning/stages/core",
         description:
             "Understand job descriptions, create an impactful resume, and write a compelling cover letter to make your first impression count",
     },

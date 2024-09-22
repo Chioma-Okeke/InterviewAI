@@ -4,7 +4,7 @@
 function Button({ children, className, onClick, ...props }) {
     return (
         <button
-            className={` ${className} text-center text-sm transition ease-out hover:shadow-md `}
+            className={` ${className} transition ease-out hover:shadow-md `}
             onClick={onClick}
             {...props}
         >

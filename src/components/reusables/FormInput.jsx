@@ -1,59 +1,74 @@
-/* eslint-disable react/prop-types */
-import React from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
+// import './CustomTextField.css';
 
-const FormInput = React.forwardRef(function FormInput(
-    {
-        isRequired,
-        inputValue,
-        onMouseEnter,
-        onBlur,
-        onFocus,
-        onMouseLeave,
-        inputLabel,
-        labelFor,
-        inputType = "text",
-        inputId,
-        inputName,
-        placeholderText,
-        ariaLabelName,
-        onChange,
-        className,
-        inputGroupClassNames,
-        labelClasses,
-    },
-    ref
-) {
+const FormInput = ({
+    label,
+    placeholder,
+    helperText,
+    error,
+    className,
+    inputValue,
+    inputType,
+    isRequired,
+    onChange,
+    inputId,
+    ariaLabelName,
+    labelFor,
+    inputName,
+    formGroupClass,
+}) => {
+    const [focused, setFocused] = useState(false);
+
+    const handleFocus = () => setFocused(true);
+    const handleBlur = () => {
+        if (!inputValue) {
+            setFocused(false);
+        }
+    };
+
     return (
-        <div className={inputGroupClassNames}>
-            {inputLabel && (
-                <div className="flex items-start mb-1">
-                    <label
-                        className={`block text-[#101928] font-medium ${labelClasses}`}
-                        htmlFor={labelFor}
-                    >
-                        {inputLabel}
-                    </label>
-                    {isRequired && <span className="text-red-600 text-base">*</span>}
-                </div>
-            )}
+        <div
+            className={`custom-text-field ${
+                error ? "error" : ""
+            } ${formGroupClass}`}
+        >
+            <label
+                className={`${
+                    focused || !!inputValue
+                        ? "hidden"
+                        : "text-primary-dark dark:text-ternary-light"
+                }   pl-4`}
+                htmlFor={labelFor}
+            >
+                {label}
+                {isRequired && focused && (
+                    <span className="text-brand-color text-base">*</span>
+                )}
+            </label>
             <input
-                onMouseEnter={onMouseEnter}
-                className={className}
-                ref={ref}
                 type={inputType}
                 id={inputId}
-                value={inputValue}
                 name={inputName}
-                placeholder={placeholderText}
+                value={inputValue}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                placeholder={focused ? placeholder : ""}
+                className={`${className} ${inputValue ? "bg-hover-dark" : "bg-transparent"}  pl-4 text-primary-dark dark:text-primary-light`}
                 aria-label={ariaLabelName}
                 onChange={onChange}
-                onMouseLeave={onMouseLeave}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                required
             />
+            {/* <span className="helper-text">{helperText}</span> */}
         </div>
     );
-});
+};
+
+FormInput.propTypes = {
+    label: PropTypes.string,
+    placeholder: PropTypes.string,
+    helperText: PropTypes.string,
+    className: PropTypes.string,
+    error: PropTypes.bool,
+};
 
 export default FormInput;

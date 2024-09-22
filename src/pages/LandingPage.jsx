@@ -23,7 +23,7 @@ const services = [
     },
 ];
 
-function Home() {
+function LandingPage() {
     const [theme, setTheme] = useThemeSwitcher();
 
     return (
@@ -62,4 +62,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default LandingPage;
