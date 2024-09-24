@@ -14,19 +14,22 @@ export class UserServices {
         }
     }
 
-    async getModules(page, itemsPerPage, token) {
+    async getModules(page, itemsPerPage, token, stageId) {
         try {
             const response = await apiClient.get("/modules", {
                 params: {
                     page: page,
                     limit: itemsPerPage,
+                    stageNumber: stageId,
                 },
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
 
-            return response.data.items;
+            console.log(response.data.data.learningModules, "raw response data");
+
+            return response.data.data.learningModules;
         } catch (error) {
             console.error(
                 "Fetching Modules error:",
@@ -34,6 +37,89 @@ export class UserServices {
                     "Something went wrong when fetching data"
             );
             throw error;
+        }
+    }
+
+    async getUserModule (userId, token) {
+        try {
+            const response = await apiClient.get("", {
+                params: {
+                    userId: userId
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data.data.learningModules
+        } catch(error) {
+            console.error("Fetching Modules error:", error.response?.data?.msg || "Something went wrong when fetching data.")
+            throw error
+        }
+    }
+
+    async generateQuiz(quizId, token) {
+        try {
+            const response = await apiClient.get(`/quizzes/${quizId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data.data
+        } catch (error) {
+            console.error("Fetching Quiz error:", error.response?.data?.msg || "Something went wrong when fetching quiz data.")
+        }
+    }
+
+    async getUserQuizHistory (userId, token) {
+        try {
+            const response = await apiClient.get("", {
+                params: {
+                    userId: userId
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data.data.quizzes
+
+        } catch(error) {
+            console.error("Fetching quiz history error:", error.response?.data?.msg || "Something went wrong when fetching quiz history.")
+            throw error
+        }
+    }
+
+    async addModuleToUserProfile(moduleData, token) {
+        try {
+            const response = await apiClient.post("/users/learning-modules", moduleData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response
+        } catch (error) {
+            console.error("Adding Module to Profile error:", error.response?.data?.msg || "Something went wrong when adding module to profile.")
+        }
+    }
+
+    async getIndividualModule(moduleId, partNumber, totalParts, token) {
+        try {
+            const response = await apiClient.get(`/modules/${moduleId}/parts/${partNumber}`, {
+                params: {
+                    totalParts: totalParts
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            return response.data.data
+        } catch (error) {
+            console.error("Fetching Module error:", error.response?.data?.msg || "Something went wrong when fetching module.")
+            throw error
         }
     }
 }

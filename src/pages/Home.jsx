@@ -4,6 +4,7 @@ import LogoLight from "../assets/logo.svg";
 import BookIcon from "../assets/book.svg";
 import SuitcaseIcon from "../assets/suitcase.svg";
 import ServiceCard from "../components/ServiceCard";
+import { useLocation } from "react-router-dom";
 
 console.log("hi");
 const services = [

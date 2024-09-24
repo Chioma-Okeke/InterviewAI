@@ -14,14 +14,20 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HiddenInput from "../reusables/HiddenInput";
 import CustomTextField from "../reusables/CustomInputs";
+import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 
 function AuthForm({ buttonText, authGate }) {
     const [formData, setFormData] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const [showOtherFields, setShowOtherFields] = useState(false);
     const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-    const { login, setToken, logout, isAuthenticated } = useContext(AuthContext);
+    const { login, setToken, logout, isAuthenticated } =
+        useContext(AuthContext);
+    const [theme, setTheme] = useThemeSwitcher();
     const navigate = useNavigate();
     const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/user/dashboard"
 
     console.log(buttonText, authGate);
 
@@ -46,6 +52,7 @@ function AuthForm({ buttonText, authGate }) {
     async function handleLogin(e) {
         e.preventDefault();
         console.log(formData, "data");
+        setIsLoading(true);
 
         const userAuthentication = new UserAuthentication();
 
@@ -74,13 +81,17 @@ function AuthForm({ buttonText, authGate }) {
                     // if (res.data.user.newUser) {
                     //     navigate("/auth/onboarding");
                     // } else {
-                        navigate("/user/dashboard");
+                    navigate(from, { replace: true });
                     // }
                 }
             }
         } catch (err) {
             console.error(err);
-            toast.error(err.response?.data?.message || "Error when authenticating user");
+            toast.error(
+                err.response?.data?.message || "Error when authenticating user"
+            );
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -163,7 +174,20 @@ function AuthForm({ buttonText, authGate }) {
                     </div>
                 )}
                 <Button className="w-full mt-8 mb-6 text-white py-[18px] px-5 rounded-[15px] bg-[#3D9963] h-[60px]">
-                    {buttonText}
+                    {isLoading ? (
+                        <div className="">
+                            <l-ring-2
+                                size="20"
+                                stroke="5"
+                                stroke-length="0.25"
+                                bg-opacity="0.1"
+                                speed="0.8"
+                                color="#ffffff"
+                            ></l-ring-2>
+                        </div>
+                    ) : (
+                        buttonText
+                    )}
                 </Button>
 
                 {/* <span className="text-end italic font-medium text-sm float-end mb-5">

@@ -108,7 +108,7 @@ function SideBar() {
                         </span>
                     </NavLink>
                     <NavLink
-                        to={"/user/learning"}
+                        to={"/user/learning/stages"}
                         onClick={() => {
                             if (window.innerWidth < 1024) handleSideBarToggle();
                         }}
@@ -166,6 +166,67 @@ function SideBar() {
 
                         <span className="text-primary-dark dark:text-primary-light">
                             Learning
+                        </span>
+                    </NavLink>
+                    <NavLink
+                        to={"/user/mylearning"}
+                        onClick={() => {
+                            if (window.innerWidth < 1024) handleSideBarToggle();
+                        }}
+                        className={({ isActive }) => {
+                            return (
+                                "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
+                                (isActive ? "dark:bg-primary-dark" : "")
+                            );
+                        }}
+                    >
+                        {theme !== "dark" ? (
+                            <img
+                                src={BookIcon}
+                                alt="Book icon"
+                                className="stroke-primary-dark dark:stroke-primary-light"
+                            />
+                        ) : (
+                            <svg
+                                width="25"
+                                height="24"
+                                viewBox="0 0 25 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M22.5 16.7397V4.6697C22.5 3.4697 21.52 2.5797 20.33 2.6797H20.27C18.17 2.8597 14.98 3.9297 13.2 5.0497L13.03 5.1597C12.74 5.3397 12.26 5.3397 11.97 5.1597L11.72 5.0097C9.94 3.8997 6.76 2.8397 4.66 2.6697C3.47 2.5697 2.5 3.4697 2.5 4.6597V16.7397C2.5 17.6997 3.28 18.5997 4.24 18.7197L4.53 18.7597C6.7 19.0497 10.05 20.1497 11.97 21.1997L12.01 21.2197C12.28 21.3697 12.71 21.3697 12.97 21.2197C14.89 20.1597 18.25 19.0497 20.43 18.7597L20.76 18.7197C21.72 18.5997 22.5 17.6997 22.5 16.7397Z"
+                                    stroke="#ECECEC"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path
+                                    d="M12.5 5.49023V20.4902"
+                                    stroke="#ECECEC"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path
+                                    d="M8.25 8.49023H6"
+                                    stroke="#ECECEC"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path
+                                    d="M9 11.4902H6"
+                                    stroke="#ECECEC"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        )}
+
+                        <span className="text-primary-dark dark:text-primary-light">
+                           My Learning
                         </span>
                     </NavLink>
                     <NavLink

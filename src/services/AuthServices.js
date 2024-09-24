@@ -1,4 +1,4 @@
-import apiClient from "../serviceClients/apiClient"
+import apiClient, { thirdPartyApiClient } from "../serviceClients/apiClient"
 
 export class UserAuthentication {
 
@@ -42,6 +42,16 @@ export class UserAuthentication {
             return response.data
         } catch (error) {
             console.error("Email verification error:", error.response?.data || error.message)
+            throw error
+        }
+    }
+
+    async googleSignIn () {
+        try {
+            const response = await thirdPartyApiClient.get("/google")
+            return response.data
+        } catch (error) {
+            console.error('Google signup error:', error.response?.data || error.message)
             throw error
         }
     }

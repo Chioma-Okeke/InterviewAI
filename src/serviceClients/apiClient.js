@@ -8,4 +8,13 @@ const apiClient = axios.create({
     timeout: 10000,
 });
 
+//second api client (With a different baseurl)
+export const thirdPartyApiClient = axios.create({
+    baseURL: import.meta.env.VITE_AUTH_AXIOS_BASE_URL,
+    headers: {
+        "Content-type": "application/json",
+    },
+    timeout: 10000
+})
+
 export default apiClient;

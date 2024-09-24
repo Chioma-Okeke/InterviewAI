@@ -8,7 +8,7 @@ function ProtectedRoute() {
 
     if (!isAuthenticated) {
         sessionStorage.setItem("redirectBackTo", location.pathname)
-        return <Navigate to="/login" state={{from: location}}/>
+        return <Navigate to="/auth/login" state={{from: location}}/>
     }
 
   return (

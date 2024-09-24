@@ -16,7 +16,6 @@ import StagesLayout from "./components/shared/layout/StagesLayout";
 
 //pages
 import Home from "./pages/Home";
-import Learning from "./pages/learningPages/Learning";
 import Practice from "./pages/practice-pages/Practice";
 import Stages from "./pages/learningPages/Stages";
 import CoreStage from "./pages/learningPages/CoreStage";
@@ -34,45 +33,59 @@ import IndividualStagePage from "./pages/learningPages/IndividualStagePage";
 import ErrorPage from "./components/shared/layout/ErrorPage";
 import OnBoarding from "./pages/OnBoarding";
 import ScrollToTop from "./components/shared/ScrollToTop";
+import MyLearning from "./pages/MyLearning";
+import CoursesContainer from "./components/shared/layout/CoursesContainer";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<RootLayout />} errorElement={<ErrorPage />}>
-            <Route index element={<LandingPage />} />
-            <Route path="user" element={<PageLayout />}>
-                <Route path="dashboard" element={<Home />} />
-                <Route path="practice" element={<Practice />} />
-                <Route path="learning" element={<StagesLayout />}>
-                    <Route index element={<Learning />} />
-                    <Route path="stages" element={<StagesLayout />}>
-                        <Route index element={<Stages />} />
+        <Route>
+            <Route
+                path="/"
+                element={<RootLayout />}
+                errorElement={<ErrorPage />}
+            >
+                <Route index element={<LandingPage />} />
+                <Route path="user" element={<PageLayout />}>
+                    <Route path="dashboard" element={<Home />} />
+                    <Route path="practice" element={<Practice />} />
+                    <Route path="mylearning" element={<MyLearning />} />
+                    <Route path="learning" element={<StagesLayout />}>
+                        {/* <Route index element={<Learning />} /> */}
+                        <Route path="stages" element={<StagesLayout />}>
+                            <Route index element={<Stages />} />
+                            <Route
+                                path=":stagemodule"
+                                element={<IndividualStagePage />}
+                            >
+                                <Route path=":module" element={<CoursesContainer />}/>
+                            </Route>
+                        </Route>
+                        <Route path="corestage" element={<CoreStage />} />
                         <Route
-                            path=":stagemodule"
-                            element={<IndividualStagePage />}
-                        ></Route>
+                            path="preparationstage"
+                            element={<PreparationStage />}
+                        />
+                        <Route
+                            path="applicationstage"
+                            element={<ApplicationStage />}
+                        />
+                        <Route
+                            path="interviewstage"
+                            element={<InterviewStage />}
+                        />
                     </Route>
-                    <Route path="corestage" element={<CoreStage />} />
-                    <Route
-                        path="preparationstage"
-                        element={<PreparationStage />}
-                    />
-                    <Route
-                        path="applicationstage"
-                        element={<ApplicationStage />}
-                    />
-                    <Route path="interviewstage" element={<InterviewStage />} />
                 </Route>
-            </Route>
-            <Route path="auth" element={<Container />}>
-                <Route index element={<SignUp />} />
-                <Route path="changepassword" element={<ChangePassword />} />
-                <Route path="forgotpassword" element={<ForgotPassword />} />
-                <Route path="login" element={<LogIn />} />
-                <Route path="verifyemail" element={<VerifyEmail />} />
-                <Route path="onboarding" element={<OnBoarding />} />
-            </Route>
+                <Route path="auth" element={<Container />}>
+                    <Route index element={<SignUp />} />
+                    <Route path="changepassword" element={<ChangePassword />} />
+                    <Route path="forgotpassword" element={<ForgotPassword />} />
+                    <Route path="login" element={<LogIn />} />
+                    <Route path="verifyemail" element={<VerifyEmail />} />
+                    <Route path="onboarding" element={<OnBoarding />} />
+                </Route>
 
-            <Route path="*" element={<NotFoundPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Route>
         </Route>
     )
 );

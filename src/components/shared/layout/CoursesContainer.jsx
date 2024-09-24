@@ -1,18 +1,46 @@
-import { useState } from "react";
-import PropTypes from "prop-types"
+import { useContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { IoIosArrowBack } from "react-icons/io";
 import CourseHeader from "../../courses/CourseHeader";
 import CourseBody from "../../courses/CourseBody";
 // import CourseFooter from "../../courses/CourseFooter";
 import CourseContent from "../../courses/CourseContent";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 // import QuizWelcome from "../../quiz/QuizWelcome";
 // import QuestionSection from "../../quiz/QuestionSection";
 // import QuizCompleted from "../../quiz/QuizCompleted";
+import { UserServices } from "../../../services/UserServices";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 function CoursesContainer({ stageName }) {
     const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
+    const { token } = useContext(AuthContext);
+    const location = useLocation();
+    // const { module } = useParams();
     const [currentDisplay, setCurrentDisplay] = useState(firstPage);
+
+    const params = new URLSearchParams(location.search);
+    const moduleId = params.get("moduleId");
+    const totalParts = params.get("totalParts");
+    const partNumber = 1;
+
+    useEffect(() => {
+        async function fetchData() {
+            const userServices = new UserServices();
+            try {
+                const response = await userServices.getIndividualModule(
+                    moduleId,
+                    partNumber,
+                    totalParts,
+                    token
+                );
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchData();
+    }, [moduleId, partNumber, totalParts]);
 
     function handleDisplayToggle(e) {
         setCurrentDisplay(e.target.innerText);
@@ -36,12 +64,12 @@ function CoursesContainer({ stageName }) {
                             currentDisplay={currentDisplay}
                             stageName={stageName}
                         />
-                        <div className="mt-6 mb-8">
+                        {/* <div className="mt-6 mb-8">
                             <CourseBody currentDisplay={currentDisplay} />
-                        </div>
+                        </div> */}
                         {/* <div>
                         <QuizWelcome />
-                    </div> */}
+                        </div> */}
                         {/* <div>
                             <QuizCompleted />
                         </div> */}
@@ -95,7 +123,7 @@ function CoursesContainer({ stageName }) {
 }
 
 CoursesContainer.propTypes = {
-    stageName: PropTypes.string
-}
+    stageName: PropTypes.string,
+};
 
 export default CoursesContainer;

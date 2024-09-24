@@ -1,38 +1,40 @@
-import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import NoteIcon from "../../assets/notes.svg";
 import FolderIcon from "../../assets/folder.svg";
 import PencilIcon from "../../assets/pencil.svg";
 import LogoOutLine from "../../assets/logooutline.svg";
 import ServiceCard from "../../components/ServiceCard";
-import CourseCard from "../../components/CourseCard";
 
 const stages = [
     {
         Icon: NoteIcon,
+        stageId: 1,
         title: "Core Stage",
-        link: "/user/learning/stages/core",
+        link: "/user/learning/stages/1",
         description:
             "Understand job descriptions, create an impactful resume, and write a compelling cover letter to make your first impression count",
     },
     {
         Icon: PencilIcon,
+        stageId: 2,
         title: "Preparation Stage",
-        link: "/stages/preparationstage",
+        link: "/user/learning/stages/2",
         description:
             "Refine your answers to common questions, research companies effectively, and build a strong interview presence to make a lasting impression",
     },
     {
         Icon: FolderIcon,
+        stageId: 3,
         title: "Application Stage",
-        link: "/stages/applicationstage",
+        link: "/user/learning/stages/3",
         description:
             "Tailor your resume and cover letter for each job, apply with impact, and track your applications for better results",
     },
     {
         Icon: LogoOutLine,
+        stageId: 4,
         title: "Interview Stage",
-        link: "/stages/interviewstage",
+        link: `/user/learning/stages/4`,
         description:
             "Master answering tricky questions, showcasing your skills, and making a memorable impression to land the job",
     },
@@ -70,9 +72,6 @@ function Stages() {
                         </div>
                     </div>
                 </div>
-            </main>
-            <main className="lg:px-8 lg:pb-10">
-                <Outlet />
             </main>
         </div>
     );

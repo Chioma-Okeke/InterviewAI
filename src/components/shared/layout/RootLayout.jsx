@@ -1,8 +1,11 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 function RootLayout() {
+    const {pathname} = useLocation()
+    
+    console.log(pathname, "in root")
     return (
-        <main className="relative min-h-screen">
+        <main className="relative">
         {/* <button
             onClick={() =>
                 setTheme(theme === "dark" ? "light" : "dark")
