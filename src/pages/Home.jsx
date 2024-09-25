@@ -11,7 +11,7 @@ const services = [
     {
         Icon: BookIcon,
         title: "Learning",
-        link: "/user/learning",
+        link: "/user/learning/stages",
         description:
             "Elevate your job search skills and interview readiness with tailored lessons that equip you with the knowledge and tools needed to craft standout applications",
     },

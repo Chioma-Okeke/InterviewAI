@@ -1,10 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HiOutlineArrowRight } from "react-icons/hi2";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import saveIcon from "../assets/save.svg";
 import ProgressBar from "./reusables/ProgressBar";
+import { UserServices } from "../services/UserServices";
+import { AuthContext } from "../contexts/AuthContext";
 // import image from "../assets/image.png";
 
 function CourseCard({
@@ -12,19 +16,38 @@ function CourseCard({
     moduleId,
     totalParts,
     imgSrc,
-    addModuleToProfile,
     stageNumber,
+    course,
+    learningModules,
+    setLearningModules,
 }) {
     const [isInView, setIsInView] = useState(false);
     const sectionRef = useRef(null);
     const [progress, setProgress] = useState(50);
     const navigate = useNavigate();
+    const { token } = useContext(AuthContext);
 
     async function openIndividualModule() {
         navigate(
             `/user/learning/stages/${stageNumber}/${title}?moduleId=${moduleId}&totalParts=${totalParts}`
         );
-        addModuleToProfile();
+        const userServices = new UserServices();
+        setLearningModules((prevState) => [...prevState, course]);
+        try {
+            const response = await userServices.addModuleToUserProfile(
+                course,
+                token
+            );
+            console.log(response);
+            if (response?.success) {
+                toast.success("Module has been successfully added to profile.");
+            } else {
+                toast.error("Error while adding module to user profile.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Error while adding module to user profile.");
+        }
     }
 
     useEffect(() => {
@@ -54,7 +77,10 @@ function CourseCard({
     }, []);
 
     return (
-        <div onClick={openIndividualModule} className="w-[398px] lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-hover-dark pb-[27.93px] lg:pb-[19.2px]">
+        <div
+            onClick={openIndividualModule}
+            className="w-[398px] lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-hover-dark pb-[27.93px] lg:pb-[19.2px]"
+        >
             <div
                 ref={sectionRef}
                 style={{ backgroundImage: isInView ? `url(${imgSrc})` : "" }}
@@ -91,10 +117,11 @@ function CourseCard({
 CourseCard.propTypes = {
     title: PropTypes.string,
     moduleId: PropTypes.string,
-    totalParts: PropTypes.string,
+    totalParts: PropTypes.number,
     imgSrc: PropTypes.string,
     addModuleToProfile: PropTypes.func,
     stageNumber: PropTypes.number,
+    course: PropTypes.object,
 };
 
 export default CourseCard;

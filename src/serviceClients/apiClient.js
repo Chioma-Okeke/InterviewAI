@@ -5,7 +5,7 @@ const apiClient = axios.create({
     headers: {
         "Content-type": "application/json",
     },
-    timeout: 10000,
+    timeout: 20000,
 });
 
 //second api client (With a different baseurl)

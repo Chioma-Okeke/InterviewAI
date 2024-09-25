@@ -1,27 +1,10 @@
-import { UserServices } from "../../services/UserServices";
 import CourseCard from "../CourseCard";
 import PropTypes from "prop-types";
-import { toast } from "react-toastify";
+import { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 
 const InfiniteScrollComponent = ({ data }) => {
-    const { token } = useContext(AuthContext);
-
-    async function addModuleToProfile() {
-        const userServices = new UserServices();
-        try {
-            const response = await userServices.addModuleToUserProfile(
-                data,
-                token
-            );
-            console.log(response)
-            toast.success("Module has been successfully added to profile.");
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    const [learningModules, setLearningModules] = useState([])
 
     return (
         <div className="grid lg:grid-cols-3 gap-x-24 gap-y-16">
@@ -32,8 +15,10 @@ const InfiniteScrollComponent = ({ data }) => {
                     moduleId={course._id}
                     totalParts={course.totalParts}
                     imgSrc={course.imgSrc}
-                    addModuleToProfile={addModuleToProfile}
                     stageNumber={course.stageNumber}
+                    course={course}
+                    learningModules={learningModules}
+                    setLearningModules={setLearningModules}
                 />
             ))}
         </div>

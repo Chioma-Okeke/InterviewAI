@@ -35,6 +35,7 @@ import OnBoarding from "./pages/OnBoarding";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import MyLearning from "./pages/MyLearning";
 import CoursesContainer from "./components/shared/layout/CoursesContainer";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -44,7 +45,7 @@ const router = createBrowserRouter(
                 element={<RootLayout />}
                 errorElement={<ErrorPage />}
             >
-                <Route index element={<LandingPage />} />
+                <Route index element={<Home />} />
                 <Route path="user" element={<PageLayout />}>
                     <Route path="dashboard" element={<Home />} />
                     <Route path="practice" element={<Practice />} />
@@ -74,6 +75,7 @@ const router = createBrowserRouter(
                             element={<InterviewStage />}
                         />
                     </Route>
+                    <Route path="profile" element={<UserProfile/>}/>
                 </Route>
                 <Route path="auth" element={<Container />}>
                     <Route index element={<SignUp />} />

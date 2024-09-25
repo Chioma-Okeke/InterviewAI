@@ -99,6 +99,7 @@ export class UserServices {
                 }
             })
 
+            console.log(response, "in service")
             return response
         } catch (error) {
             console.error("Adding Module to Profile error:", error.response?.data?.msg || "Something went wrong when adding module to profile.")

@@ -1,6 +1,6 @@
 import LogoDark from "../../assets/logo-black-white.svg";
 import LogoLight from "../../assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { CgProfile } from "react-icons/cg";
 import { toggleNavBar } from "../../store/navSlice";
@@ -14,10 +14,15 @@ function AppHeader() {
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
     const [theme, setTheme] = useThemeSwitcher();
     const { isAuthenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     function toggleSideBar() {
         dispatch(toggleNavBar());
     }
+
+    const navigateToUserProfile = () => {
+        navigate("/user/profile");
+    };
 
     return (
         <header className="px-8 py-7">
@@ -117,9 +122,12 @@ function AppHeader() {
                     </Link>
                 </div>
                 {isAuthenticated ? (
-                    <div className="hidden lg:block">
+                    <div
+                        className="hidden lg:block cursor-pointer"
+                        onClick={navigateToUserProfile}
+                    >
                         <CgProfile
-                            size={45}
+                            size={40}
                             className="text-primary-dark dark:text-primary-light"
                         />
                     </div>
