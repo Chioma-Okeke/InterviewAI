@@ -16,6 +16,7 @@ const InfiniteScrollComponent = ({ data }) => {
                     totalParts={course.totalParts}
                     imgSrc={course.imgSrc}
                     stageNumber={course.stageNumber}
+                    stageName={course.stageName}
                     course={course}
                     learningModules={learningModules}
                     setLearningModules={setLearningModules}

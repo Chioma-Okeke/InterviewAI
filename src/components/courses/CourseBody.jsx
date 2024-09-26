@@ -7,7 +7,7 @@ import Notes from "./courseSections/Notes";
 import Overview from "./courseSections/Overview";
 import CourseContent from "./CourseContent";
 
-function CourseBody({currentDisplay}) {
+function CourseBody({currentDisplay, content, imageContent}) {
     const [pageContent, setPageContent] = useState(() => window.innerWidth > 1024 ? Module : CourseContent)
 
     useLayoutEffect(() => {
@@ -36,13 +36,15 @@ function CourseBody({currentDisplay}) {
 
     return (
         <section>
-            {React.createElement(pageContent)}
+            {React.createElement(pageContent, {content, imageContent})}
         </section>
     );
 }
 
 CourseBody.propTypes = {
-    currentDisplay: PropTypes.string
+    currentDisplay: PropTypes.string,
+    content: PropTypes.object,
+    imageContent: PropTypes.object,
 }
 
 export default CourseBody;

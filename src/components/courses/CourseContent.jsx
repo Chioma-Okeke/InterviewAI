@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import FileIcon from "../../assets/file.svg";
 import { AnimatePresence, motion } from "framer-motion";
+import PropTypes from "prop-types";
 
-function CourseContent() {
+function CourseContent({ content }) {
     const [isPartContentOpen, setIsPartContentOpen] = useState(false);
+    console.log(content, "incousrecontent");
 
     return (
         <section className="lg:max-w-[399px] dark:bg-ternary-dark">
@@ -14,37 +16,8 @@ function CourseContent() {
             {/* course contents will go here */}
             <div>
                 <div>
-                    {/* part heading */}
-                    <div className="flex justify-between px-4 py-3">
-                        <div>
-                            <h2 className="font-medium text-primary-dark dark:text-primary-light">
-                                Part 1: Understanding the Role
-                            </h2>
-                            <span className="text-xs leading-6 text-primary-dark dark:text-ternary-light">
-                                0/5 | 20min read
-                            </span>
-                        </div>
-                        <div
-                            className="cursor-pointer hover:scale-105"
-                            onClick={() =>
-                                setIsPartContentOpen((prevState) => !prevState)
-                            }
-                        >
-                            <IoIosArrowUp
-                                size={16}
-                                className={`text-primary-dark dark:text-primary-light transition-transform duration-400 ${
-                                    isPartContentOpen ? "rotate-180" : ""
-                                }`}
-                            />
-                            {/* <IoIosArrowDown
-                                size={16}
-                                className="text-primary-dark dark:text-primary-light"
-                            /> */}
-                        </div>
-                    </div>
-                    {/* part lessons */}
                     <AnimatePresence>
-                        {isPartContentOpen && (
+                        {content && content.value && (
                             <motion.div
                                 initial={{ opacity: 0, maxHeight: 0 }}
                                 animate={{ opacity: 1, maxHeight: 500 }}
@@ -61,7 +34,7 @@ function CourseContent() {
                                         </label>
                                         <div>
                                             <p className="text-sm leading-6 text-primary-dark dark:text-primary-light">
-                                                1. Research the Company
+                                                1. {content.value}
                                             </p>
                                             <div className="flex items-center gap-2">
                                                 <img src={FileIcon} alt="" />
@@ -80,5 +53,9 @@ function CourseContent() {
         </section>
     );
 }
+
+CourseContent.propTypes = {
+    content: PropTypes.object,
+};
 
 export default CourseContent;

@@ -5,21 +5,29 @@ import apiClient from "../serviceClients/apiClient";
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
+    const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(null);
     const [userData, setUserData] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const storedData = JSON.parse(localStorage.getItem("user_data"));
+    // const storedData = JSON.parse(localStorage.getItem("user_data"));
     const isRefreshing = useRef(false)
     const failedQueue = useRef([]);
 
     useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem("user_data")); // Move this here for clarity
+        console.log(storedData, "stored in context");
         if (storedData) {
-            const { userToken, user } = storedData;
+            const { userToken } = storedData;
             setToken(userToken);
-            setUserData(user);
+            // setUserData(user);
             setIsAuthenticated(true);
-        }
-    }, [storedData]);
+        } 
+        setLoading(false);
+    }, []);
+
+    useEffect(() => {
+        console.log(isAuthenticated, "on app load");
+    }, [isAuthenticated]);
 
     // useEffect(() => {
     //     function fetchUser() {
@@ -163,32 +171,38 @@ export default function AuthProvider({ children }) {
     //     }
     // };
 
-    function login(newToken, refreshToken, newData) {
+    function login(newToken, refreshToken) {
         localStorage.setItem(
-            "user_date",
+            "user_data",
             JSON.stringify({
                 userToken: newToken,
                 refreshToken: refreshToken,
-                user: newData,
+                // user: newData,
             })
         );
 
         setToken(newToken);
-        setUserData(newData);
+        // setUserData(newData);
         setIsAuthenticated(true);
+        console.log(token, "koen in context")
         console.log(isAuthenticated, "incontext");
     }
 
     function logout() {
+        console.log("running")
         localStorage.removeItem("user_data");
         setToken(null);
-        setUserData(null);
+        // setUserData(null);
         setIsAuthenticated(false);
+    }
+
+    if (loading) {
+        return <div>Loading...</div>; // You can customize this loading indicator
     }
 
     return (
         <AuthContext.Provider
-            value={{ token, isAuthenticated, login, logout, userData }}
+            value={{ token, isAuthenticated, login, logout, loading }}
         >
             {children}
         </AuthContext.Provider>

@@ -3,10 +3,10 @@ import { AuthContext } from '../contexts/AuthContext'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 
 function ProtectedRoute() {
-    const {isAuthenticated} = useContext(AuthContext)
+    const {isAuthenticated, loading} = useContext(AuthContext)
     const location = useLocation()
 
-    if (!isAuthenticated) {
+    if (!loading && !isAuthenticated) {
         sessionStorage.setItem("redirectBackTo", location.pathname)
         return <Navigate to="/auth/login" state={{from: location}}/>
     }

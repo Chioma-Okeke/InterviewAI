@@ -31,12 +31,12 @@ function AuthForm({ buttonText, authGate }) {
 
     console.log(buttonText, authGate);
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            // Redirect or trigger any action that depends on authentication
-            navigate("/user/dashboard");
-        }
-    }, [isAuthenticated]);
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         // Redirect or trigger any action that depends on authentication
+    //         navigate("/user/dashboard");
+    //     }
+    // }, [isAuthenticated]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -50,6 +50,7 @@ function AuthForm({ buttonText, authGate }) {
     }
 
     async function handleLogin(e) {
+        const fromhere = sessionStorage.getItem("redirectBackTo")
         e.preventDefault();
         console.log(formData, "data");
         setIsLoading(true);
@@ -76,7 +77,7 @@ function AuthForm({ buttonText, authGate }) {
                     login(
                         res.data.tokens.accessToken,
                         res.data.tokens.refreshToken,
-                        res.data.user._id
+                        // res.data.user._id
                     );
                     // if (res.data.user.newUser) {
                     //     navigate("/auth/onboarding");

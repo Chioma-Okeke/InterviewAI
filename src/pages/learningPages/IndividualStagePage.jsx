@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import CourseCard from "../../components/CourseCard";
-import { useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import InfiniteScrollComponent from "../../components/reusables/InfiniteScrollComponent";
 import { UserServices } from "../../services/UserServices";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -21,11 +21,13 @@ function IndividualStagePage() {
     const itemsPerPage = 10;
     const navigate = useNavigate();
     ring2.register();
+    const {pathname} = useLocation()
 
     // Fetch data on initial load and page change
     useEffect(() => {
         const fetchData = async (page) => {
             setLoading(true);
+            console.log(isAuthenticated, "In individual page")
             const userServices = new UserServices();
             try {
                 setData([])
@@ -36,7 +38,12 @@ function IndividualStagePage() {
                         token,
                         stagemodule // Use stage ID from route params
                     );
-                    setData((prevData) => [...prevData, ...response]);
+                    if (Array.isArray(response)) {
+                        setData((prevData) => [...prevData, ...response]);
+                    } else {
+                        // In case response is an object and not an array
+                        setData((prevData) => [...prevData, response]);
+                    }
                     console.log(data, "data")
                     // setTotalPages(response.data.totalPages);
                     // if (page >= response.data.totalPages) {
@@ -95,7 +102,7 @@ function IndividualStagePage() {
 
     return (
         <main className="px-5 lg:px-8 pb-10 mb-10">
-            <div className="relative min-h-screen">
+            {pathname == `/user/learning/stages/${stagemodule}` && <div className="relative min-h-screen">
                 {!loading && <div>
                     {data.length > 0 ? (
                         <InfiniteScrollComponent data={data} />
@@ -122,7 +129,8 @@ function IndividualStagePage() {
                         No more data available.
                     </p>
                 )}
-            </div>
+            </div>}
+            <Outlet/>
             <ToastContainer />
         </main>
     );

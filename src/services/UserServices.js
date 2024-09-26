@@ -117,7 +117,7 @@ export class UserServices {
                 }
             })
 
-            return response.data.data
+            return response.data.data.part
         } catch (error) {
             console.error("Fetching Module error:", error.response?.data?.msg || "Something went wrong when fetching module.")
             throw error
