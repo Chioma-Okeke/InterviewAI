@@ -1,38 +1,40 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CreateInterviewCard from "../../components/practice/CreateInterviewCard";
 import ExistingProfiles from "../../components/practice/ExistingProfiles";
+import { UserServices } from "../../services/UserServices";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../contexts/AuthContext";
+import { Outlet, useLocation } from "react-router-dom";
 
 function Practice() {
     const [isInView, setIsInView] = useState(false);
     const sectionRef = useRef(null);
     const [tabIndex, setTabIndex] = useState(1);
     const [isProfileExisting, setIsProfileExisting] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [userProfiles, setUserProfiles] = useState([]);
+    const { token } = useContext(AuthContext);
+    const {pathname} = useLocation()
+    const [selectedProfile, setSelectedProfile] = useState("");
 
     useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setIsInView(true);
-                        observer.disconnect();
-                    }
-                });
-            },
-            { threshold: 0.1 }
-        );
-
-        let section = sectionRef.current;
-
-        if (section) {
-            observer.observe(section);
+        async function fetchData() {
+            const userServices = new UserServices();
+            setLoading(true);
+            try {
+                // const response = await userServices.getJobProfiles(token);
+                // console.log(response, "data from job profile fetch");
+                // setUserProfiles(response);
+            } catch (error) {
+                toast.error(
+                    error.response?.data?.msg || "Error when fetching profiles"
+                );
+            }
         }
 
-        return () => {
-            if (section) {
-                observer.unobserve(section);
-            }
-        };
-    }, []);
+        fetchData();
+    }, [token]);
 
     return (
         <main className="text-primary-dark dark:text-primary-light pb-44">
@@ -67,15 +69,23 @@ function Practice() {
 
                 {tabIndex === 1 && (
                     <div>
-                        {!isProfileExisting ? (
-                            <ExistingProfiles />
-                        ) : (
-                            <CreateInterviewCard />
-                        )}
+                        {pathname !== "/user/practice/interviewmethods" ? <div>
+                            {userProfiles?.length > 0 ? (
+                                <ExistingProfiles userProfiles={userProfiles} />
+                            ) : (
+                                <CreateInterviewCard
+                                    setUserProfiles={setUserProfiles}
+                                />
+                            )}
+                        </div> :
+                        <div>
+                            <Outlet />
+                        </div>}
                     </div>
                 )}
                 {tabIndex === 2 && <p>hello</p>}
             </div>
+            <ToastContainer />
         </main>
     );
 }

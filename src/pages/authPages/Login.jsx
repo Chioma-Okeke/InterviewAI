@@ -18,7 +18,7 @@ function LogIn() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ ease: "easeInOut", duration: 0.6, delay: 0.2 }}
-            className="w-full md:min-h-[100vh] pt-[60px] sm:flex justify-center"
+            className="w-full md:min-h-[100vh] pt-[60px] sm:flex justify-center pb-10"
         >
             <div className="sm:w-[50%] max-w-[384px] mx-auto">
                 <div className="mb-6">

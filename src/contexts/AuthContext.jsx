@@ -16,9 +16,9 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem("user_data"));
         if (storedData) {
-            const { userToken } = storedData;
+            const { userToken, user } = storedData;
             setToken(userToken);
-            // setUserData(user);
+            setUserData(user);
             setIsAuthenticated(true);
         } 
         setLoading(false);
@@ -169,25 +169,25 @@ export default function AuthProvider({ children }) {
     //     }
     // };
 
-    function login(newToken, refreshToken) {
+    function login(newToken, refreshToken, newData) {
         localStorage.setItem(
             "user_data",
             JSON.stringify({
                 userToken: newToken,
                 refreshToken: refreshToken,
-                // user: newData,
+                user: newData,
             })
         );
 
         setToken(newToken);
-        // setUserData(newData);
+        setUserData(newData);
         setIsAuthenticated(true);
     }
 
     function logout() {
         localStorage.removeItem("user_data");
         setToken(null);
-        // setUserData(null);
+        setUserData(null);
         setIsAuthenticated(false);
     }
 

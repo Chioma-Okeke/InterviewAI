@@ -121,4 +121,49 @@ export class UserServices {
             throw error
         }
     }
+
+    async createJobProfile(moduleData, token) {
+        try {
+            const response = await apiClient.post("/job-profiles", moduleData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            console.log(response, "in service")
+            return response
+        } catch (error) {
+            console.error("Adding Module to Profile error:", error.response?.data?.msg || "Something went wrong when adding module to profile.")
+        }
+    }
+
+    async getJobProfiles(token) {
+        try {
+            const response = await apiClient.get("/job-profiles", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            console.log(response.data, "in service")
+            return response.data.data.userJobProfiles
+        } catch (error) {
+            console.error("Adding Module to Profile error:", error.response?.data?.msg || "Something went wrong when adding module to profile.")
+        }
+    }
+
+    async deleteJobProfile(profileId, token) {
+        try {
+            const response = await apiClient.delete("/job-profiles", profileId, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            console.log(response.data, "in service")
+            return response.data
+        } catch (error) {
+            console.error("Adding Module to Profile error:", error.response?.data?.msg || "Something went wrong when adding module to profile.")
+        }
+    }
 }

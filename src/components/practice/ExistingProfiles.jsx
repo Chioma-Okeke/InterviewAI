@@ -3,6 +3,8 @@ import Button from "../reusables/Button";
 import { FaPlus } from "react-icons/fa6";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { SlOptionsVertical } from "react-icons/sl";
+import PropTypes from "prop-types";
+import ProfileSelectionModal from "../modals/ProfileSelectionModal";
 
 const profiles = [
     {
@@ -20,10 +22,11 @@ const columnsClass = {
     // Add more as needed
 };
 
-function ExistingProfiles() {
+function ExistingProfiles({ userProfiles, selectedProfile, setSelectedProfile }) {
+    const [showProfileDetails, setShowProfileDetails] = useState(false);
     const [theme, setTheme] = useThemeSwitcher();
     const gridColumns = profiles.length + 1;
-    const [selectedProfile, setSelectedProfile] = useState("");
+    const [isCreateRequested, setIsCreateRequested] = useState(false);
 
     return (
         <main className="px-5 lg:px-8">
@@ -33,7 +36,7 @@ function ExistingProfiles() {
             <div
                 className={`grid grid-cols-2 ${columnsClass[gridColumns]} gap-[52px] lg:gap-[72px] mt-14 lg:mt-[114px] mb-10 lg:mb-24 w-[362px] lg:w-[807px] mx-auto`}
             >
-                {profiles.map(({ name }, index) => {
+                {userProfiles.map((profile, index) => {
                     return (
                         <div
                             key={index}
@@ -44,15 +47,22 @@ function ExistingProfiles() {
                             }`}
                         >
                             <div className="absolute top-0 right-0 pt-6 pr-4">
-                                <SlOptionsVertical color={theme === "dark" ? "#C5C6CB" : "#212121"}/>
+                                <SlOptionsVertical
+                                    color={
+                                        theme === "dark" ? "#C5C6CB" : "#212121"
+                                    }
+                                />
                             </div>
                             <p className="lg:text-[18px] leading-[22.5px] text-sm">
-                                {name}
+                                {profile.jobRole}
                             </p>
                         </div>
                     );
                 })}
-                <div className=" w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-4 border-hover-dark flex items-center justify-center cursor-pointer hover:border-brand-color">
+                <div
+                    onClick={setIsCreateRequested(true)}
+                    className=" w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-4 border-hover-dark flex items-center justify-center cursor-pointer hover:border-brand-color"
+                >
                     <div className="bg-brand-color rounded-full hover:scale-110 p-2">
                         <FaPlus
                             color={theme === "dark" ? "#ECECEC" : "#212121"}
@@ -65,12 +75,18 @@ function ExistingProfiles() {
                     className={`bg-brand-color text-white rounded-lg py-2 px-10 transition-opacity duration-500 ${
                         selectedProfile ? "opacity-100" : "opacity-40"
                     }`}
+                    disable={!selectedProfile ? true : false}
                 >
                     Next
                 </Button>
             </div>
+            {isCreateRequested && <ProfileSelectionModal />}
         </main>
     );
 }
+
+ExistingProfiles.propTypes = {
+    userProfiles: PropTypes.array,
+};
 
 export default ExistingProfiles;

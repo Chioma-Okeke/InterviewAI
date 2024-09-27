@@ -1,15 +1,12 @@
 // import React from "react";
 import { useContext, useEffect, useState } from "react";
-import FormInput from "../reusables/FormInput";
 import Button from "../reusables/Button";
+import { CircularProgress } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-// import { useLocation } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-// import axios from "axios"
 import { AuthContext } from "../../contexts/AuthContext";
 import { UserAuthentication } from "../../services/AuthServices";
-// import { toast } from "react-toastify";
+import FormInput from "../reusables/FormInput";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HiddenInput from "../reusables/HiddenInput";
@@ -27,7 +24,7 @@ function AuthForm({ buttonText, authGate }) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || "/user/dashboard"
+    const from = location.state?.from?.pathname || "/user/dashboard";
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -57,19 +54,18 @@ function AuthForm({ buttonText, authGate }) {
                 }
             } else {
                 res = await userAuthentication.login(formData);
-                if (res.success === true) {
-                    toast.success("You have successfully signed in.");
-                    login(
-                        res.data.tokens.accessToken,
-                        res.data.tokens.refreshToken,
-                        // res.data.user._id
-                    );
-                    // if (res.data.user.newUser) {
-                    //     navigate("/auth/onboarding");
-                    // } else {
-                    navigate(from, { replace: true });
-                    // }
-                }
+                console.log(res);
+                toast.success("You have successfully signed in.");
+                login(
+                    res.data.tokens.accessToken,
+                    res.data.tokens.refreshToken,
+                    res.data.user.userId
+                );
+                // if (res.data.user.newUser) {
+                //     navigate("/auth/onboarding");
+                // } else {
+                navigate(from, { replace: true });
+                // }
             }
         } catch (err) {
             console.error(err);
@@ -153,26 +149,11 @@ function AuthForm({ buttonText, authGate }) {
                 )}
                 <Button className="w-full mt-8 mb-6 text-white py-[18px] px-5 rounded-[15px] bg-[#3D9963] h-[60px]">
                     {isLoading ? (
-                        <div className="">
-                            <l-ring-2
-                                size="20"
-                                stroke="5"
-                                stroke-length="0.25"
-                                bg-opacity="0.1"
-                                speed="0.8"
-                                color="#ffffff"
-                            ></l-ring-2>
-                        </div>
+                        <CircularProgress color="#ffffff" size={20} />
                     ) : (
                         buttonText
                     )}
                 </Button>
-
-                {/* <span className="text-end italic font-medium text-sm float-end mb-5">
-                    <Link to="/forgotpassword" className="hover:underline">
-                        Forgot Password?
-                    </Link>
-                </span> */}
             </form>
             <ToastContainer />
         </div>

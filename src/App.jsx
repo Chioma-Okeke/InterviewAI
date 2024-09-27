@@ -37,6 +37,7 @@ import MyLearning from "./pages/MyLearning";
 import CoursesContainer from "./components/shared/layout/CoursesContainer";
 import UserProfile from "./pages/UserProfile";
 import MobModule from "./components/courses/courseSections/MobModule";
+import InterviewMethod from "./components/practice/InterviewMethod";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -49,7 +50,9 @@ const router = createBrowserRouter(
                 <Route index element={<Home />} />
                 <Route path="user" element={<PageLayout />}>
                     <Route path="dashboard" element={<Home />} />
-                    <Route path="practice" element={<Practice />} />
+                    <Route path="practice" element={<Practice />} >
+                        <Route path="interviewmethods" element={<InterviewMethod/>}/>
+                    </Route>
                     <Route path="mylearning" element={<MyLearning />} />
                     <Route path="learning" element={<StagesLayout />}>
                         {/* <Route index element={<Learning />} /> */}
