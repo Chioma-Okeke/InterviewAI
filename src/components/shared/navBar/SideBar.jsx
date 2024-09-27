@@ -10,14 +10,25 @@ import bigScreenNavIcon from "../../../assets/sideIcon.svg";
 import MobNavIcon from "../../../assets/sideIconMob.svg";
 import { useDispatch } from "react-redux";
 import { toggleNavBar } from "../../../store/navSlice";
+import { IoIosLogOut } from "react-icons/io";
+import { useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function SideBar() {
     const [theme, setTheme] = useThemeSwitcher();
+    const { logout } = useContext(AuthContext);
     console.log(theme, "in sdie bar");
     const dispatch = useDispatch();
 
     function handleSideBarToggle() {
         dispatch(toggleNavBar());
+    }
+
+    function logUserOut() {
+        logout();
+        toast.success("User Successfully logged out.");
     }
 
     return (
@@ -226,7 +237,7 @@ function SideBar() {
                         )}
 
                         <span className="text-primary-dark dark:text-primary-light">
-                           My Learning
+                            My Learning
                         </span>
                     </NavLink>
                     <NavLink
@@ -236,7 +247,7 @@ function SideBar() {
                         }}
                         className={({ isActive }) => {
                             return (
-                                "flex items-center gap-3 p-2 dark:hover:bg-primary-dark rounded-lg " +
+                                "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
                                 (isActive ? "dark:bg-primary-dark" : "")
                             );
                         }}
@@ -302,8 +313,21 @@ function SideBar() {
                             Practice
                         </span>
                     </NavLink>
+                    <div
+                        onClick={logUserOut}
+                        className="flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg cursor-pointer"
+                    >
+                        <IoIosLogOut
+                            size={25}
+                            color={theme === "dark" ? "#ECECEC" : "#212121"}
+                        />
+                        <span className="text-primary-dark dark:text-primary-light">
+                            Logout
+                        </span>
+                    </div>
                 </ul>
             </nav>
+            <ToastContainer />
         </section>
     );
 }

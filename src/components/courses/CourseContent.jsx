@@ -3,10 +3,25 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import FileIcon from "../../assets/file.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toggleModule } from "../../store/moduleSlice";
 
 function CourseContent({ content }) {
     const [isPartContentOpen, setIsPartContentOpen] = useState(false);
+    const navigate = useNavigate()
+    const location = useLocation()
     console.log(content, "incousrecontent");
+    const params = new URLSearchParams(location.search)
+    const {stagemodule} = useParams()
+    const {module} = useParams()
+    const dispatch = useDispatch()
+
+    function navigateToModule() {
+        if (window.innerWidth < 1024) {
+            dispatch(toggleModule())
+        }
+    }
 
     return (
         <section className="lg:max-w-[399px] dark:bg-ternary-dark">
@@ -25,7 +40,7 @@ function CourseContent({ content }) {
                                 transition={{ duration: 0.5 }}
                             >
                                 <ul className="px-6">
-                                    <li className="flex gap-[14px] py-2">
+                                    <li className="flex gap-[14px] py-2" onClick={navigateToModule}>
                                         <label>
                                             <input
                                                 type="checkbox"

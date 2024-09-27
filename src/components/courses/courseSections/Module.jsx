@@ -1,9 +1,21 @@
+import { useDispatch } from "react-redux";
 import DummyImage from "../../../assets/image.png";
 import PrevIcon from "../../../assets/previous.svg"
 import Button from "../../reusables/Button";
 import PropTypes from "prop-types";
+import { decrementPartNumber, incrementPartNumber } from "../../../store/partNumberSlice";
 
 function Module({content, imageContent}) {
+    const dispatch  = useDispatch()
+
+    function previousModule () {
+        dispatch(decrementPartNumber())
+    }
+    
+    function nextModule() {
+        dispatch(incrementPartNumber())
+    }
+
     return (
         <div>
             <div className="flex flex-col gap-4 ">
@@ -14,7 +26,7 @@ function Module({content, imageContent}) {
             </div>
             <div className="flex items-center justify-end">
                 <div className="flex items-center gap-8">
-                    <Button className="flex gap-1">
+                    <Button onClick={previousModule} className="flex gap-1">
                         <img
                             src={PrevIcon}
                             alt=""
@@ -24,7 +36,7 @@ function Module({content, imageContent}) {
                             Previous Lesson
                         </span>
                     </Button>
-                    <Button className="bg-brand-color p-2 rounded-lg text-white text-sm leading-[22px] w-[114px]">
+                    <Button onClick={nextModule} className="bg-brand-color p-2 rounded-lg text-white text-sm leading-[22px] w-[114px]">
                         Next
                     </Button>
                 </div>

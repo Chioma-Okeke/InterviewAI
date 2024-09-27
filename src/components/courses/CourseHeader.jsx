@@ -8,11 +8,11 @@ const laptopCourseSections = ["Module", "Overview", "Q&A", "Notes"];
 
 function CourseHeader({ handleDisplayToggle, currentDisplay, stageName }) {
     return (
-        <div className="pl-6 pt-4 flex flex-col dark:bg-[#171717] lg:min-w-[570px]">
+        <div className="px-3 lg:pl-6 lg:pr-0 pt-4 flex flex-col dark:bg-[#171717] lg:min-w-[570px]">
             <div className="flex items-center gap-2 mb-4">
                 <img src={NoteIcon} alt="" />
                 <h1 className="text-primary-dark dark:text-primary-light text-xl lg:text-2xl">
-                    {stageName.toUpperCase()}
+                    {stageName?.toUpperCase()}
                 </h1>
             </div>
             <div className="flex flex-start gap-[48px] lg:gap-[72px] w-fit text-primary-dark dark:text-primary-light opacity-70">

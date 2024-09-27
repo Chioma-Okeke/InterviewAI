@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useSyncExternalStore } from "react";
 import PropTypes from "prop-types";
 import { IoIosArrowBack } from "react-icons/io";
 import CourseHeader from "../../courses/CourseHeader";
 import CourseBody from "../../courses/CourseBody";
 // import CourseFooter from "../../courses/CourseFooter";
 import CourseContent from "../../courses/CourseContent";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 // import QuizWelcome from "../../quiz/QuizWelcome";
 // import QuestionSection from "../../quiz/QuestionSection";
 // import QuizCompleted from "../../quiz/QuizCompleted";
@@ -13,6 +13,8 @@ import { UserServices } from "../../../services/UserServices";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ring2 } from "ldrs";
 import useThemeSwitcher from "../../../hooks/useThemeSwitcher";
+import MobModule from "../../courses/courseSections/MobModule";
+import { useSelector } from "react-redux";
 
 function CoursesContainer() {
     const [theme, setTheme] = useThemeSwitcher();
@@ -32,12 +34,15 @@ function CoursesContainer() {
     const moduleId = params.get("moduleId");
     const totalParts = params.get("totalParts");
     const stageName = params.get("stageName");
-    const partNumber = 1;
+    const partNumber = useSelector((state) => state.partNumber.partNumber);
     ring2.register();
+    const showModule = useSelector((state) => state.module.showModule)
+    const { module } = useParams();
+    const { pathname } = useLocation();
 
     useEffect(() => {
         async function fetchData() {
-            setIsLoading(true)
+            setIsLoading(true);
             const userServices = new UserServices();
             try {
                 const response = await userServices.getIndividualModule(
@@ -51,7 +56,7 @@ function CoursesContainer() {
             } catch (error) {
                 console.error(error);
             } finally {
-                setIsLoading(false)
+                setIsLoading(false);
             }
         }
         fetchData();
@@ -107,13 +112,15 @@ function CoursesContainer() {
                                 ></l-ring-2>
                             </div>
                         )}
-                        {data && !isLoading && <div className="mt-6 mb-8">
-                            <CourseBody
-                                imageContent={imageContent}
-                                content={bodyContent}
-                                currentDisplay={currentDisplay}
-                            />
-                        </div>}
+                        {data && !isLoading && (
+                            <div className="mt-6 mb-8">
+                                <CourseBody
+                                    imageContent={imageContent}
+                                    content={bodyContent}
+                                    currentDisplay={currentDisplay}
+                                />
+                            </div>
+                        )}
                         {/* <div>
                         <QuizWelcome />
                         </div> */}
@@ -132,35 +139,42 @@ function CoursesContainer() {
             </div>
             {/* mobile screen */}
             <div className="block lg:hidden">
-                <div className="flex flex-col gap-3 cursor-pointer">
-                    <Link
-                        to={"/stages"}
-                        className="text-primary-dark dark:text-[#C5C6CB] items-center gap-2 flex"
-                    >
-                        <IoIosArrowBack />
-                        <span>Back to Learning Pages</span>
-                    </Link>
-                    <div>
-                        <CourseHeader
-                            handleDisplayToggle={handleDisplayToggle}
-                            currentDisplay={currentDisplay}
-                            stageName={stageName}
-                        />
-                        <div className="mt-10 mb-8 px-4">
-                            <CourseBody currentDisplay={currentDisplay} />
-                        </div>
-                        {/* <div>
+                    {!showModule ? <div className="flex flex-col gap-3 cursor-pointer">
+                        <Link
+                            to={`/user/learning/stages/${stagemodule}`}
+                            className="text-primary-dark dark:text-[#C5C6CB] items-center gap-2 flex"
+                        >
+                            <IoIosArrowBack />
+                            <span>Back to Learning Pages</span>
+                        </Link>
+                        <div>
+                            <CourseHeader
+                                handleDisplayToggle={handleDisplayToggle}
+                                currentDisplay={currentDisplay}
+                                stageName={stageName}
+                            />
+                            <div className="mt-5 mb-8 px-4">
+                                <CourseBody
+                                    imageContent={imageContent}
+                                    content={bodyContent}
+                                    currentDisplay={currentDisplay}
+                                />
+                            </div>
+                            {/* <div>
                         <QuizWelcome />
                     </div> */}
-                        {/* <div>
+                            {/* <div>
                             <QuizCompleted />
                         </div> */}
-                        {/* <div className="mt-11">
+                            {/* <div className="mt-11">
                         <QuestionSection />
                     </div> */}
-                        {/* <CourseFooter /> */}
-                    </div>
-                </div>
+                            {/* <CourseFooter /> */}
+                        </div>
+                    </div> :
+                    <div>
+                        <MobModule headerContent={headerContent} content={bodyContent}/>
+                    </div>}
                 {/* <div className="w-[40%]">
                     <CourseContent />
                 </div> */}

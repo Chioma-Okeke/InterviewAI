@@ -36,6 +36,7 @@ import ScrollToTop from "./components/shared/ScrollToTop";
 import MyLearning from "./pages/MyLearning";
 import CoursesContainer from "./components/shared/layout/CoursesContainer";
 import UserProfile from "./pages/UserProfile";
+import MobModule from "./components/courses/courseSections/MobModule";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -58,7 +59,15 @@ const router = createBrowserRouter(
                                 path=":stagemodule"
                                 element={<IndividualStagePage />}
                             >
-                                <Route path=":module" element={<CoursesContainer />}/>
+                                <Route
+                                    path=":module"
+                                    element={<CoursesContainer />}
+                                />
+                                    {/* <Route
+                                        path=":mobmodule"
+                                        element={<MobModule />}
+                                    />
+                                </Route> */}
                             </Route>
                         </Route>
                         <Route path="corestage" element={<CoreStage />} />
@@ -75,7 +84,7 @@ const router = createBrowserRouter(
                             element={<InterviewStage />}
                         />
                     </Route>
-                    <Route path="profile" element={<UserProfile/>}/>
+                    <Route path="profile" element={<UserProfile />} />
                 </Route>
                 <Route path="auth" element={<Container />}>
                     <Route index element={<SignUp />} />

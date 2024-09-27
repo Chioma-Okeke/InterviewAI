@@ -12,6 +12,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 function AppHeader() {
     const dispatch = useDispatch();
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
+    const showModule = useSelector((state) => state.module.showModule)
     const [theme, setTheme] = useThemeSwitcher();
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function AppHeader() {
     };
 
     return (
-        <header className="px-8 py-7">
+        <header className={`px-8 py-7 ${showModule ? "hidden" : "block"}`}>
             <div className="flex items-center justify-between">
                 <div className="flex items-center flex-1 lg:gap-8">
                     {!isSideBarVisible && (

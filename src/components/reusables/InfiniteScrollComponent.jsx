@@ -11,12 +11,12 @@ const InfiniteScrollComponent = ({ data }) => {
             {data.map((course, index) => (
                 <CourseCard
                     key={index}
-                    title={course.title}
-                    moduleId={course._id}
-                    totalParts={course.totalParts}
-                    imgSrc={course.imgSrc}
-                    stageNumber={course.stageNumber}
-                    stageName={course.stageName}
+                    title={course?.title}
+                    moduleId={course?._id}
+                    totalParts={course?.totalParts}
+                    imgSrc={course?.imgSrc}
+                    stageNumber={course?.stageNumber}
+                    stageName={course?.stageName}
                     course={course}
                     learningModules={learningModules}
                     setLearningModules={setLearningModules}

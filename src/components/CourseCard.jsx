@@ -78,7 +78,7 @@ function CourseCard({
         <Link to={`/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`}>
             <div
                 // onClick={openIndividualModule}
-                className="w-[398px] lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-hover-dark pb-[27.93px] lg:pb-[19.2px]"
+                className="w-[398px] lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-hover-dark pb-[27.93px] lg:pb-[19.2px] mx-auto"
             >
                 <div
                     ref={sectionRef}

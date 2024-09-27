@@ -101,7 +101,7 @@ function IndividualStagePage() {
     }, [loading, hasMore]);
 
     return (
-        <main className="px-5 lg:px-8 pb-10 mb-10">
+        <main className="lg:px-8 pb-10 mb-10">
             {pathname == `/user/learning/stages/${stagemodule}` && <div className="relative min-h-screen">
                 {!loading && <div>
                     {data.length > 0 ? (
