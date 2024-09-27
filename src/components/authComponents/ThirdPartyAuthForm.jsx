@@ -17,7 +17,6 @@ function ThirdPartyAuthForm() {
     const from = location.state?.from?.pathname || "/user/dashboard";
 
     async function handleClick(thirdParty) {
-        console.log(thirdParty);
         const authServices = new UserAuthentication();
         try {
             let response;

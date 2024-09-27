@@ -11,7 +11,6 @@ function CourseContent({ content }) {
     const [isPartContentOpen, setIsPartContentOpen] = useState(false);
     const navigate = useNavigate()
     const location = useLocation()
-    console.log(content, "incousrecontent");
     const params = new URLSearchParams(location.search)
     const {stagemodule} = useParams()
     const {module} = useParams()

@@ -14,8 +14,7 @@ export default function AuthProvider({ children }) {
     const failedQueue = useRef([]);
 
     useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem("user_data")); // Move this here for clarity
-        console.log(storedData, "stored in context");
+        const storedData = JSON.parse(localStorage.getItem("user_data"));
         if (storedData) {
             const { userToken } = storedData;
             setToken(userToken);
@@ -26,7 +25,6 @@ export default function AuthProvider({ children }) {
     }, []);
 
     useEffect(() => {
-        console.log(isAuthenticated, "on app load");
     }, [isAuthenticated]);
 
     // useEffect(() => {
@@ -184,12 +182,9 @@ export default function AuthProvider({ children }) {
         setToken(newToken);
         // setUserData(newData);
         setIsAuthenticated(true);
-        console.log(token, "koen in context")
-        console.log(isAuthenticated, "incontext");
     }
 
     function logout() {
-        console.log("running")
         localStorage.removeItem("user_data");
         setToken(null);
         // setUserData(null);

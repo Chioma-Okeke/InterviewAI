@@ -1,9 +1,6 @@
 import { Outlet, useLocation } from "react-router-dom";
 
 function RootLayout() {
-    const {pathname} = useLocation()
-    
-    console.log(pathname, "in root")
     return (
         <main className="relative">
         {/* <button

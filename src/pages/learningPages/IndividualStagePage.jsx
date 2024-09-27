@@ -27,7 +27,6 @@ function IndividualStagePage() {
     useEffect(() => {
         const fetchData = async (page) => {
             setLoading(true);
-            console.log(isAuthenticated, "In individual page")
             const userServices = new UserServices();
             try {
                 setData([])
@@ -44,7 +43,6 @@ function IndividualStagePage() {
                         // In case response is an object and not an array
                         setData((prevData) => [...prevData, response]);
                     }
-                    console.log(data, "data")
                     // setTotalPages(response.data.totalPages);
                     // if (page >= response.data.totalPages) {
                     //     setHasMore(false);

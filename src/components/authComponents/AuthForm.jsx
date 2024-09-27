@@ -29,18 +29,8 @@ function AuthForm({ buttonText, authGate }) {
 
     const from = location.state?.from?.pathname || "/user/dashboard"
 
-    console.log(buttonText, authGate);
-
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         // Redirect or trigger any action that depends on authentication
-    //         navigate("/user/dashboard");
-    //     }
-    // }, [isAuthenticated]);
-
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(name, value);
         setFormData((prevState) => {
             return {
                 ...prevState,
@@ -50,13 +40,9 @@ function AuthForm({ buttonText, authGate }) {
     }
 
     async function handleLogin(e) {
-        const fromhere = sessionStorage.getItem("redirectBackTo")
         e.preventDefault();
-        console.log(formData, "data");
         setIsLoading(true);
-
         const userAuthentication = new UserAuthentication();
-
         try {
             let res;
             if (authGate === "registering") {
@@ -71,7 +57,6 @@ function AuthForm({ buttonText, authGate }) {
                 }
             } else {
                 res = await userAuthentication.login(formData);
-                console.log(res, "response");
                 if (res.success === true) {
                     toast.success("You have successfully signed in.");
                     login(
@@ -95,14 +80,6 @@ function AuthForm({ buttonText, authGate }) {
             setIsLoading(false);
         }
     }
-
-    useEffect(() => {
-        console.log(sessionStorage.getItem("redirectBackTo"));
-
-        return () => {
-            sessionStorage.removeItem("redirectBackTo");
-        };
-    }, []);
 
     function isEmailValid(email) {
         return emailRegex.test(email);

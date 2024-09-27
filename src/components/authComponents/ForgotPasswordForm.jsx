@@ -15,7 +15,6 @@ function ForgotPasswordForm() {
 
     function handleChange(e) {
         const { name, value } = e.target;
-        console.log(name, value);
         setFormData((prevState) => {
             return {
                 ...prevState,

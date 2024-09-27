@@ -5,7 +5,6 @@ import BookIcon from "../assets/book.svg";
 import SuitcaseIcon from "../assets/suitcase.svg";
 import ServiceCard from "../components/ServiceCard";
 
-console.log("hi");
 const services = [
     {
         Icon: BookIcon,

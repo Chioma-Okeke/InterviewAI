@@ -6,7 +6,6 @@ import SuitcaseIcon from "../assets/suitcase.svg";
 import ServiceCard from "../components/ServiceCard";
 import { useLocation } from "react-router-dom";
 
-console.log("hi");
 const services = [
     {
         Icon: BookIcon,

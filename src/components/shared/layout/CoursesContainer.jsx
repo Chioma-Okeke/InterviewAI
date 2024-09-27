@@ -52,7 +52,6 @@ function CoursesContainer() {
                     token
                 );
                 setData(response);
-                console.log(data);
             } catch (error) {
                 console.error(error);
             } finally {

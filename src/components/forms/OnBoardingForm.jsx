@@ -33,7 +33,6 @@ function OnBoardingForm({ buttonText, authGate }) {
 
     async function handleLogin(e) {
         e.preventDefault();
-        console.log(formData, "data");
 
         const userServices = new UserServices();
 

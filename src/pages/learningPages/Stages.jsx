@@ -43,7 +43,6 @@ const stages = [
 function Stages() {
     const location = useLocation();
     const { data } = location.state || {};
-    console.log(data, "passed");
 
     return (
         // <div>{data?.selectedInterest}</div>

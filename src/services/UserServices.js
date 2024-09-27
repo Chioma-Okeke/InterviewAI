@@ -27,8 +27,6 @@ export class UserServices {
                 },
             });
 
-            console.log(response.data.data.learningModules, "raw response data");
-
             return response.data.data.learningModules;
         } catch (error) {
             console.error(
