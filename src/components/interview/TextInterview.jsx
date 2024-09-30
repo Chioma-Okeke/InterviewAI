@@ -27,13 +27,22 @@ const TextInterview = () => {
     } = interviewDetails;
 
     // Wrap the payload in useMemo
-    const payload = useMemo(() => ({
-        candidateFirstname,
-        resumeUrl,
-        roleName,
-        experienceLevel,
-        jobDescription,
-    }), [candidateFirstname, resumeUrl, roleName, experienceLevel, jobDescription]);
+    const payload = useMemo(
+        () => ({
+            candidateFirstname,
+            resumeUrl,
+            roleName,
+            experienceLevel,
+            jobDescription,
+        }),
+        [
+            candidateFirstname,
+            resumeUrl,
+            roleName,
+            experienceLevel,
+            jobDescription,
+        ]
+    );
 
     console.log(payload, "payload");
 
@@ -55,16 +64,18 @@ const TextInterview = () => {
     useEffect(() => {
         const handleInterviewerResponse = (response) => {
             console.log(response, "res from socket");
+            const cleanedMessage = response.msg.replace(/^Interviewer:\s*/, "");
             setMessages((prevMessages) => [
                 ...prevMessages,
-                { text: response.msg, sender: "AI" },
+                { text: cleanedMessage, sender: "AI" },
             ]);
         };
 
         const handleInterviewCompleted = (response) => {
+            const cleanedMessage = response.msg.replace(/^Interviewer:\s*/, "");
             setMessages((prevMessages) => [
                 ...prevMessages,
-                { text: response.msg, sender: "AI" },
+                { text: cleanedMessage, sender: "AI" },
             ]);
         };
 
@@ -79,14 +90,23 @@ const TextInterview = () => {
 
         socket.current.on("INTERVIEWER_RESPONSE", handleInterviewerResponse);
         socket.current.on("INTERVIEW_COMPLETED", handleInterviewCompleted);
-        socket.current.on("INCOMPLETE_INTERVIEW_DATA", handleIncompleteInterviewData);
+        socket.current.on(
+            "INCOMPLETE_INTERVIEW_DATA",
+            handleIncompleteInterviewData
+        );
         socket.current.on("SERVER_ERROR", handleServerError);
 
         // Clean up socket listeners on unmount
         return () => {
-            socket.current.off("INTERVIEWER_RESPONSE", handleInterviewerResponse);
+            socket.current.off(
+                "INTERVIEWER_RESPONSE",
+                handleInterviewerResponse
+            );
             socket.current.off("INTERVIEW_COMPLETED", handleInterviewCompleted);
-            socket.current.off("INCOMPLETE_INTERVIEW_DATA", handleIncompleteInterviewData);
+            socket.current.off(
+                "INCOMPLETE_INTERVIEW_DATA",
+                handleIncompleteInterviewData
+            );
             socket.current.off("SERVER_ERROR", handleServerError);
         };
     }, []);
