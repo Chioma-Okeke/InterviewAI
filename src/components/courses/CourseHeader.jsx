@@ -8,10 +8,10 @@ const laptopCourseSections = ["Module", "Overview", "Q&A", "Notes"];
 
 function CourseHeader({ handleDisplayToggle, currentDisplay, stageName }) {
     return (
-        <div className="px-3 lg:pl-6 lg:pr-0 pt-4 flex flex-col dark:bg-[#171717] lg:min-w-[570px]">
+        <div className="px-3 lg:pl-6 lg:pr-0 pt-4 flex flex-col bg-[#F9F9F9] dark:bg-[#171717] lg:min-w-[570px]">
             <div className="flex items-center gap-2 mb-4">
                 <img src={NoteIcon} alt="" />
-                <h1 className="text-primary-dark dark:text-primary-light text-xl lg:text-2xl">
+                <h1 className="text-[#4E4E4E] dark:text-primary-light text-xl lg:text-2xl">
                     {stageName?.toUpperCase()}
                 </h1>
             </div>
@@ -19,7 +19,7 @@ function CourseHeader({ handleDisplayToggle, currentDisplay, stageName }) {
                 <img
                     src={SearchIcon}
                     alt=""
-                    className="text-primary-dark dark:text-primary-light"
+                    className="text-[#4E4E4E] dark:text-primary-light"
                 />
                 <nav>
                     <ul className="lg:flex gap-[72px] hidden">
@@ -27,7 +27,7 @@ function CourseHeader({ handleDisplayToggle, currentDisplay, stageName }) {
                             return (
                                 <li
                                     key={index}
-                                    className={`pb-3 ${currentDisplay === section ? "border-b-2 border-brand-color" : ""}`}
+                                    className={`pb-3 text-[#4E4E4E] dark:text-primary-light ${currentDisplay === section ? "border-b-2 border-brand-color opacity-100" : "opacity-70"}`}
                                     onClick={handleDisplayToggle}
                                 >
                                     {section}

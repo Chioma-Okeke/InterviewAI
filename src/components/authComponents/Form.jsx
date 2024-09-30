@@ -1,5 +1,4 @@
-// import React from "react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Button from "../reusables/Button";
 import { CircularProgress } from "@mui/material";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -115,21 +114,12 @@ function AuthForm({ buttonText, authGate }) {
                     inputId="email"
                     inputName="email"
                     placeholder="Enter your username"
-                    helperText={errors.email || ""}
+                    helperText={errors.email || "This is a required field"}
                     inputType="text"
                     className="border-[1.5px] border-[#C5C6CB] dark:border-ternary-light py-3 px-2 rounded-[15px] h-[60px]"
                     ariaLabelName="Email"
                     inputValue={formData.email}
-                    onChange={(e) => {
-                        const value = e.target.value;
-                        setFormData((prevState) => ({
-                            ...prevState,
-                            [e.target.name]: value,
-                        }));
-                        if (isEmailValid(value)) {
-                            setShowOtherFields(true);
-                        }
-                    }}
+                    onChange={handleChange}
                     isRequired={true}
                 />
                 {showOtherFields && (

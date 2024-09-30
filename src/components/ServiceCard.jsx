@@ -12,26 +12,26 @@ function ServiceCard({ Icon, title, description, link }) {
     return (
         <div
             onClick={handleRedirects}
-            className="sm:w-[398px] rounded-3xl border-2 dark:border-ternary-dark border-ternary-dark dark:hover:bg-hover-dark flex flex-col justify-between pb-6 cursor-pointer"
+            className="sm:w-[398px] rounded-3xl border-2 border-[#E5E5E5] dark:border-ternary-dark hover:bg-[#F4F4F4] dark:hover:bg-hover-dark flex flex-col justify-between pb-6 cursor-pointer"
         >
-            <div className="pb-2 px-6 pt-6 flex items-center gap-2 border-b dark:border-[#505050] border-primary-dark">
+            <div className="pb-2 px-6 pt-6 flex items-center gap-2 border-b border-[#E5E5E5] dark:border-[#505050]">
                 <img src={Icon} alt="" />
-                <p className="text-primary-dark dark:text-primary-light">
+                <p className="text-[#0D0D0D] dark:text-primary-light">
                     {title}
                 </p>
             </div>
             <div className="p-6">
-                <p className="text-primary-dark dark:text-ternary-light">
+                <p className="text-ternary-light">
                     {description}
                 </p>
             </div>
             <div
-                className="dark:bg-[#444549] bg-[#ECECEC] rounded-full p-1 ml-auto mr-7 w-fit hover:scale-105"
+                className="dark:bg-[#444549] bg-[#444549] rounded-full p-1 ml-auto mr-7 w-fit hover:scale-105"
                 onClick={handleRedirects}
             >
                 <HiOutlineArrowRight
                     size={24}
-                    className="dark:text-primary-light text-primary-dark"
+                    className="text-primary-light"
                 />
             </div>
         </div>

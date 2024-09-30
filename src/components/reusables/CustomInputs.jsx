@@ -58,7 +58,9 @@ const CustomTextField = ({
                 aria-label={ariaLabelName}
                 onChange={onChange}
             />
-            {/* <span className="helper-text">{helperText}</span> */}
+            {helperText && (
+                <span className="helper-text text-red-500">{helperText}</span>
+            )}
         </div>
     );
 };

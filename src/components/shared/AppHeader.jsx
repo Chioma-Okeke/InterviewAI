@@ -137,12 +137,12 @@ function AppHeader() {
                 ) : (
                     <div className="flex gap-4 items-center">
                         <Link to={"/auth/login"}>
-                            <Button className="bg-white rounded-3xl w-[85px] leading-[20px] h-10">
+                            <Button className="bg-hover-dark dark:bg-white rounded-3xl w-[85px] leading-[20px] h-10 text-primary-light dark:text-primary-dark">
                                 Log in
                             </Button>
                         </Link>
                         <Link to={"/auth"}>
-                            <Button className="hidden lg:block bg-transparent rounded-3xl px-[15px] h-10 leading-[20px] text-primary-dark dark:text-primary-light border-[0.2px] dark:border-[#6C757D]">
+                            <Button className="hidden lg:block bg-transparent rounded-3xl px-[15px] h-10 leading-[20px] text-[#626262] dark:text-primary-light border dark:border-[0.2px] border-[#DADADA] dark:border-[#6C757D]">
                                 Create an account
                             </Button>
                         </Link>

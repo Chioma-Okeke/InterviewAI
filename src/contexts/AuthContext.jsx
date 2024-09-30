@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import apiClient from "../serviceClients/apiClient";
+import LoadingComponent from "../components/reusables/LoadingComponent";
 
 export const AuthContext = createContext();
 
@@ -192,7 +193,7 @@ export default function AuthProvider({ children }) {
     }
 
     if (loading) {
-        return <div>Loading...</div>; // You can customize this loading indicator
+        return <LoadingComponent/>; // You can customize this loading indicator
     }
 
     return (

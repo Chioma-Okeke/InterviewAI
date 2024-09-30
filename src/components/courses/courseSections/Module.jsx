@@ -20,7 +20,7 @@ function Module({content, imageContent}) {
         <div>
             <div className="flex flex-col gap-4 ">
                 {imageContent && imageContent.value && <img src={imageContent.value} alt="" />}
-                <p className="text-primary-dark dark:text-primary-light text-sm text-justify lg:h-[220px] overflow-auto">
+                <p className="text-[#4E4E4E] dark:text-primary-light text-sm text-justify lg:h-[220px] overflow-auto">
                 {content && content.value && <p>{content.value}</p>}
                 </p>
             </div>
@@ -30,9 +30,9 @@ function Module({content, imageContent}) {
                         <img
                             src={PrevIcon}
                             alt=""
-                            className="text-primary-dark dark:text-ternary-light w-[18px]"
+                            className="text-ternary-light w-[18px]"
                         />
-                        <span className="text-primary-dark dark:text-ternary-light text-sm">
+                        <span className="text-ternary-light text-sm">
                             Previous Lesson
                         </span>
                     </Button>

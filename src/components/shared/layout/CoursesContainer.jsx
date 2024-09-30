@@ -8,7 +8,7 @@ import CourseContent from "../../courses/CourseContent";
 import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 // import QuizWelcome from "../../quiz/QuizWelcome";
 // import QuestionSection from "../../quiz/QuestionSection";
-// import QuizCompleted from "../../quiz/QuizCompleted";
+import QuizCompleted from "../../quiz/QuizCompleted";
 import { UserServices } from "../../../services/UserServices";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { ring2 } from "ldrs";
@@ -86,13 +86,13 @@ function CoursesContainer() {
         <div>
             {/* desktop screen */}
             <div className="lg:flex gap-8 justify-center hidden xl:max-w-[1024px] 2xl:max-w-[1440px] mx-auto">
-                <div className="w-[60%] flex flex-col items-end gap-3 cursor-pointer lg:max-w-[683px]">
+                <div className="w-[60%] flex flex-col gap-3 cursor-pointer lg:max-w-[683px]">
                     <Link
                         to={`/user/learning/stages/${stagemodule}`}
-                        className="text-primary-dark dark:text-[#C5C6CB] flex items-center gap-2"
+                        className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2"
                     >
                         <IoIosArrowBack />
-                        <span>Back to Learning Pages</span>
+                        <span className="text-xs">Back to Learning Pages</span>
                     </Link>
                     <div className="w-full relative">
                         <CourseHeader
@@ -101,7 +101,7 @@ function CoursesContainer() {
                             stageName={stageName}
                         />
                         {isLoading && (
-                            <div className="w-fit mx-auto h-full flex items-center">
+                            <div className="w-fit mx-auto h-60 flex items-center">
                                 <l-ring-2
                                     size="40"
                                     stroke="5"
@@ -114,7 +114,7 @@ function CoursesContainer() {
                                 ></l-ring-2>
                             </div>
                         )}
-                        {data && !isLoading && (
+                        {/* {data && !isLoading && (
                             <div className="mt-6 mb-8">
                                 <CourseBody
                                     imageContent={imageContent}
@@ -122,16 +122,16 @@ function CoursesContainer() {
                                     currentDisplay={currentDisplay}
                                 />
                             </div>
-                        )}
-                        {/* <div>
+                        )} */}
+                        {/* {!isLoading && <div>
                         <QuizWelcome />
-                        </div> */}
-                        {/* <div>
+                        </div>} */}
+                        <div>
                             <QuizCompleted />
-                        </div> */}
-                        {/* <div className="mt-11">
+                        </div>
+                        {/* {!isLoading && <div className="mt-11">
                             <QuestionSection />
-                        </div> */}
+                        </div>} */}
                         {/* <CourseFooter /> */}
                     </div>
                 </div>

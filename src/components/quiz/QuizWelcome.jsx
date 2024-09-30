@@ -9,7 +9,7 @@ function QuizWelcome() {
                 <div>
                     <img src={QuizIllustration} alt="" className="w-[280px]"/>
                 </div>
-                <div className="text-primary-dark dark:text-primary-light text-center">
+                <div className="text-[#4E4E4E] dark:text-primary-light text-center">
                     <h2 className="text-2xl">Ready for Quiz</h2>
                     <p>
                         Test yourself on the skills in this course to solidify
@@ -20,7 +20,7 @@ function QuizWelcome() {
                     <Button className="rounded-lg bg-brand-color text-sm leading-[22px] py-2 w-[114px] text-white">
                         Start Quiz
                     </Button>
-                    <Button className="rounded-lg text-sm leading-[22px] py-2 w-[114px] text-primary-dark dark:text-ternary-light border-2 border-primary-dark dark:border-ternary-dark">
+                    <Button className="rounded-lg text-sm leading-[22px] py-2 w-[114px] text-ternary-light border-2 border-[#DADADA] dark:border-ternary-dark">
                         Skip Quiz
                     </Button>
                 </div>

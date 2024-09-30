@@ -49,7 +49,7 @@ function QuestionSection() {
     }
 
     return (
-        <div>
+        <div className="text-[#4E4E4E] dark:text-primary-light">
             <div className="flex flex-col gap-4 mb-8">
                 <p className="leading-[22px] font-medium text-primary-dark dark:text-primary-light">
                     Question {index+1} / {data.length}
@@ -63,7 +63,7 @@ function QuestionSection() {
                     <li
                         ref={option1}
                         onClick={(e) => checkAnswer(e,1)}
-                        className="flex items-center justify-between bg-hover-dark border border-[#585858] px-4 py-[18px]"
+                        className="flex items-center justify-between bg-[#F4F4F4] dark:bg-hover-dark border border-[#585858] px-4 py-[18px]"
                     >
                         <div className="flex gap-4">
                             <input
@@ -89,7 +89,7 @@ function QuestionSection() {
                     <li
                         ref={option2}
                         onClick={(e) => checkAnswer(e,2)}
-                        className="flex items-center justify-between bg-hover-dark border border-[#585858] px-4 py-[18px]"
+                        className="flex items-center justify-between bg-[#F4F4F4] dark:bg-hover-dark border border-[#585858] px-4 py-[18px]"
                     >
                         <div className="flex gap-4">
                             <input
@@ -115,7 +115,7 @@ function QuestionSection() {
                     <li
                         ref={option3}
                         onClick={(e) => checkAnswer(e,3)}
-                        className="flex items-center justify-between bg-hover-dark border border-[#585858] px-4 py-[18px]"
+                        className="flex items-center justify-between bg-[#F4F4F4] dark:bg-hover-dark border border-[#585858] px-4 py-[18px]"
                     >
                         <div className="flex gap-4">
                             <input
@@ -141,7 +141,7 @@ function QuestionSection() {
                     <li
                         ref={option4}
                         onClick={(e) => checkAnswer(e,4)}
-                        className="flex items-center justify-between bg-hover-dark border border-[#585858] px-4 py-[18px]"
+                        className="flex items-center justify-between  bg-[#F4F4F4] dark:bg-hover-dark border border-[#585858] px-4 py-[18px]"
                     >
                         <div className="flex gap-4">
                             <input
