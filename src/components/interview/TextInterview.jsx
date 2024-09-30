@@ -1,19 +1,95 @@
-// src/components/Chat.js
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import Logo from "../../assets/logo-black-white.svg";
 import SendIcon from "../../assets/send.svg";
 import { useDispatch, useSelector } from "react-redux";
 import DialogBox from "../reusables/DialogBox";
 import { pauseTextInterview } from "../../store/interviewSlice";
+import io from "socket.io-client";
 
 const TextInterview = () => {
     const [messages, setMessages] = useState([]);
     const chatBoxRef = useRef(null);
     const [inputValue, setInputValue] = useState("");
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const isPauseTextRequested = useSelector(
         (state) => state.interview.isPauseTextRequested
     );
+    const interviewDetails = useSelector(
+        (state) => state.interview.interviewDetails
+    );
+
+    const {
+        candidateFirstname,
+        resumeUrl,
+        roleName,
+        experienceLevel,
+        jobDescription,
+    } = interviewDetails;
+
+    // Wrap the payload in useMemo
+    const payload = useMemo(() => ({
+        candidateFirstname,
+        resumeUrl,
+        roleName,
+        experienceLevel,
+        jobDescription,
+    }), [candidateFirstname, resumeUrl, roleName, experienceLevel, jobDescription]);
+
+    console.log(payload, "payload");
+
+    // Initialize the socket connection
+    const socket = useRef(null);
+
+    useEffect(() => {
+        socket.current = io("https://interview-ai-1-8he2.onrender.com/", {
+            query: payload,
+        });
+
+        // Clean up the socket connection on component unmount
+        return () => {
+            socket.current.disconnect();
+        };
+    }, [payload]);
+
+    // Listen for messages from the server
+    useEffect(() => {
+        const handleInterviewerResponse = (response) => {
+            console.log(response, "res from socket");
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { text: response.msg, sender: "AI" },
+            ]);
+        };
+
+        const handleInterviewCompleted = (response) => {
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                { text: response.msg, sender: "AI" },
+            ]);
+        };
+
+        const handleIncompleteInterviewData = (response) => {
+            window.alert("INCOMPLETE INTERVIEW DETAILS SENT TO SERVER");
+            window.alert(response);
+        };
+
+        const handleServerError = () => {
+            window.alert("SERVER ERROR");
+        };
+
+        socket.current.on("INTERVIEWER_RESPONSE", handleInterviewerResponse);
+        socket.current.on("INTERVIEW_COMPLETED", handleInterviewCompleted);
+        socket.current.on("INCOMPLETE_INTERVIEW_DATA", handleIncompleteInterviewData);
+        socket.current.on("SERVER_ERROR", handleServerError);
+
+        // Clean up socket listeners on unmount
+        return () => {
+            socket.current.off("INTERVIEWER_RESPONSE", handleInterviewerResponse);
+            socket.current.off("INTERVIEW_COMPLETED", handleInterviewCompleted);
+            socket.current.off("INCOMPLETE_INTERVIEW_DATA", handleIncompleteInterviewData);
+            socket.current.off("SERVER_ERROR", handleServerError);
+        };
+    }, []);
 
     useEffect(() => {
         if (chatBoxRef.current) {
@@ -24,10 +100,6 @@ const TextInterview = () => {
         }
     }, [messages]);
 
-    useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-    });
-
     const handleSendMessage = (e) => {
         e.preventDefault();
 
@@ -36,22 +108,16 @@ const TextInterview = () => {
         const newMessage = {
             id: Date.now(),
             text: inputValue,
-            sender: "user", // Change as needed to identify different users
+            sender: "user", // Identify the user as the sender
         };
 
         setMessages((prevMessages) => [...prevMessages, newMessage]);
+        socket.current.emit("message", inputValue); // Emit the message to the server
         setInputValue(""); // Clear input field after sending
-
-        setTimeout(() => {
-            setMessages((prevMessages) => [
-                ...prevMessages,
-                { text: "AI: This is a response.", sender: "AI" },
-            ]);
-        }, 1000);
     };
 
-    function closeDialog () {
-        dispatch(pauseTextInterview())
+    function closeDialog() {
+        dispatch(pauseTextInterview());
     }
 
     return (
@@ -71,9 +137,9 @@ const TextInterview = () => {
                         className="w-[61px] mx-auto mb-10"
                     />
                     <div className=" h-72 chat-messages flex flex-col">
-                        {messages.map((message) => (
+                        {messages.map((message, index) => (
                             <div
-                                key={message.id}
+                                key={index}
                                 className={`message p-2 rounded-lg mb-8 text-sm lg:text-base ${
                                     message.sender === "user"
                                         ? "dark:bg-hover-dark rounded-3xl p-4 self-end leading-[26px] max-w-[336px] lg:max-w-[598px]"

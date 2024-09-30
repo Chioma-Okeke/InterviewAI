@@ -114,7 +114,7 @@ function CoursesContainer() {
                                 ></l-ring-2>
                             </div>
                         )}
-                        {/* {data && !isLoading && (
+                        {data && !isLoading && (
                             <div className="mt-6 mb-8">
                                 <CourseBody
                                     imageContent={imageContent}
@@ -122,13 +122,13 @@ function CoursesContainer() {
                                     currentDisplay={currentDisplay}
                                 />
                             </div>
-                        )} */}
+                        )}
                         {/* {!isLoading && <div>
                         <QuizWelcome />
                         </div>} */}
-                        <div>
+                        {/* <div>
                             <QuizCompleted />
-                        </div>
+                        </div> */}
                         {/* {!isLoading && <div className="mt-11">
                             <QuestionSection />
                         </div>} */}

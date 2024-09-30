@@ -11,6 +11,8 @@ import DialogBox from "../reusables/DialogBox";
 import { AuthContext } from "../../contexts/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import DescriptionModal from "../modals/DescriptionModal";
+import { useDispatch } from "react-redux";
+import { updateProfileData } from "../../store/interviewSlice";
 
 const columnsClass = {
     2: "lg:grid-cols-2",
@@ -27,37 +29,37 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
     const navigate = useNavigate();
     const [selectedProfile, setSelectedProfile] = useState({});
     const [profileToDelete, setProfileToDelete] = useState("");
-    const [description, setDescription] = useState("");
-    const [isProfileSelected, setIsProfileSelected] = useState(false);
-    const { token } = useContext(AuthContext);
+    const { token, userData } = useContext(AuthContext);
     const [descriptionGenerationData, setDescriptionGenerationData] = useState(
         {}
     );
+    const dispatch = useDispatch();
 
     const enableButton = Object.keys(selectedProfile).length > 0;
 
     const nextPage = useCallback(() => {
-        navigate("/user/practice/interviewmethods", {
-            state: { selectedProfile: selectedProfile },
+        navigate("/user/practice/descriptionselection", {
+            state: { descriptionGenerationData: descriptionGenerationData },
         });
-    }, [navigate, selectedProfile]);
-
-    function openDescriptionModal() {
-        const { jobRole, experienceLevel, resumeUrl } = selectedProfile;
-        setDescriptionGenerationData({ jobRole, experienceLevel, resumeUrl });
-        setIsProfileSelected(true);
-    }
-
-    useEffect(() => {
-        console.log(selectedProfile, "selected");
-    }, [selectedProfile]);
-
-    useEffect(() => {
-        console.log(profileToDelete, "profile to delete");
-    }, [profileToDelete]);
+    }, [descriptionGenerationData, navigate]);
 
     const selectProfile = (profile) => {
+        console.log(profile, "selected");
+        console.log(userData, "user");
+        const { jobRole, experienceLevel, resumeUrl } = profile;
+        console.log(jobRole, "jon");
+        console.log(experienceLevel, "exp");
+        console.log(resumeUrl, "res");
         setSelectedProfile(profile);
+        setDescriptionGenerationData({ jobRole, experienceLevel, resumeUrl });
+        dispatch(
+            updateProfileData({
+                resumeUrl: resumeUrl,
+                experienceLevel: experienceLevel,
+                jobRole: jobRole,
+                firstName: "Chioma",
+            })
+        );
     };
 
     const handleCreateProfileClick = () => {
@@ -82,10 +84,8 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
 
     function openDelete(event) {
         event.stopPropagation();
-        console.log(event);
         const profileId = event.currentTarget.id;
         setProfileToDelete(profileId);
-        console.log(profileId);
         setIsDeleteRequested(true);
     }
 
@@ -96,77 +96,75 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
 
     return (
         <main className="px-5 lg:px-8">
-            <p className="text-primary-dark dark:text-ternary-light text-[18px] leading-[22.5px]">
-                Use any of your existing profile to generate Interview
-            </p>
-            <div
-                className={`grid grid-cols-2 lg:grid-cols-3 ${
-                    columnsClass[gridColumns]
-                } ${
-                    userProfiles.length >= 3
-                        ? "gap-[52px] lg:gap-[72px]"
-                        : "gap-20"
-                } mt-14 lg:mt-[114px] mb-10 lg:mb-24 w-fit mx-auto`}
-            >
-                {userProfiles.map((profile) => {
-                    return (
-                        <div
-                            key={profile._id} // Use a unique identifier if available
-                            className={`relative dark:bg-hover-dark w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-2 flex items-center justify-center cursor-pointer hover:border-brand-color ${
-                                selectedProfile._id === profile._id
-                                    ? "border-brand-color"
-                                    : "border-hover-dark"
-                            }`}
-                            id={profile._id}
-                            onClick={() => selectProfile(profile)}
-                        >
-                            <div
-                                className="absolute top-0 right-0 pt-6 pr-4"
-                                id={profile._id}
-                                onClick={(event) => openDelete(event)}
-                            >
-                                <SlOptionsVertical
-                                    color={
-                                        theme === "dark" ? "#C5C6CB" : "#212121"
-                                    }
-                                    id={profile._id}
-                                />
-                            </div>
-                            <p className="lg:text-[18px] leading-[22.5px] text-sm">
-                                {profile.jobRole}
-                            </p>
-                        </div>
-                    );
-                })}
+            {" "}
+            <div>
+                <p className="text-primary-dark dark:text-ternary-light text-[18px] leading-[22.5px]">
+                    Use any of your existing profile to generate Interview
+                </p>
                 <div
-                    onClick={handleCreateProfileClick} // Set the function onClick
-                    className="w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-4 border-hover-dark flex items-center justify-center cursor-pointer hover:border-brand-color"
+                    className={`grid grid-cols-2 lg:grid-cols-3 ${
+                        columnsClass[gridColumns]
+                    } ${
+                        userProfiles.length >= 3
+                            ? "gap-[52px] lg:gap-[72px]"
+                            : "gap-20"
+                    } mt-14 lg:mt-[114px] mb-10 lg:mb-24 w-fit mx-auto`}
                 >
-                    <div className="bg-brand-color rounded-full hover:scale-110 p-2">
-                        <FaPlus
-                            color={theme === "dark" ? "#ECECEC" : "#212121"}
-                        />
+                    {userProfiles.map((profile) => {
+                        return (
+                            <div
+                                key={profile._id} // Use a unique identifier if available
+                                className={`relative dark:bg-hover-dark w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-2 flex items-center justify-center cursor-pointer hover:border-brand-color ${
+                                    selectedProfile._id === profile._id
+                                        ? "border-brand-color"
+                                        : "border-hover-dark"
+                                }`}
+                                id={profile._id}
+                                onClick={() => selectProfile(profile)}
+                            >
+                                <div
+                                    className="absolute top-0 right-0 pt-6 pr-4"
+                                    id={profile._id}
+                                    onClick={(event) => openDelete(event)}
+                                >
+                                    <SlOptionsVertical
+                                        color={
+                                            theme === "dark"
+                                                ? "#C5C6CB"
+                                                : "#212121"
+                                        }
+                                        id={profile._id}
+                                    />
+                                </div>
+                                <p className="lg:text-[18px] leading-[22.5px] text-sm">
+                                    {profile.jobRole}
+                                </p>
+                            </div>
+                        );
+                    })}
+                    <div
+                        onClick={handleCreateProfileClick} // Set the function onClick
+                        className="w-[155px] h-[128px] lg:w-[221px] lg:h-[183px] rounded-[15px] border-4 border-hover-dark flex items-center justify-center cursor-pointer hover:border-brand-color"
+                    >
+                        <div className="bg-brand-color rounded-full hover:scale-110 p-2">
+                            <FaPlus
+                                color={theme === "dark" ? "#ECECEC" : "#212121"}
+                            />
+                        </div>
                     </div>
                 </div>
+                <div className="w-fit mx-auto">
+                    <Button
+                        className={`bg-brand-color text-white rounded-lg py-2 px-10 transition-opacity duration-500 ${
+                            enableButton ? "opacity-100" : "opacity-40"
+                        }`}
+                        disable={!enableButton}
+                        onClick={nextPage}
+                    >
+                        Next
+                    </Button>
+                </div>
             </div>
-            <div className="w-fit mx-auto">
-                <Button
-                    className={`bg-brand-color text-white rounded-lg py-2 px-10 transition-opacity duration-500 ${
-                        enableButton ? "opacity-100" : "opacity-40"
-                    }`}
-                    disable={!enableButton}
-                    onClick={!description ? openDescriptionModal : nextPage}
-                >
-                    Next
-                </Button>
-            </div>
-            {isProfileSelected && (
-                <DescriptionModal
-                    setIsProfileSelected={setIsProfileSelected}
-                    descriptionGenerationData={descriptionGenerationData}
-                    setDescription={setDescription}
-                />
-            )}
             {isCreateRequested && (
                 <ProfileSelectionModal
                     fetchData={fetchData}
@@ -183,7 +181,6 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
                     handleSubmission={deleteJobProfile}
                 />
             )}
-
             <ToastContainer />
         </main>
     );
@@ -191,7 +188,6 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
 
 ExistingProfiles.propTypes = {
     userProfiles: PropTypes.array.isRequired,
-    setSelectedProfile: PropTypes.func.isRequired,
     fetchData: PropTypes.func.isRequired,
 };
 

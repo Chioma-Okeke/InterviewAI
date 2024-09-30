@@ -1,38 +1,30 @@
 import { motion, AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 import Button from "../reusables/Button";
-import EditIcon from "../../assets/edit.svg";
-import Input from "../reusables/Input";
-import { IoIosArrowDown } from "react-icons/io";
-import { useContext, useEffect, useState } from "react";
-import AddFiles from "../reusables/AddFiles";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserServices } from "../../services/UserServices";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CircularProgress } from "@mui/material";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
+import ReactMarkdown from "react-markdown"; // Import react-markdown
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateDescription, updateUserFirstName } from "../../store/interviewSlice";
 
-const levelsOfExperience = [
-    "Intern",
-    "Junior",
-    "Intermediate",
-    "Senior",
-    "Associate",
-];
-
-function DescriptionModal({
-    setIsProfileSelected,
-    descriptionGenerationData,
-    setDescription,
-}) {
+const DescriptionModal = () => {
     const [theme, setTheme] = useThemeSwitcher();
     const [data, setData] = useState([]);
-    const { token } = useContext(AuthContext);
+    const { token, userData } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
-    const [selected, setSelected ]= useState("")
-
-    console.log(descriptionGenerationData, "collected");
+    const [selected, setSelected] = useState("");
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const descriptionRef = useRef(null);
+    const location = useLocation();
+    const { descriptionGenerationData } = location.state || {};
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     useEffect(() => {
         async function fetchDescriptions() {
@@ -43,8 +35,7 @@ function DescriptionModal({
                     descriptionGenerationData,
                     token
                 );
-                setData(response.data)
-                console.log(response, "res");
+                setData(response.generatedJobDescriptions);
             } catch (error) {
                 toast.error(error.message);
             } finally {
@@ -53,81 +44,128 @@ function DescriptionModal({
         }
 
         fetchDescriptions();
-    }, []);
+    }, [descriptionGenerationData, token]);
 
-    function saveDescription () {
-        setDescription(selected)
-        setIsProfileSelected(false)
+    function saveDescription() {
+        console.log(selected, "picked description");
+        dispatch(updateDescription({ description: selected }));
+        toast.success("Kindly click next to continue.");
+        navigate("/user/practice/interviewmethods")
+    }
+
+    function cleanUpData(data) {
+        return data
+            .replace(/\\n+/g, " ") // Replace newline characters with a space
+            .replace(/\*\*(.*?)\*\*/g, "**$1**") // Keep Markdown bold syntax
+            .replace(/##/g, "## ") // Ensure Markdown headers have space
+            .trim(); // Remove leading/trailing whitespace
     }
 
     return (
-        <div>
-            <AnimatePresence>
-                <div className="">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className=" fixed inset-0 z-[80] transition-all duration-500 "
-                    >
-                        {/* Modal Backdrop */}
-                        <div
-                            className="bg-filter bg-black bg-opacity-50 fixed inset-0 w-full h-full z-30 "
-                            onClick={() => setIsProfileSelected(false)}
-                        ></div>
-
-                        {/* Modal Content */}
-                        <main className="flex flex-col items-center justify-center h-full w-full relative ">
-                            <div className="modal-wrapper flex items-center z-30 relative xl:w-[70%] justify-center w-full">
-                                <div className="flex flex-col gap-8 rounded-xl w-[90%] mx-auto md:w-[70%] xl:max-w-3xl lg:max-w-xl md:max-w-x shadow-lg relative px-4 lg:px-8 py-5 dark:bg-primary-dark bg-secondary-light text-primary-dark dark:text-primary-light">
-                                    <p>
-                                        Select a Job description that best fits
-                                        what you want.
-                                    </p>
-                                    {isLoading ? (
-                                        <CircularProgress
-                                            color={
-                                                theme === "dark"
-                                                    ? "#ECECEC"
-                                                    : "#212121"
-                                            }
-                                            sx={{alignSelf: "center"}}
-                                        />
-                                    ) : (
-                                        <div>
-                                            {data.length > 0 ?<div className="grid grid-cols-3 gap-5">
-                                            {data?.map((description, index) => {
-                                                return (
-                                                    <p onClick={() => setSelected(description)} key={index}>
-                                                        {description}
-                                                    </p>
-                                                )
-                                            })}
-                                            </div> : <p className="text-center">No data found</p>}
-                                        </div>
-                                    )}
-                                    <div className="flex items-center justify-center gap-5">
-                                        <Button onClick={() => setIsProfileSelected(false)} className="border border-brand-color text-white rounded-lg p-2 w-[30%] transition-all duration-500 hover:bg-brand-color">
-                                            close
-                                        </Button>
-                                        <Button onClick={saveDescription} className="bg-brand-color text-white rounded-lg p-2 w-[30%] transition-all duration-500 hover:bg-transparent border border-brand-color">
-                                            Save
-                                        </Button>
+        <main className="px-5 lg:px-8 pb-10">
+            <div className="">
+                <p>
+                    Below are AI generated job descriptions. kindly go through
+                    them and select a Job description that best fits what you
+                    want.
+                </p>
+                {isLoading ? (
+                    <div className="w-fit mx-auto my-6">
+                        <CircularProgress
+                            color={theme === "dark" ? "#ECECEC" : "#212121"}
+                            sx={{ alignSelf: "center", margin: "0 auto" }}
+                        />
+                    </div>
+                ) : (
+                    <div>
+                        {data?.length > 0 ? (
+                            <div className="flex flex-col items-center overflow-hidden">
+                                <div className="flex items-start justify-center w-full max-h-[300px] overflow-hidden">
+                                    {/* Show the current description */}
+                                    <div
+                                        ref={descriptionRef}
+                                        className="p-4 border-b border-ternary-light rounded w-full max-h-[300px] overflow-y-auto scroller"
+                                    >
+                                        <ReactMarkdown>
+                                            {cleanUpData(data[currentIndex])}
+                                        </ReactMarkdown>
                                     </div>
                                 </div>
+
+                                <div className="flex justify-between w-full mt-8">
+                                    <button
+                                        onClick={() => {
+                                            setCurrentIndex((prevIndex) =>
+                                                prevIndex === 0
+                                                    ? data.length - 1
+                                                    : prevIndex - 1
+                                            );
+                                            if (descriptionRef.current) {
+                                                descriptionRef.current.scrollTo(
+                                                    {
+                                                        top: 0,
+                                                        behavior: "smooth",
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                        className="bg-brand-color text-white p-2 rounded hover:bg-opacity-80 transition"
+                                    >
+                                        Previous
+                                    </button>
+                                    <button
+                                        onClick={() =>
+                                            setSelected(data[currentIndex])
+                                        }
+                                        className={` text-white border border-brand-color p-2 rounded hover:bg-opacity-80 transition ${selected ? "bg-transparent" : "bg-brand-color"}`}
+                                    >
+                                        Choose Description
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setCurrentIndex((prevIndex) =>
+                                                prevIndex === data.length - 1
+                                                    ? 0
+                                                    : prevIndex + 1
+                                            );
+                                            if (descriptionRef.current) {
+                                                descriptionRef.current.scrollTo(
+                                                    {
+                                                        top: 0,
+                                                        behavior: "smooth",
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                        className="bg-brand-color text-white p-2 rounded hover:bg-opacity-80 transition"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
                             </div>
-                        </main>
-                    </motion.div>
+                        ) : (
+                            <p className="text-center">No data found</p>
+                        )}
+                    </div>
+                )}
+                <div className="flex items-center justify-center gap-5 mt-8">
+                    <Button
+                        onClick={saveDescription}
+                        className="bg-brand-color text-white rounded-lg p-2 w-[30%] transition-all duration-500 hover:bg-transparent border border-brand-color"
+                    >
+                        Save Changes
+                    </Button>
                 </div>
-            </AnimatePresence>
-        </div>
+            </div>
+            <ToastContainer />
+        </main>
     );
-}
+};
 
 DescriptionModal.propTypes = {
-    setIsCreateRequested: PropTypes.func,
-    setUserProfiles: PropTypes.func,
+    setIsProfileSelected: PropTypes.func,
+    descriptionGenerationData: PropTypes.array,
+    setDescription: PropTypes.func,
 };
 
 export default DescriptionModal;

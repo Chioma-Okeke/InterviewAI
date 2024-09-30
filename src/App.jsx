@@ -44,6 +44,7 @@ import AudioInterview from "./components/interview/AudioInterview";
 import VideoInterview from "./components/interview/VideoInterview";
 import First from "./components/practice/First";
 import ProtectedRoute from "./components/ProtectedRoute";
+import DescriptionModal from "./components/modals/DescriptionModal";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -56,9 +57,13 @@ const router = createBrowserRouter(
                 <Route index element={<Home />} />
                 <Route path="user" element={<PageLayout />}>
                     <Route path="dashboard" element={<Home />} />
-                    <Route element={<ProtectedRoute/>}>
+                    <Route element={<ProtectedRoute />}>
                         <Route path="practice" element={<Practice />}>
                             <Route index element={<First />} />
+                            <Route
+                                path="descriptionselection"
+                                element={<DescriptionModal />}
+                            />
                             <Route
                                 path="interviewmethods"
                                 element={<InterviewMethod />}
@@ -82,9 +87,9 @@ const router = createBrowserRouter(
                             </Route>
                         </Route>
                     </Route>
-                    <Route element={<ProtectedRoute/>}>
+                    <Route element={<ProtectedRoute />}>
                         <Route path="mylearning" element={<MyLearning />} />
-                    </Route >
+                    </Route>
                     <Route path="learning" element={<StagesLayout />}>
                         {/* <Route index element={<Learning />} /> */}
                         <Route path="stages" element={<StagesLayout />}>

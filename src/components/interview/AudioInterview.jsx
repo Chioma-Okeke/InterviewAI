@@ -1,32 +1,83 @@
-// src/components/AudioInterview.js
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { io } from "socket.io-client";
+import { pauseAudioInterview } from "../../store/interviewSlice";
 import marble from "../../assets/marble.png";
 import audio from "../../assets/audio.png";
 import DialogBox from "../reusables/DialogBox";
-import { useDispatch, useSelector } from "react-redux";
-import { pauseAudioInterview } from "../../store/interviewSlice";
 
 const AudioInterview = () => {
     const [transcript, setTranscript] = useState("");
     const [isRecording, setIsRecording] = useState(false);
     const [aiResponse, setAiResponse] = useState("");
-    const recognitionRef = useRef(null);
-    const transcriptionRef = useRef(null);
-    const isPauseAudioRequested = useSelector((state)=> state.interview.isPauseAudioRequested)
-    const dispatch = useDispatch()
 
+    const recognitionRef = useRef(null);
+    const socket = useRef(null);
+
+    const dispatch = useDispatch();
+    const interviewDetails = useSelector(
+        (state) => state.interview.interviewDetails
+    );
+    const isPauseAudioRequested = useSelector(
+        (state) => state.interview.isPauseAudioRequested
+    );
+
+    const payload = useMemo(
+        () => ({
+            candidateFirstname: interviewDetails.candidateFirstname,
+            resumeUrl: interviewDetails.resumeUrl,
+            roleName: interviewDetails.roleName,
+            experienceLevel: interviewDetails.experienceLevel,
+            jobDescription: interviewDetails.jobDescription,
+        }),
+        [interviewDetails]
+    );
+
+    // Initialize the socket connection
     useEffect(() => {
-        // Initialize the speech recognition
+        if (!socket.current) {
+            socket.current = io("https://interview-ai-1-8he2.onrender.com/", {
+                query: payload,
+            });
+        }
+
+        // Listen for messages from the server
+        const handleInterviewerResponse = (response) => {
+            const cleanedMessage = response.msg.replace(/^Interviewer:\s*/, "");
+
+            setAiResponse(cleanedMessage);
+        };
+
+        socket.current.on("INTERVIEWER_RESPONSE", handleInterviewerResponse);
+
+        return () => {
+            socket.current.off(
+                "INTERVIEWER_RESPONSE",
+                handleInterviewerResponse
+            );
+            socket.current.disconnect();
+            socket.current = null;
+        };
+    }, [payload]);
+
+    // Initialize speech recognition
+    useEffect(() => {
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
         recognitionRef.current = new SpeechRecognition();
         recognitionRef.current.interimResults = true;
 
+        let debounceTimeout;
         recognitionRef.current.onresult = (event) => {
             const currentTranscript = Array.from(event.results)
                 .map((result) => result[0].transcript)
                 .join("");
             setTranscript(currentTranscript);
+
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                socket.current.emit("message", currentTranscript);
+            }, 500); // Adjust debounce time as needed
         };
 
         recognitionRef.current.onend = () => {
@@ -38,51 +89,33 @@ const AudioInterview = () => {
         };
     }, []);
 
-    // useEffect(() => {
-    //     if (transcriptionRef.current) {
-    //         transcriptionRef.current.scrollTo({
-    //             top: transcriptionRef.current.scrollHeight,
-    //             behavior: "smooth",
-    //         })
-    //     }
-    // }, [transcript, aiResponse]);
-
-    useEffect(() => {
-        if (transcriptionRef.current) {
-            setTimeout(() => {
-                transcriptionRef.current.scrollTop =
-                    transcriptionRef.current.scrollHeight;
-            }, 100);
-        }
-    }, [transcript, aiResponse]);
-
     const startRecording = () => {
         setTranscript("");
         recognitionRef.current.start();
         setIsRecording(true);
+
+        const timer = setTimeout(() => {
+            stopRecording();
+        }, 40000); // 30 seconds
+
+        return () => clearTimeout(timer);
     };
 
     const stopRecording = () => {
         recognitionRef.current.stop();
     };
 
-    // Mock AI response after 2 seconds for demonstration
-    const handleAiResponse = () => {
-        setTimeout(() => {
-            setAiResponse(
-                "Can you walk me through a recent design project you worked on?"
-            );
-        }, 2000);
-    };
-
+    // Handle AI response
     useEffect(() => {
-        if (transcript) {
-            handleAiResponse();
+        if (aiResponse) {
+            const utterance = new SpeechSynthesisUtterance(aiResponse);
+            window.speechSynthesis.cancel(); // Cancel any ongoing speech
+            window.speechSynthesis.speak(utterance);
         }
-    }, [transcript]);
+    }, [aiResponse]);
 
-    function closeDialog () {
-        dispatch(pauseAudioInterview())
+    function closeDialog() {
+        dispatch(pauseAudioInterview());
     }
 
     return (
@@ -97,29 +130,29 @@ const AudioInterview = () => {
                         ></div>
                         <img src={audio} className={`w-[355.05px]`} />
                     </div>
-                    <p ref={transcriptionRef} className="h-20 overflow-auto">
+                    <p  className="h-20 overflow-auto">
                         {transcript || "Speak something..."}
                     </p>
                 </div>
                 <div className="ai-response-box rounded lg:w-[445px]  max-w-md flex flex-col-reverse items-center gap-6">
                     <img src={marble} className="w-[115px]" />
-                    <p ref={transcriptionRef} className="h-20 overflow-auto">
+                    <p  className="h-20 overflow-auto">
                         {aiResponse || "Waiting for AI response..."}
                     </p>
                 </div>
             </div>
-            <div className="button-container mt-4">
+            <div className="button-container mt-10 w-fit mx-auto">
                 {isRecording ? (
                     <button
                         onClick={stopRecording}
-                        className="bg-red-500 text-white px-4 py-2 rounded"
+                        className="bg-transparent border border-brand-color text-white px-4 py-2 rounded"
                     >
                         Stop Recording
                     </button>
                 ) : (
                     <button
                         onClick={startRecording}
-                        className="bg-green-500 text-white px-4 py-2 rounded"
+                        className="bg-brand-color text-white px-4 py-2 rounded"
                     >
                         Start Recording
                     </button>

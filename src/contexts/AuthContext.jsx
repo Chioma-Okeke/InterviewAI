@@ -25,9 +25,6 @@ export default function AuthProvider({ children }) {
         setLoading(false);
     }, []);
 
-    useEffect(() => {
-    }, [isAuthenticated]);
-
     // useEffect(() => {
     //     function fetchUser() {
     //         try {

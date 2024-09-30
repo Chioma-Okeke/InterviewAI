@@ -21,10 +21,9 @@ export class UserServices {
 
     async getModules(page, itemsPerPage, token, stageId) {
         try {
+            console.log(stageId, "id")
             const response = await apiClient.get("/modules", {
                 params: {
-                    page: page,
-                    limit: itemsPerPage,
                     stageNumber: stageId,
                 },
                 headers: {
@@ -230,8 +229,8 @@ export class UserServices {
                 },
             });
 
-            console.log(response.data, "in service");
-            return response.data;
+            console.log(response.data.data, "in service");
+            return response.data.data;
         } catch (error) {
             const errorMessage =
                 error.response?.data?.msg ||

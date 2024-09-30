@@ -34,9 +34,11 @@ function OnBoardingForm({ buttonText, authGate }) {
 
     async function handleLogin(e) {
         e.preventDefault();
+        console.log(formData, "data")
         const userServices = new UserServices();
         try {
             const res = await userServices.updateUserProfile(formData, token);
+            console.log(res, "response")
             if (res.success) {
                 toast.success(res.msg);
                 navigate("/user/dashboard");
