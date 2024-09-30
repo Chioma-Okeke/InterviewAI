@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Player } from "@lottiefiles/react-lottie-player";
 
 import Button from "../reusables/Button";
+import { CircularProgress } from "@mui/material";
 // import { ModalContext } from "../../context/ModalContext";
 
 function DialogBox({
@@ -11,11 +12,9 @@ function DialogBox({
     okText,
     cancelText,
     isDeleteInProgress,
-    setShowModal,
+    close,
     handleSubmission,
 }) {
-    // const { handleDeleteListingsToggle } = useContext(ModalContext);
-    console.log(typeof setShowModal, "here")
 
     return (
         <div>
@@ -37,7 +36,7 @@ function DialogBox({
                         {/* Modal Content */}
                         <main className="flex flex-col items-center justify-center h-full w-full relative">
                             <div className="modal-wrapper flex items-center z-30 relative xl:w-[70%] justify-center">
-                                <div className="max-w-md mx-5 md:w-[55%] xl:max-w-3xl lg:max-w-xl md:max-w-xl bg-white shadow-lg rounded-lg relative pb-5">
+                                <div className="max-w-md mx-5 md:w-[55%] xl:max-w-3xl lg:max-w-xl md:max-w-xl rounded-xl text-primary-dark dark:text-primary-light bg-secondary-light dark:bg-primary-dark shadow-lg relative pb-5">
                                     <div className="py-1 px-2 w-full ">
                                         <h1 className="font-semibold text-xl text-center flex-1">
                                             Delete in progress
@@ -45,35 +44,26 @@ function DialogBox({
                                     </div>
                                     <hr />
                                     {isDeleteInProgress ? (
-                                        <Player
-                                            src={
-                                                "https://lottie.host/fa761f5f-0a13-4acd-bc4b-e1d60d5bc49d/T48QddYNTr.json"
-                                            }
-                                            loop
-                                            autoplay
-                                            background="transparent"
-                                            speed="1"
-                                            className="w-48"
-                                        />
+                                        <CircularProgress/>
                                     ) : (
                                         <div>
                                             <div className="w-full">
-                                                <p className="text-center p-3 sm:text-lg text-[#141414] mb-2 md:my-4">
+                                                <p className="text-center p-3 sm:text-lg mb-2 md:my-4">
                                                     {message}
                                                 </p>
                                             </div>
                                             <div className="flex items-center justify-center gap-10">
                                                 <Button
-                                                    onClick={handleSubmission}
-                                                    className="w-24 border border-[#720D96] bg-white p-4 rounded-md font-medium transition ease-in-out hover:bg-[#720D96] hover:text-white duration-300"
-                                                >
-                                                    {okText}
-                                                </Button>
-                                                <Button
-                                                    onClick={() => setShowModal(false)}
-                                                    className="w-24 border border-[#720D96] bg-white p-4 rounded-md font-medium transition ease-in-out hover:bg-[#720D96] hover:text-white duration-300"
+                                                    onClick={close}
+                                                    className="rounded-lg border border-brand-color py-2 px-3 text-white text-sm lg:text-base transition ease-in-out hover:bg-brand-color duration-500"
                                                 >
                                                     {cancelText}
+                                                </Button>
+                                                <Button
+                                                    onClick={handleSubmission}
+                                                    className="rounded-lg bg-brand-color border border-brand-color py-2 px-3 text-sm lg:text-base text-white transition ease-in-out hover:bg-transparent duration-500"
+                                                >
+                                                    {okText}
                                                 </Button>
                                             </div>
                                         </div>
@@ -89,11 +79,11 @@ function DialogBox({
 }
 
 DialogBox.propTypes = {
-    isDeleteInProgress: PropTypes.bool.isRequired,
+    isDeleteInProgress: PropTypes.bool,
     message: PropTypes.string,
     okText: PropTypes.string,
     cancelText: PropTypes.string,
-    setShowModal: PropTypes.func,
+    close: PropTypes.func,
     handleSubmission: PropTypes.func
 
 };

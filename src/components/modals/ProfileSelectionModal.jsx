@@ -10,37 +10,47 @@ import { UserServices } from "../../services/UserServices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
+import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 
-function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
+const levelsOfExperience = [
+    "Intern",
+    "Junior",
+    "Intermediate",
+    "Senior",
+    "Associate",
+];
+
+function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
     const [formData, setFormData] = useState({});
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [pdfs, setPdfs] = useState([]);
-    const {token } = useContext(AuthContext)
-    const navigate = useNavigate()
+    const { token } = useContext(AuthContext);
+    const [isSaveInProgress, setIsSaveInProgress] = useState(false)
+    const [theme, setTheme] = useThemeSwitcher()
 
     const handlePdfsChange = (newPdfs) => {
-        // Filter out only PDF files
+        console.log(newPdfs, "pdfs");
         const filteredPdfs = newPdfs.filter(
-            (file) => file.type === "application/pdf"
+            (file) => file.file.type === "application/pdf"
         );
-
-        // Set the filtered PDFs in the state
+        if (filteredPdfs.length === 0) {
+            console.error("No valid PDF files found.");
+            return;
+        }
         setPdfs(filteredPdfs);
-
-        // Add PDFs to formData state
         setFormData((prevState) => ({
             ...prevState,
-            resume: filteredPdfs,
+            resume: filteredPdfs[0],
         }));
     };
 
     function selectYears() {
         setIsDropDownOpen((prevState) => !prevState);
     }
+
     function handleYearsSelected(e) {
         const option = e.target.innerHTML;
-        console.log(option, "selected option");
         setFormData((prevState) => {
             return {
                 ...prevState,
@@ -52,7 +62,6 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
 
     function selectedRole(e) {
         const inputtedRole = e.target.value;
-        console.log(inputtedRole, "role");
         setFormData((prevState) => {
             return {
                 ...prevState,
@@ -62,33 +71,37 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
     }
 
     async function handleSubmit() {
+        const userServices = new UserServices();
         const formDataToSend = new FormData();
-        const userServices = new UserServices()
+        setIsSaveInProgress(true)
 
-        // Append years of experience
-        if (formData.experienceLevel) {
-            formDataToSend.append("experienceLevel", formData.years);
+        formDataToSend.append("jobRole", formData.jobRole);
+        formDataToSend.append("experienceLevel", formData.experienceLevel);
+
+        if (pdfs[0]?.file) {
+            formDataToSend.append("resume", pdfs[0].file);
         }
 
-        // Append role
-        if (formData.jobRole) {
-            formDataToSend.append("jobRole", formData.role);
-        }
-
-        // Append PDF files
-        if (formData.resume && formData.resume.length > 0) {
-            formDataToSend.append("resume", formData.resume[0]); // Assuming there's only one resume
+        for (let pair of formDataToSend.entries()) {
+            console.log(pair[0] + ": " + pair[1]);
         }
 
         try {
-            const response = await userServices.createJobProfile(formDataToSend, token)
-            if (response.success) {
-                toast.success("Job Profile successfully created.")
-                setIsCreateRequested(false)
-                navigate("/user/practice/interviewmethods")
+            const response = await userServices.createJobProfile(
+                formDataToSend,
+                token
+            );
+            if (response?.success) {
+                toast.success("Job Profile successfully created.");
+                setIsCreateRequested(false);
+                fetchData()
+            } else {
+                toast.error(response?.mgs)
             }
         } catch (error) {
-            toast.error(error.response?.data?.msg || "Error when creating profile")
+            toast.error(error.message)
+        } finally {
+            isSaveInProgress(false)
         }
     }
 
@@ -116,7 +129,7 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
                                     <div className="flex flex-col gap-6">
                                         <div className="relative flex flex-col gap-2">
                                             <label htmlFor="experienceLevel">
-                                                Years of Experience
+                                                Experience Level
                                             </label>
                                             <div
                                                 onClick={selectYears}
@@ -124,61 +137,66 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
                                             >
                                                 <Input
                                                     inputName="experienceLevel"
-                                                    placeholderText="Enter your years of experience"
+                                                    placeholderText="Select your experience level"
                                                     inputGroupClassNames="w-[90%]"
                                                     inputValue={
                                                         formData.experienceLevel
                                                     }
                                                     inputId="experienceLevel"
-                                                    ariaLabelName="Years of Experience"
-                                                    // onChange={(e) => setQuery(e.target.value)}
-                                                    // onFocus={handleFocus}
-                                                    // onBlur={handleBlur}
+                                                    ariaLabelName="Experience Level"
                                                     className="bg-transparent w-full focus:outline-none"
+                                                    disabled={true}
                                                     isRequired
                                                 />
                                                 <IoIosArrowDown
                                                     size={20}
                                                     cursor={"pointer"}
+                                                    className={`transition-transform duration-500 ${
+                                                        isDropDownOpen
+                                                            ? "-rotate-180"
+                                                            : ""
+                                                    }`}
                                                 />
                                             </div>
                                             {isDropDownOpen && (
-                                                <div className="absolute bottom-0 left-0 top-full w-full">
+                                                <motion.div
+                                                    initial={{
+                                                        opacity: 0,
+                                                        y: "-100%",
+                                                    }}
+                                                    animate={{
+                                                        opacity: 1,
+                                                        y: 0,
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                        y: "-100%",
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.3,
+                                                    }}
+                                                    className="absolute bottom-0 left-0 top-full w-full"
+                                                >
                                                     <ul className="border border-hover-dark dark:bg-hover-dark w-full z-30 px-3 h-40 overflow-auto">
-                                                        <li
-                                                            className="p-2 hover:bg-primary-dark cursor-pointer"
-                                                            onClick={
-                                                                handleYearsSelected
+                                                        {levelsOfExperience.map(
+                                                            (level, index) => {
+                                                                return (
+                                                                    <li
+                                                                        key={
+                                                                            index
+                                                                        }
+                                                                        className="p-2 hover:bg-primary-dark cursor-pointer"
+                                                                        onClick={
+                                                                            handleYearsSelected
+                                                                        }
+                                                                    >
+                                                                        {level}
+                                                                    </li>
+                                                                );
                                                             }
-                                                        >
-                                                            1 year
-                                                        </li>
-                                                        <li
-                                                            className="p-2 hover:bg-primary-dark cursor-pointer"
-                                                            onClick={
-                                                                handleYearsSelected
-                                                            }
-                                                        >
-                                                            2 years
-                                                        </li>
-                                                        <li
-                                                            className="p-2 hover:bg-primary-dark cursor-pointer"
-                                                            onClick={
-                                                                handleYearsSelected
-                                                            }
-                                                        >
-                                                            3 years
-                                                        </li>
-                                                        <li
-                                                            className="p-2 hover:bg-primary-dark cursor-pointer"
-                                                            onClick={
-                                                                handleYearsSelected
-                                                            }
-                                                        >
-                                                            4 years
-                                                        </li>
+                                                        )}
                                                     </ul>
-                                                </div>
+                                                </motion.div>
                                             )}
                                         </div>
                                         <div className="flex justify-between">
@@ -200,8 +218,6 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
                                                             inputGroupClassNames="w-[90%]"
                                                             inputId="jobRole"
                                                             ariaLabelName="Years of Experience"
-                                                            // onChange={(e) => setQuery(e.target.value)}
-                                                            // onFocus={handleFocus}
                                                             onBlur={
                                                                 selectedRole
                                                             }
@@ -237,49 +253,23 @@ function ProfileSelectionModal({ setIsCreateRequested, setUserProfiles }) {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="flex justify-between">
-                                            <div className="flex flex-col gap-2">
-                                                <div className="flex gap-1 md:text-[18px] leading-[20px] md:leading-[22.5px]">
-                                                    <p>Resume</p>
-                                                    <span className="text-red-500">
-                                                        *
-                                                    </span>
-                                                </div>
-                                                <AddFiles
-                                                    onFilesChange={
-                                                        handlePdfsChange
-                                                    }
-                                                />
-                                                {/* <div>
-                                                    {pdfs.map((pdf, index) => (
-                                                        <div key={index}>
-                                                            {pdf.file.name}
-                                                        </div>
-                                                    ))}
-                                                </div> */}
-                                            </div>
-                                            <div>
-                                                <img
-                                                    src={EditIcon}
-                                                    alt=""
-                                                    className="w-5 md:w-6 transition ease-in-out hover:scale-110 cursor-pointer duration-300"
-                                                />
-                                            </div>
-                                        </div>
+                                        <AddFiles
+                                            onFilesChange={handlePdfsChange}
+                                        />
                                         <div className="w-fit ml-auto flex gap-4 items-center">
                                             <Button
                                                 onClick={() =>
                                                     setIsCreateRequested(false)
                                                 }
-                                                className="rounded-lg border border-brand-color py-2 px-3 text-white text-sm transition ease-in-out hover:bg-brand-color duration-500"
+                                                className="rounded-lg border border-brand-color py-2 px-3 text-white text-sm transition ease-in-out hover:bg-brand-color duration-500 w-28"
                                             >
                                                 Cancel
                                             </Button>
                                             <Button
                                                 onClick={handleSubmit}
-                                                className="rounded-lg bg-brand-color border border-brand-color py-2 px-3 text-white text-sm transition ease-in-out hover:bg-transparent duration-500"
+                                                className="rounded-lg bg-brand-color border border-brand-color py-2 px-3 text-white text-sm transition ease-in-out hover:bg-transparent duration-500 w-28"
                                             >
-                                                Save Profile
+                                                {isSaveInProgress ? <CircularProgress size={14} color={theme === "dark" ? "#ECECEC" : "#212121"}/> : "Save Profile"}
                                             </Button>
                                         </div>
                                     </div>

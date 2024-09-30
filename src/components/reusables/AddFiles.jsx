@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState, useEffect } from "react";
-import { BiSolidImageAdd } from "react-icons/bi";
 import { IoIosClose } from "react-icons/io";
-import { FaFilePdf } from "react-icons/fa"; 
-import folderIcon from "../../assets/folder-open.svg"
+import folderIcon from "../../assets/folder-open.svg";
+import EditIcon from "../../assets/edit.svg";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddFiles = ({ onFilesChange }) => {
     const fileInputRef = useRef(null);
@@ -15,23 +16,25 @@ const AddFiles = ({ onFilesChange }) => {
 
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
-        const maxFilesAllowed = 1; // Adjust based on your needs
+        const maxFilesAllowed = 1;
         const totalFiles = selectedFiles.length + files.length;
 
         if (totalFiles > maxFilesAllowed) {
-            alert(`You can only upload ${maxFilesAllowed} file(s).`);
+            toast.warn(`You can only upload ${maxFilesAllowed} file.`);
             return;
         }
 
         const filePreviews = files.map((file) => ({
             id: URL.createObjectURL(file),
             file,
-            name: file.name, // Store file name for PDF display
+            name: file.name,
         }));
 
         const updatedFiles = [...selectedFiles, ...filePreviews];
         setSelectedFiles(updatedFiles);
         onFilesChange(updatedFiles);
+
+        event.target.value = '';
     };
 
     const handleRemoveFile = (index) => {
@@ -53,33 +56,50 @@ const AddFiles = ({ onFilesChange }) => {
     }, [selectedFiles]);
 
     return (
-        <div>
+        <div className="w-full">
             <input
                 type="file"
                 ref={fileInputRef}
                 onChange={handleFileChange}
                 multiple
-                accept="application/pdf" // Accept PDF files only
+                accept="application/pdf" 
                 className="hidden"
             />
-
-            <div
-                onClick={handleClick}
-                className="my-5 border-2 border-[#ccc] p-5 flex items-center justify-center flex-col w-full h-52 transition ease-in-out hover:border-[#720D96] duration-300 cursor-pointer"
-            >
-                <div className="bg-[#ccc] rounded-full p-2 mb-3">
-                    <BiSolidImageAdd size={30} />
+            <div className="flex justify-between">
+                <div className="flex gap-1 md:text-[18px] leading-[20px] md:leading-[22.5px]">
+                    <p>Resume</p>
+                    <span className="text-red-500">*</span>
                 </div>
-                <p>Add PDF Files</p>
+                <div>
+                    <img
+                        src={EditIcon}
+                        onClick={handleClick}
+                        alt=""
+                        className="w-5 md:w-6 transition ease-in-out hover:scale-110 cursor-pointer duration-300"
+                    />
+                </div>
             </div>
 
             <div className="mt-5 flex items-center justify-start gap-4 lg:grid grid-cols-3">
                 {selectedFiles.map((fileData, index) => (
-                    <div key={fileData.id} className="p-2 border dark:border-hover-dark dark:bg-hover-dark mb-2 relative flex flex-row items-center gap-2 w-[172px] dark:text-primary-light">
-                        <img src={folderIcon} alt=""/>
-                        <p className="text-sm leading-[17.5px]">{fileData.name.substring(0, 12)}</p>
-                        <div onClick={() => handleRemoveFile(index)} className="hover:scale-110">
-                            <IoIosClose size={22} color="#ECECEC" cursor={"pointer"} className="hover:scale-110"/>
+                    <div
+                        key={fileData.id}
+                        className="p-2 border dark:border-hover-dark dark:bg-hover-dark mb-2 relative flex flex-row items-center gap-2 w-[172px] dark:text-primary-light"
+                    >
+                        <img src={folderIcon} alt="" />
+                        <p className="text-sm leading-[17.5px]">
+                            {fileData.name.substring(0, 12)}
+                        </p>
+                        <div
+                            onClick={() => handleRemoveFile(index)}
+                            className="hover:scale-110"
+                        >
+                            <IoIosClose
+                                size={22}
+                                color="#ECECEC"
+                                cursor={"pointer"}
+                                className="hover:scale-110"
+                            />
                         </div>
                     </div>
                 ))}

@@ -1,9 +1,14 @@
-import React from 'react'
+// import React, { createContext } from "react";
 
-function UserContext() {
-  return (
-    <div>UserContext</div>
-  )
-}
+// export const UserContext = createContext();
 
-export default UserContext
+// function UserProvider({ children }) {
+
+//   function fetUserDetails () {
+
+//   }
+
+//     return <UserContext.Provider>{children}</UserContext.Provider>;
+// }
+
+// export default UserProvider;

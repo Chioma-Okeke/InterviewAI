@@ -27,25 +27,27 @@ function CourseCard({
     const { token } = useContext(AuthContext);
 
     async function openIndividualModule() {
-        navigate(
-            `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`
-        );
-        // const userServices = new UserServices();
-        // try {
-        //     const response = await userServices.addModuleToUserProfile(
-        //         course,
-        //         token
-        //     );
-        //     console.log(response);
-        //     if (response?.success) {
-        //         toast.success("Module has been successfully added to profile.");
-        //     } else {
-        //         toast.error("Error while adding module to user profile.");
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        //     toast.error("Error while adding module to user profile.");
-        // }
+        const userServices = new UserServices();
+        console.log(course, "course details");
+        try {
+            const response = await userServices.addModuleToUserProfile(
+                course,
+                token
+            );
+            console.log(response, "course on save");
+            if (response?.success) {
+                toast.success("Module has been successfully added to profile.");
+                navigate(
+                    `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
+                    { state: { parts: course.partMetaData } }
+                );
+            } else {
+                toast.error("Error while adding module to user profile.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Error while adding module to user profile.");
+        }
     }
 
     useEffect(() => {
@@ -75,9 +77,10 @@ function CourseCard({
     }, []);
 
     return (
-        <Link to={`/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`}>
+        <div className="cursor-pointer" 
+        >
             <div
-                // onClick={openIndividualModule}
+                onClick={openIndividualModule}
                 className="w-[398px] lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-hover-dark pb-[27.93px] lg:pb-[19.2px] mx-auto"
             >
                 <div
@@ -112,7 +115,7 @@ function CourseCard({
                     </div>
                 </div>
             </div>
-        </Link>
+        </div>
     );
 }
 

@@ -77,3 +77,17 @@
 .option_container .wrong{
   border-color: #E14942
 }
+
+.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.scroller::-webkit-scrollbar {
+  background-color: #212121;
+}
+
+.scroller::-webkit-scrollbar-button, .scroller::-webkit-scrollbar-thumb {
+  background-color: #2f2f2f;
+}

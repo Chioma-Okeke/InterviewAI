@@ -38,6 +38,12 @@ import CoursesContainer from "./components/shared/layout/CoursesContainer";
 import UserProfile from "./pages/UserProfile";
 import MobModule from "./components/courses/courseSections/MobModule";
 import InterviewMethod from "./components/practice/InterviewMethod";
+import InterviewLayout from "./components/shared/layout/InterviewLayout";
+import TextInterview from "./components/interview/TextInterview";
+import AudioInterview from "./components/interview/AudioInterview";
+import VideoInterview from "./components/interview/VideoInterview";
+import First from "./components/practice/First";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -50,10 +56,35 @@ const router = createBrowserRouter(
                 <Route index element={<Home />} />
                 <Route path="user" element={<PageLayout />}>
                     <Route path="dashboard" element={<Home />} />
-                    <Route path="practice" element={<Practice />} >
-                        <Route path="interviewmethods" element={<InterviewMethod/>}/>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="practice" element={<Practice />}>
+                            <Route index element={<First />} />
+                            <Route
+                                path="interviewmethods"
+                                element={<InterviewMethod />}
+                            />
+                            <Route
+                                path="interviewdemo"
+                                element={<InterviewLayout />}
+                            >
+                                <Route
+                                    path="text"
+                                    element={<TextInterview />}
+                                />
+                                <Route
+                                    path="audio"
+                                    element={<AudioInterview />}
+                                />
+                                <Route
+                                    path="video"
+                                    element={<VideoInterview />}
+                                />
+                            </Route>
+                        </Route>
                     </Route>
-                    <Route path="mylearning" element={<MyLearning />} />
+                    <Route element={<ProtectedRoute/>}>
+                        <Route path="mylearning" element={<MyLearning />} />
+                    </Route >
                     <Route path="learning" element={<StagesLayout />}>
                         {/* <Route index element={<Learning />} /> */}
                         <Route path="stages" element={<StagesLayout />}>
@@ -66,7 +97,7 @@ const router = createBrowserRouter(
                                     path=":module"
                                     element={<CoursesContainer />}
                                 />
-                                    {/* <Route
+                                {/* <Route
                                         path=":mobmodule"
                                         element={<MobModule />}
                                     />

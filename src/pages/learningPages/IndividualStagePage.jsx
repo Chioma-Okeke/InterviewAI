@@ -8,6 +8,7 @@ import { ring2 } from "ldrs";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import LoadingComponent from "../../components/reusables/LoadingComponent";
 
 function IndividualStagePage() {
     const [theme, setTheme] = useThemeSwitcher();
@@ -37,6 +38,7 @@ function IndividualStagePage() {
                         token,
                         stagemodule // Use stage ID from route params
                     );
+                    console.log(response, "data")
                     if (Array.isArray(response)) {
                         setData((prevData) => [...prevData, ...response]);
                     } else {
@@ -111,16 +113,7 @@ function IndividualStagePage() {
                     )}
                 </div>}
                 {loading && (
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <l-ring-2
-                            size="40"
-                            stroke="5"
-                            stroke-length="0.25"
-                            bg-opacity="0.1"
-                            speed="0.8"
-                            color={theme === "dark" ? "#ECECEC" : "#212121"}
-                        ></l-ring-2>
-                    </div>
+                    <LoadingComponent/>
                 )}
                 {!hasMore && (
                     <p className="text-primary-dark dark:text-primary-light">

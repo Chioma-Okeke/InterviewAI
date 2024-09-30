@@ -20,6 +20,7 @@ function OnBoardingForm({ buttonText, authGate }) {
     const [formData, setFormData] = useState({});
     const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
     const navigate = useNavigate();
+    const {token} = useContext(AuthContext)
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -33,18 +34,14 @@ function OnBoardingForm({ buttonText, authGate }) {
 
     async function handleLogin(e) {
         e.preventDefault();
-
         const userServices = new UserServices();
-
         try {
-            const res = await userServices.updateUserProfile(formData);
-            console.log(res, "response");
+            const res = await userServices.updateUserProfile(formData, token);
             if (res.success) {
                 toast.success(res.msg);
                 navigate("/user/dashboard");
             }
         } catch (err) {
-            console.error(err);
             toast.error(err.res?.data?.msg || "Error when authenticating user");
         }
     }
@@ -56,31 +53,31 @@ function OnBoardingForm({ buttonText, authGate }) {
         <div>
             <form onSubmit={(e) => handleLogin(e)}>
                 <FormInput
-                    label="Full Name"
-                    labelFor="full Name"
-                    inputId="full Name"
-                    inputName="fullName"
-                    placeholder="Enter your full name"
+                    label="First Name"
+                    labelFor="firstName"
+                    inputId="firstName"
+                    inputName="firstName"
+                    placeholder="Enter your first name"
                     // helperText="This is a required field"
                     inputType="text"
                     className="border-[1.5px] border-ternary-light py-3 px-2 rounded-[15px] h-[60px] "
-                    ariaLabelName="Full name"
-                    inputValue={formData.fullName}
+                    ariaLabelName="First name"
+                    inputValue={formData.firstName}
                     onChange={handleChange}
                     isRequired={true}
                     formGroupClass="mb-4"
                 />
                 <FormInput
-                    label="Birthday"
-                    labelFor="birthday"
-                    inputId="birthday"
-                    inputName="birthday"
-                    placeholder="Enter your birthday"
+                    label="Last Name"
+                    labelFor="lastName"
+                    inputId="lastName"
+                    inputName="lastName"
+                    placeholder="Enter your last name"
                     helperText="This is a required field"
                     inputType="text"
                     className="border-[1.5px] border-ternary-light py-3 px-2 rounded-[15px] h-[60px] "
-                    ariaLabelName="Birthday"
-                    inputValue={formData.birthday}
+                    ariaLabelName="Last name"
+                    inputValue={formData.lastName}
                     onChange={handleChange}
                     isRequired={true}
                 />

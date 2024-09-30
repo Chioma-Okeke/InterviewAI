@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 export default function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [token, setToken] = useState(null);
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     // const storedData = JSON.parse(localStorage.getItem("user_data"));
     const isRefreshing = useRef(false)
@@ -197,7 +197,7 @@ export default function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider
-            value={{ token, isAuthenticated, login, logout, loading }}
+            value={{ token, isAuthenticated, login, logout, loading, userData }}
         >
             {children}
         </AuthContext.Provider>

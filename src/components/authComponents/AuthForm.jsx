@@ -54,18 +54,18 @@ function AuthForm({ buttonText, authGate }) {
                 }
             } else {
                 res = await userAuthentication.login(formData);
-                console.log(res);
+                console.log(res, "signin response");
                 toast.success("You have successfully signed in.");
                 login(
                     res.data.tokens.accessToken,
                     res.data.tokens.refreshToken,
-                    res.data.user.userId
+                    res.data.user
                 );
-                // if (res.data.user.newUser) {
-                //     navigate("/auth/onboarding");
-                // } else {
+                if (res.data.user.newUser) {
+                    navigate("/auth/onboarding");
+                } else {
                 navigate(from, { replace: true });
-                // }
+                }
             }
         } catch (err) {
             console.error(err);

@@ -21,6 +21,7 @@ function CoursesContainer() {
     const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
     const { token } = useContext(AuthContext);
     const location = useLocation();
+    const parts = location.state || {}
     const [data, setData] = useState({});
     const [headerContent, setHeaderContent] = useState({});
     const [imageContent, setImageContent] = useState({});
@@ -39,6 +40,7 @@ function CoursesContainer() {
     const showModule = useSelector((state) => state.module.showModule)
     const { module } = useParams();
     const { pathname } = useLocation();
+    console.log(parts, "module parts")
 
     useEffect(() => {
         async function fetchData() {
@@ -52,6 +54,7 @@ function CoursesContainer() {
                     token
                 );
                 setData(response);
+                console.log(response, "module")
             } catch (error) {
                 console.error(error);
             } finally {

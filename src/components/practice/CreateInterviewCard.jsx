@@ -2,13 +2,10 @@ import { useState } from "react";
 import imgSrc from "../../assets/image.png"
 import ProfileSelectionModal from "../modals/ProfileSelectionModal";
 import Button from "../reusables/Button";
-import PropTypes from "prop-types"
-import { useNavigate } from "react-router-dom";
 
-function CreateInterviewCard({setUserProfiles}) {
+function CreateInterviewCard({fetchData}) {
 
     const [isCreateRequested, setIsCreateRequested] = useState(false)
-    const navigate = useNavigate()
 
     return (
         <div className="w-[95%] lg:w-[650px] flex flex-col gap-8 pb-14 bg-hover-dark rounded-3xl mx-auto">
@@ -27,13 +24,10 @@ function CreateInterviewCard({setUserProfiles}) {
                     Create Interview
                 </Button>
             </div>
-            {isCreateRequested && <ProfileSelectionModal setIsCreateRequested={setIsCreateRequested} setUserProfiles={setUserProfiles}/>}
+            {isCreateRequested && <ProfileSelectionModal 
+                                        fetchData={fetchData} setIsCreateRequested={setIsCreateRequested} />}
         </div>
     );
-}
-
-CreateInterviewCard.propTypes = {
-    setUserProfiles: PropTypes.func
 }
 
 export default CreateInterviewCard;

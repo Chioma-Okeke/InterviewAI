@@ -6,13 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { ring2 } from "ldrs";
 import { UserServices } from '../services/UserServices';
 import InfiniteScrollComponent from '../components/reusables/InfiniteScrollComponent';
+import LoadingComponent from '../components/reusables/LoadingComponent';
 
 function MyLearning() {
   const [theme, setTheme] = useThemeSwitcher()
   const [isLoading, setIsLoading] = useState(false)
   const [data, setData] = useState([])
   const [quizData, setQuizData] = useState([])
-  const {token, userId} = useContext(AuthContext)
+  const {token, userId, userData} = useContext(AuthContext)
   ring2.register();
 
   useEffect(() => {
@@ -42,8 +43,8 @@ function MyLearning() {
             <h1 className='text-2xl mb-10'>Active Modules</h1>
             <div className={`relative ${isLoading ? "min-h-screen" : "" }`}>
                 {!isLoading && <div>
-                    {data.length > 0 ? (
-                        <InfiniteScrollComponent data={data} />
+                    {userData.learningProfile.length > 0 ? (
+                        <InfiniteScrollComponent data={userData.learningProfile} />
                     ) : (
                         <p className="text-primary-dark dark:text-primary-light">
                             No learning Modules available
@@ -51,16 +52,7 @@ function MyLearning() {
                     )}
                 </div>}
                 {isLoading && (
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <l-ring-2
-                            size="40"
-                            stroke="5"
-                            stroke-length="0.25"
-                            bg-opacity="0.1"
-                            speed="0.8"
-                            color={theme === "dark" ? "#ECECEC" : "#212121"}
-                        ></l-ring-2>
-                    </div>
+                    <LoadingComponent/>
                 )}
             </div>
         </div>

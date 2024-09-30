@@ -21,6 +21,7 @@ const Input = React.forwardRef(function Input(
         inputGroupClassNames,
         showPasswordRequirement,
         labelClasses,
+        disabled
     },
     ref
 ) {
@@ -54,6 +55,7 @@ const Input = React.forwardRef(function Input(
                 onBlur={onBlur}
                 onFocus={onFocus}
                 required
+                disabled={disabled}
             />
             {inputType === "password" && showPasswordRequirement && (
                 <p className="text-sm text-[#667185] mt-2">
