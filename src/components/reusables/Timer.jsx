@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import pauseIcon from "../../assets/pause.svg";
 import stopIcon from "../../assets/stop.svg";
 import { TfiControlPlay } from "react-icons/tfi";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { pauseAudioInterview, pauseTextInterview, pauseVideoInterview } from "../../store/interviewSlice";
 
 const Timer = () => {
     const [time, setTime] = useState({ minutes: 0, seconds: 0 });
     const [isRunning, setIsRunning] = useState(true);
+    const dispatch = useDispatch()
+    const {pathname} = useLocation()
 
     useEffect(() => {
         let timer;
@@ -30,6 +35,18 @@ const Timer = () => {
 
     const handlePause = () => {
         setIsRunning(false);
+        switch (pathname) {
+            case "/user/practice/interviewdemo/text":
+                dispatch(pauseTextInterview())
+                break;
+            case "/user/practice/interviewdemo/audio":
+                dispatch(pauseAudioInterview())
+                break;
+            case "/user/practice/interviewdemo/video":
+                dispatch(pauseVideoInterview())
+                break;
+            
+        }
     };
 
     function handlePlay() {

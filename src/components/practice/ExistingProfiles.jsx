@@ -175,6 +175,7 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
             )}
             {isDeleteRequested && (
                 <DialogBox
+                    title="Delete in progress"
                     message="Are you sure you wish to delete job profile"
                     okText="Delete"
                     cancelText="Cancel"
