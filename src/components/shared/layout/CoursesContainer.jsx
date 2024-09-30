@@ -42,6 +42,10 @@ function CoursesContainer() {
     const { pathname } = useLocation();
     console.log(parts, "module parts")
 
+    useEffect(()=> {
+        window.scrollTo(0,0)
+    }, [])
+
     useEffect(() => {
         async function fetchData() {
             setIsLoading(true);

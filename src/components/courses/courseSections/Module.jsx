@@ -21,7 +21,7 @@ function Module({content, imageContent}) {
             <div className="flex flex-col gap-4 ">
                 {imageContent && imageContent.value && <img src={imageContent.value} alt="" />}
                 <p className="text-[#4E4E4E] dark:text-primary-light text-sm text-justify lg:h-[220px] overflow-auto">
-                {content && content.value && <p>{content.value}</p>}
+                {content && content.value && <span>{content.value}</span>}
                 </p>
             </div>
             <div className="flex items-center justify-end">

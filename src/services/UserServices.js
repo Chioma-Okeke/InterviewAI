@@ -19,7 +19,7 @@ export class UserServices {
         }
     }
 
-    async getModules(page, itemsPerPage, token, stageId) {
+    async getModules(token, stageId) {
         try {
             console.log(stageId, "id")
             const response = await apiClient.get("/modules", {
@@ -31,7 +31,7 @@ export class UserServices {
                     "Content-type": "application/json",
                 },
             });
-
+            console.log(response, "inservice rrr")
             return response.data.data.learningModules;
         } catch (error) {
             console.error(
