@@ -1,5 +1,3 @@
-Side note. Hello Judges, my team and I were not able to have our main YouTube link saved before the submission portal closed. But here it is: https://youtu.be/TPDvs0TFZzw  (This was added 10 mins after the submission portal closed). Please do check it out
-
 ## Inspiration
 
 Transitioning into the job market as a first-timer, especially without guidance, can be incredibly challenging. In Nigerian universities, while we are taught the skills needed to contribute to the workforce, we are rarely taught the skills necessary to secure the jobs where we can apply them. This creates a significant gap, leaving most graduates to navigate the job search process alone. Many turn to personal research, which can be overwhelming and confusing for someone without prior experience.
