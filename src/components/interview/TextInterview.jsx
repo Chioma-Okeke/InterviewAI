@@ -4,16 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Logo from "../../assets/logo-black-white.svg";
 import SendIcon from "../../assets/send.svg";
-import { pauseTextInterview } from "../../store/interviewSlice";
+import TrophyIcon from "../../assets/trophy.svg";
+import WarnIcon from "../../assets/warning.svg"
+import { endTextInterview, pauseTextInterview } from "../../store/interviewSlice";
 import DialogBox from "../reusables/DialogBox";
+import { useNavigate } from "react-router-dom";
+import { resumeTimer } from "../../store/timerSlice";
 
 const TextInterview = () => {
     const chatBoxRef = useRef(null);
     const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
+    const navigate = useNavigate()
     const dispatch = useDispatch();
     const isPauseTextRequested = useSelector(
         (state) => state.interview.isPauseTextRequested
+    );
+    const isEndTextRequested = useSelector(
+        (state) => state.interview.isEndTextRequested
     );
     const interviewDetails = useSelector(
         (state) => state.interview.interviewDetails
@@ -133,10 +141,19 @@ const TextInterview = () => {
 
     function closeDialog() {
         dispatch(pauseTextInterview());
+        dispatch(resumeTimer())
+    }
+
+    function navigateToResult () {
+        navigate("/user/practice/results")
+    }
+
+    function navigateToHome () {
+        navigate("/user/dashboard")
     }
 
     return (
-        <main>
+        <main className="pb-5">
             <div
                 className={`z-10 flex flex-col gap-[6px] lg:min-h-[588px] 2xl:h-[80vh] mb-3 chat-container rounded-lg shadow-lg max-w-[762px] mx-auto text-primary-dark dark:text-primary-light ${
                     messages.length > 0 ? "mt-0" : " mt-[35px]"
@@ -158,11 +175,11 @@ const TextInterview = () => {
                                 className={`message p-2 rounded-lg mb-8 text-sm lg:text-base ${
                                     message.sender === "user"
                                         ? "dark:bg-hover-dark rounded-3xl p-4 self-end leading-[26px] max-w-[336px] lg:max-w-[598px]"
-                                        : "self-start w-full"
+                                        : "self-start w-full leading-[26px]"
                                 }`}
                             >
                                 {message.sender !== "user" ? (
-                                    <div className="flex gap-6">
+                                    <div className="flex gap-6 ">
                                         <img src={Logo} alt="" />
                                         <span>{message.text}</span>
                                     </div>
@@ -199,11 +216,23 @@ const TextInterview = () => {
             </div>
             {isPauseTextRequested && (
                 <DialogBox
+                    imgSrc={WarnIcon}
                     subHeading="Are you sure you want to pause the interview?"
                     message="Pausing will save your progress, but make sure to return soon to complete it"
                     cancelText="Cancel"
                     okText="Pause Interview"
                     close={closeDialog}
+                    handleSubmission={navigateToHome}
+                />
+            )}
+            {isEndTextRequested && (
+                <DialogBox
+                    imgSrc={TrophyIcon}
+                    subHeading="Congratulations"
+                    message="You’ve successfully completed the interview. Ready to see how you did?"
+                    okText="View Results"
+                    okTextClassName="bg-brand-color"
+                    handleSubmission={navigateToResult}
                 />
             )}
         </main>

@@ -5,7 +5,6 @@ import { Player } from "@lottiefiles/react-lottie-player";
 
 import Button from "../reusables/Button";
 import { CircularProgress } from "@mui/material";
-import WarnIcon from "../../assets/warning.svg"
 // import { ModalContext } from "../../context/ModalContext";
 
 function DialogBox({
@@ -16,6 +15,8 @@ function DialogBox({
     isDeleteInProgress,
     close,
     handleSubmission,
+    okTextClassName,
+    imgSrc
 }) {
 
     return (
@@ -39,7 +40,7 @@ function DialogBox({
                         <main className="flex flex-col items-center justify-center h-full w-full relative">
                             <div className="modal-wrapper flex items-center z-30 relative xl:w-[70%] justify-center">
                                 <div className="w-[90%] lg:w-[469px] rounded-[20px] text-primary-dark dark:text-primary-light bg-secondary-light dark:bg-primary-dark shadow-lg relative p-4 md:p-8">
-                                    <img src={WarnIcon} alt="" className="mx-auto mb-12" />
+                                    <img src={imgSrc} alt="" className="mx-auto mb-12" />
                                     {isDeleteInProgress ? (
                                         <CircularProgress/>
                                     ) : (
@@ -50,20 +51,20 @@ function DialogBox({
                                                 </p>
                                             </div>
                                             <div className="w-full">
-                                                <p className="text-center text-sm mb-8 ">
+                                                <p className="text-center text-sm lg:tex-base mb-8 ">
                                                     {message}
                                                 </p>
                                             </div>
-                                            <div className="flex flex-col md:flex-row items-center justify-between gap-6 md:gap-0 mx-auto md:w-[318px]">
-                                                <Button
+                                            <div className="w-fit flex flex-col md:flex-row items-center justify-between gap-6  mx-auto ">
+                                                {cancelText && <Button
                                                     onClick={close}
-                                                    className="rounded-lg w-[50%] md:w-[143px] bg-brand-color border border-brand-color p-2 text-sm lg:text-base text-white transition ease-in-out hover:bg-transparent duration-500"
+                                                    className="rounded-lg  md:w-[143px] bg-brand-color border border-brand-color p-2 text-sm lg:text-base text-white transition ease-in-out hover:bg-transparent duration-500"
                                                 >
                                                     {cancelText}
-                                                </Button>
+                                                </Button>}
                                                 <Button
                                                     onClick={handleSubmission}
-                                                    className="rounded-lg border w-[50%] md:min-w-[143px] border-brand-color p-2 text-white text-sm lg:text-base transition ease-in-out hover:bg-brand-color duration-500"
+                                                    className={`rounded-lg border md:min-w-[143px] border-brand-color p-2 text-white text-sm lg:text-base transition ease-in-out hover:bg-brand-color duration-500 ${okTextClassName}`}
                                                 >
                                                     {okText}
                                                 </Button>

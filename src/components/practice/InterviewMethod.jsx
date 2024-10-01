@@ -35,6 +35,13 @@ function InterviewMethod() {
         console.log(selectedMethod, "method")
     })
 
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: 0,
+            behavior: "smooth"
+        })
+    })
+
     function nextPage() {
         navigate(`/user/practice/interviewdemo/${selectedMethod.toLowerCase()}`)
     }
@@ -45,7 +52,7 @@ function InterviewMethod() {
     }
 
     return (
-        <main className="px-5 lg:px-8">
+        <main className="px-5 lg:px-8 pb-5">
             <p className="text-primary-dark dark:text-ternary-light text-[18px] leading-[22.5px]">
                 Kindly select the method of Interview that best suits you
             </p>

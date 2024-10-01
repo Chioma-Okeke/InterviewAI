@@ -5,6 +5,7 @@ import BookIcon from "../assets/book.svg";
 import SuitcaseIcon from "../assets/suitcase.svg";
 import ServiceCard from "../components/ServiceCard";
 import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const services = [
     {
@@ -25,6 +26,13 @@ const services = [
 
 function Home() {
     const [theme, setTheme] = useThemeSwitcher();
+
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        })
+    })
 
     return (
         <main className="relative flex-1 flex lg:items-center lg:justify-center px-5 lg:px-8 pb-10">

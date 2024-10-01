@@ -29,6 +29,9 @@ function SideBar() {
     }
 
     function logUserOut() {
+        if (window.innerWidth < 1024) {
+            handleSideBarToggle();
+        }
         logout();
         toast.success("User Successfully logged out.");
     }

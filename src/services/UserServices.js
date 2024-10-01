@@ -239,4 +239,21 @@ export class UserServices {
             throw new Error(errorMessage);
         }
     }
+
+    async markPartAsCompleted (partDetails, token) {
+        try {
+            const response = await apiClient.post("/markLearningModulePartAsComplete", partDetails, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return response.data
+        } catch (error) {
+            const errorMessage =
+                error.response?.data?.msg ||
+                "Something went wrong when when marking parts.";
+            console.error("Part Completed error:", errorMessage);
+            throw new Error(errorMessage);
+        }
+    }
 }

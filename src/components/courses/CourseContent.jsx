@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import FileIcon from "../../assets/file.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleModule } from "../../store/moduleSlice";
+import { UserServices } from "../../services/UserServices";
+import { AuthContext } from "../../contexts/AuthContext";
+import { incrementPartNumber } from "../../store/partNumberSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function CourseContent({ content, parts }) {
     const [isPartContentOpen, setIsPartContentOpen] = useState(false);
@@ -16,12 +21,44 @@ function CourseContent({ content, parts }) {
     const { module } = useParams();
     const dispatch = useDispatch();
     console.log(parts, "module parts in co");
+    const { token } = useContext(AuthContext);
 
     function navigateToModule() {
         if (window.innerWidth < 1024) {
             dispatch(toggleModule());
         }
     }
+
+    async function handlePartChange(partId, partTitle) {
+        const userServices = new UserServices();
+        const formDatToSend = new FormData();
+        if (partId) {
+            formDatToSend.append("_id", partId);
+        }
+        if (partTitle) {
+            formDatToSend.append("partTitle", partTitle);
+        }
+        try {
+            const response = await userServices.markPartAsCompleted(
+                formDatToSend,
+                token
+            );
+            if (response.success) {
+                dispatch(incrementPartNumber());
+            } else {
+                toast.error("Error refreshing data. Kindly refresh page.");
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+        });
+    });
 
     return (
         <section className="lg:max-w-[399px] bg-[#F4F4F4] dark:bg-ternary-dark">
@@ -40,7 +77,7 @@ function CourseContent({ content, parts }) {
                                     Course Content
                                 </h1>
                                 <ul className="px-6">
-                                    {parts?.map((part, index) => {
+                                    {parts.parts?.map((part, index) => {
                                         return (
                                             <li
                                                 key={index}
@@ -50,7 +87,16 @@ function CourseContent({ content, parts }) {
                                                 <label>
                                                     <input
                                                         type="checkbox"
+                                                        checked={
+                                                            part.hasBeenCompleted
+                                                        }
                                                         className="w-5 border-[1.5px] border-primary-dark dark:border-[#C5C6CB] bg-transparent"
+                                                        onChange={() =>
+                                                            handlePartChange(
+                                                                part._id,
+                                                                part.title
+                                                            )
+                                                        }
                                                     />
                                                 </label>
                                                 <div>
@@ -76,13 +122,14 @@ function CourseContent({ content, parts }) {
                     </AnimatePresence>
                 </div>
             </div>
+            <ToastContainer />
         </section>
     );
 }
 
 CourseContent.propTypes = {
     content: PropTypes.object,
-    parts: PropTypes.array
+    parts: PropTypes.array,
 };
 
 export default CourseContent;

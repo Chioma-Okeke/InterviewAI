@@ -1,11 +1,12 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import ProfileSelectionModal from "../modals/ProfileSelectionModal";
-import { SlOptionsVertical } from "react-icons/sl";
-import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { FaPlus } from "react-icons/fa";
-import Button from "../reusables/Button";
 import { useNavigate } from "react-router-dom";
+import { SlOptionsVertical } from "react-icons/sl";
+import { useCallback, useContext, useEffect, useState } from "react";
+
+import Button from "../reusables/Button";
+import ProfileSelectionModal from "../modals/ProfileSelectionModal";
+import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { UserServices } from "../../services/UserServices";
 import DialogBox from "../reusables/DialogBox";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -18,7 +19,6 @@ const columnsClass = {
     2: "lg:grid-cols-2",
     3: "lg:grid-cols-3",
     4: "2xl:grid-cols-4",
-    // Add more as needed
 };
 
 const ExistingProfiles = ({ userProfiles, fetchData }) => {
@@ -42,6 +42,13 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
             state: { descriptionGenerationData: descriptionGenerationData },
         });
     }, [descriptionGenerationData, navigate]);
+
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: 0,
+            behavior: "smooth"
+        })
+    })
 
     const selectProfile = (profile) => {
         console.log(profile, "selected");
@@ -123,7 +130,7 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
                                 onClick={() => selectProfile(profile)}
                             >
                                 <div
-                                    className="absolute top-0 right-0 pt-6 pr-4"
+                                    className="absolute top-0 right-0 pt-3 pr-3 lg:pt-6 lg:pr-4"
                                     id={profile._id}
                                     onClick={(event) => openDelete(event)}
                                 >
@@ -136,7 +143,7 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
                                         id={profile._id}
                                     />
                                 </div>
-                                <p className="lg:text-[18px] leading-[22.5px] text-sm">
+                                <p className="lg:text-[18px] leading-[22.5px] text-sm text-center">
                                     {profile.jobRole}
                                 </p>
                             </div>

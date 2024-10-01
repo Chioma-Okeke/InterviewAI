@@ -9,9 +9,13 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { CircularProgress } from "@mui/material";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import ReactMarkdown from "react-markdown"; // Import react-markdown
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { updateDescription, updateUserFirstName } from "../../store/interviewSlice";
+import {
+    updateDescription,
+    updateUserFirstName,
+} from "../../store/interviewSlice";
+import { IoIosArrowBack } from "react-icons/io";
 
 const DescriptionModal = () => {
     const [theme, setTheme] = useThemeSwitcher();
@@ -24,7 +28,7 @@ const DescriptionModal = () => {
     const location = useLocation();
     const { descriptionGenerationData } = location.state || {};
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchDescriptions() {
@@ -50,7 +54,7 @@ const DescriptionModal = () => {
         console.log(selected, "picked description");
         dispatch(updateDescription({ description: selected }));
         toast.success("Kindly click next to continue.");
-        navigate("/user/practice/interviewmethods")
+        navigate("/user/practice/interviewmethods");
     }
 
     function cleanUpData(data) {
@@ -64,6 +68,13 @@ const DescriptionModal = () => {
     return (
         <main className="px-5 lg:px-8 pb-10">
             <div className="">
+                <Link
+                    to={`/user/practice`}
+                    className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2 mb-4"
+                >
+                    <IoIosArrowBack />
+                    <span className="text-xs lg:text-base">Back to Profiles Page</span>
+                </Link>
                 <p>
                     Below are AI generated job descriptions. kindly go through
                     them and select a Job description that best fits what you
@@ -117,7 +128,11 @@ const DescriptionModal = () => {
                                         onClick={() =>
                                             setSelected(data[currentIndex])
                                         }
-                                        className={` text-white border border-brand-color p-2 rounded hover:bg-opacity-80 transition ${selected ? "bg-transparent" : "bg-brand-color"}`}
+                                        className={` text-white border border-brand-color p-2 rounded hover:bg-opacity-80 transition ${
+                                            selected
+                                                ? "bg-transparent"
+                                                : "bg-brand-color"
+                                        }`}
                                     >
                                         Choose Description
                                     </button>
@@ -151,7 +166,7 @@ const DescriptionModal = () => {
                 <div className="flex items-center justify-center gap-5 mt-8">
                     <Button
                         onClick={saveDescription}
-                        className="bg-brand-color text-white rounded-lg p-2 w-[30%] transition-all duration-500 hover:bg-transparent border border-brand-color"
+                        className="bg-brand-color text-white rounded-lg p-2 lg:w-[30%] transition-all duration-500 hover:bg-transparent border border-brand-color"
                     >
                         Save Changes
                     </Button>

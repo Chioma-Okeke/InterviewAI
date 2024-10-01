@@ -5,6 +5,10 @@ import { pauseAudioInterview } from "../../store/interviewSlice";
 import marble from "../../assets/marble.png";
 import audio from "../../assets/audio.png";
 import DialogBox from "../reusables/DialogBox";
+import TrophyIcon from "../../assets/trophy.svg";
+import WarnIcon from "../../assets/warning.svg"
+import { useNavigate } from "react-router-dom";
+import { resumeTimer } from "../../store/timerSlice";
 
 const AudioInterview = () => {
     const [transcript, setTranscript] = useState("");
@@ -14,12 +18,17 @@ const AudioInterview = () => {
     const recognitionRef = useRef(null);
     const socket = useRef(null);
 
+    const navigate = useNavigate()
+
     const dispatch = useDispatch();
     const interviewDetails = useSelector(
         (state) => state.interview.interviewDetails
     );
     const isPauseAudioRequested = useSelector(
         (state) => state.interview.isPauseAudioRequested
+    );
+    const isEndAudioRequested = useSelector(
+        (state) => state.interview.isEndAudioRequested
     );
 
     const payload = useMemo(
@@ -112,10 +121,19 @@ const AudioInterview = () => {
 
     function closeDialog() {
         dispatch(pauseAudioInterview());
+        dispatch(resumeTimer())
+    }
+
+    function navigateToResult () {
+        navigate("/user/practice/results")
+    }
+
+    function navigateToHome () {
+        navigate("/user/dashboard")
     }
 
     return (
-        <main>
+        <main className="pb-10">
             <div className="relative audio-interview-container w-[90%] mx-auto flex flex-col-reverse items-center mt-[53px] gap-20">
                 <div className="relative transcript-box rounded mb-4 w-full max-w-md flex flex-col-reverse items-center gap-16">
                     <div className="relative">
@@ -156,11 +174,23 @@ const AudioInterview = () => {
             </div>
             {isPauseAudioRequested && (
                 <DialogBox
+                    imgSrc={WarnIcon}
                     subHeading="Are you sure you want to pause the interview?"
                     message="Pausing will save your progress, but make sure to return soon to complete it"
                     cancelText="Cancel"
                     okText="Pause Interview"
                     close={closeDialog}
+                    handleSubmission={navigateToHome}
+                />
+            )}
+            {isEndAudioRequested && (
+                <DialogBox
+                    imgSrc={TrophyIcon}
+                    subHeading="Congratulations"
+                    message="You’ve successfully completed the interview. Ready to see how you did?"
+                    okText="View Results"
+                    okTextClassName="bg-brand-color"
+                    handleSubmission={navigateToResult}
                 />
             )}
         </main>

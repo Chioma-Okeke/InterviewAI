@@ -43,8 +43,11 @@ function CoursesContainer() {
     console.log(parts, "module parts");
 
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+        window.scrollTo(0, {
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        })
+    })
 
     useEffect(() => {
         async function fetchData() {

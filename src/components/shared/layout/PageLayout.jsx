@@ -3,11 +3,19 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import SideBar from "../navBar/SideBar";
 import AppHeader from "../AppHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import { toggleNavBar } from "../../../store/navSlice";
 
 function PageLayout() {
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
+    const dispatch = useDispatch()
+
+    function closeSideBar() {
+        if (window.innerWidth < 1024 && isSideBarVisible) {
+            dispatch(toggleNavBar())
+        }
+    }
 
     const sidebarWidth = window.innerWidth > 1280 ? "261px" : "";
     return (
@@ -20,7 +28,7 @@ function PageLayout() {
                         animate={{ x: 0 }}
                         exit={{ x: "-100%" }}
                         transition={{ duration: 0.4 }}
-                        className="fixed left-0 top-0 min-h-screen w-[309px] lg:w-[261px] dark:bg-secondary-dark bg-secondary-light z-30"
+                        className="fixed left-0 top-0 min-h-screen w-[309px] lg:w-[261px] dark:bg-secondary-dark bg-secondary-light z-50"
                     >
                         <SideBar />
                     </motion.div>
@@ -36,7 +44,9 @@ function PageLayout() {
             >
                 <div className=" flex flex-col dark:bg-primary-dark bg-secondary-light">
                     <AppHeader />
-                    <Outlet />
+                    <div onClick={closeSideBar}>
+                        <Outlet/>
+                    </div>
                 </div>
             </motion.section>
         </main>

@@ -5,9 +5,13 @@ import { UserServices } from "../../services/UserServices";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import LoadingComponent from "../reusables/LoadingComponent";
+import ConstructionIllustration from "../../assets/construction-concept-illustration.png";
+import Button from "../reusables/Button";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 function First() {
     const [isInView, setIsInView] = useState(false);
@@ -33,7 +37,7 @@ function First() {
         } finally {
             setLoading(false);
         }
-    }, [token])
+    }, [token]);
 
     useEffect(() => {
         fetchData();
@@ -48,7 +52,7 @@ function First() {
             {loading ? (
                 <LoadingComponent />
             ) : (
-                <div className=" flex flex-col gap-16">
+                <div className=" flex flex-col ">
                     <div className="relative flex items-center gap-[72px] w-fit mx-auto">
                         {/* The animated border */}
                         <div
@@ -82,7 +86,7 @@ function First() {
 
                     {tabIndex === 1 && (
                         <div>
-                            <div>
+                            <div className="mt-16">
                                 {userProfiles?.length > 0 ? (
                                     <ExistingProfiles
                                         userProfiles={userProfiles}
@@ -96,7 +100,36 @@ function First() {
                             </div>
                         </div>
                     )}
-                    {tabIndex === 2 && <p>hello</p>}
+                    {tabIndex === 2 && (
+                        <main className="relative lg:min-h-screen text-primary-dark dark:text-primary-light flex lg:items-center justify-center mb-10">
+                            <div className="max-w-[382px] flex flex-col gap-8 lg:gap-10 mt-5">
+                                <div className="px-[20.5px]">
+                                    <LazyLoadImage
+                    src={ConstructionIllustration}
+                    alt="Listing Image"
+                    effect="blur"
+                    className="mx-auto"
+                    wrapperProps={{
+                        style: {transitionDelay: "1s"},
+                    }}
+                />
+                                </div>
+                                <div className="flex flex-col gap-4 text-center">
+                                    <h2 className="text-primary-dark dark:text-primary-light text-xl lg:text-[23px] ">
+                                        Page is currently under construction
+                                    </h2>
+                                </div>
+                                <Link
+                                    to={"/user/dashboard"}
+                                    className="w-fit mx-auto"
+                                >
+                                    <Button className="text-white bg-brand-color w-[182px] py-3 px-6 rounded-lg">
+                                        Go to Homepage
+                                    </Button>
+                                </Link>
+                            </div>
+                        </main>
+                    )}
                 </div>
             )}
             <ToastContainer />

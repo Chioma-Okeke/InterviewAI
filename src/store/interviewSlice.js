@@ -6,6 +6,9 @@ const interviewSlice = createSlice({
         isPauseTextRequested: false,
         isPauseAudioRequested: false,
         isPauseVideoRequested: false,
+        isEndTextRequested: false,
+        isEndAudioRequested: false,
+        isEndVideoRequested: false,
         interviewDetails: {
             candidateFirstname: "Chioma",
             resumeUrl:
@@ -24,6 +27,15 @@ const interviewSlice = createSlice({
         },
         pauseVideoInterview: (state) => {
             state.isPauseVideoRequested = !state.isPauseVideoRequested;
+        },
+        endTextInterview: (state) => {
+            state.isEndTextRequested = !state.isEndTextRequested;
+        },
+        endAudioInterview: (state) => {
+            state.isEndAudioRequested = !state.isEndAudioRequested;
+        },
+        endVideoInterview: (state) => {
+            state.isEndVideoRequested = !state.isEndVideoRequested;
         },
         updateProfileData: (state, action) => {
             const { resumeUrl, experienceLevel, jobRole, firstName } =
@@ -52,5 +64,8 @@ export const {
     updateProfileData,
     updateDescription,
     updateUserFirstName,
+    endTextInterview,
+    endAudioInterview,
+    endVideoInterview
 } = interviewSlice.actions;
 export default interviewSlice.reducer;

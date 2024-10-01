@@ -45,6 +45,7 @@ import VideoInterview from "./components/interview/VideoInterview";
 import First from "./components/practice/First";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DescriptionModal from "./components/modals/DescriptionModal";
+import Results from "./components/interview/Results";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -85,6 +86,7 @@ const router = createBrowserRouter(
                                     element={<VideoInterview />}
                                 />
                             </Route>
+                            <Route path="results" element={<Results/>}/>
                         </Route>
                     </Route>
                     <Route element={<ProtectedRoute />}>

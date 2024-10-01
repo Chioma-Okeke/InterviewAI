@@ -24,7 +24,7 @@ function NotFoundPage() {
                 </div>
                 <Link to={"/user/dashboard"} className="w-fit mx-auto">
                     <Button className="text-white bg-brand-color w-[182px] py-3 px-6 rounded-lg">
-                        Got to Homepage
+                        Go to Homepage
                     </Button>
                 </Link>
             </div>

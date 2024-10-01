@@ -3,6 +3,7 @@ import navReducer from "./navSlice"
 import moduleReducer from "./moduleSlice";
 import partNumberReducer from "./partNumberSlice"
 import interviewReducer from "./interviewSlice"
+import timerReducer from "./timerSlice"
 
 const store = configureStore({
     reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
         module: moduleReducer,
         partNumber: partNumberReducer,
         interview: interviewReducer,
+        timer: timerReducer,
     },
 })
 
