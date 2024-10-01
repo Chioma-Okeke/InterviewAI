@@ -41,8 +41,9 @@ Additionally, **Jobrail** features a practice section that offers mock interview
 - After practicing, users can review their interview performance, see areas of improvement, and revisit modules to improve further.
 - Once confident, users can apply for jobs, using **Jobrail** as a guide throughout the entire journey.
 
-*Link to UI/UX Designs:*  
-*Link to User Flow Diagram:*  
+![image](https://github.com/user-attachments/assets/8c19dd68-26dc-4605-b407-f052ee662ccf)
+
+*To see the full User Flow Diagram, kindly visit: https://miro.com/app/board/uXjVKjUJ-bU=/*  
 
 ## How We Built It
 
