@@ -74,16 +74,20 @@ function IndividualStagePage() {
     }, [stagemodule, token, isAuthenticated, navigate]);
 
     return (
-        <main className="px-4 lg:px-8 pb-10 mb-10">
-            <Link
-                to={`/user/learning/stages`}
-                className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2 mb-5"
-            >
-                <IoIosArrowBack />
-                <span className="text-xs lg:text-base">Back to Stages Page</span>
-            </Link>
+        <main className="lg:px-8 pb-10 mb-10">
             {pathname === `/user/learning/stages/${stagemodule}` && (
-                <div className="relative min-h-screen">
+                <Link
+                    to={`/user/learning/stages`}
+                    className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2 mb-5"
+                >
+                    <IoIosArrowBack />
+                    <span className="text-xs lg:text-base">
+                        Back to Stages Page
+                    </span>
+                </Link>
+            )}
+            {pathname === `/user/learning/stages/${stagemodule}` && (
+                <div className="relative min-h-screen px-4 lg:px-0">
                     {!loading && (
                         <div className="grid lg:grid-cols-3 gap-x-24 gap-y-16">
                             {data.length > 0 ? (
@@ -96,6 +100,7 @@ function IndividualStagePage() {
                                         imgSrc={module?.imgSrc}
                                         stageNumber={module?.stageNumber}
                                         stageName={module?.stageName}
+                                        description={module.description}
                                         course={module}
                                     />
                                 ))

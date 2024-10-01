@@ -20,6 +20,7 @@ function CourseCard({
     stageNumber,
     stageName,
     course,
+    description
 }) {
     const [isInView, setIsInView] = useState(false);
     const sectionRef = useRef(null);
@@ -29,31 +30,11 @@ function CourseCard({
     const [theme, setTheme] = useThemeSwitcher();
 
     async function openIndividualModule() {
-        const userServices = new UserServices();
         console.log(course, "course details");
         navigate(
             `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
-            { state: { parts: course.partsMetaData } }
+            { state: { parts: course.partsMetaData, courseDescription: description, course: course } }
         );
-        // try {
-        //     const response = await userServices.addModuleToUserProfile(
-        //         course,
-        //         token
-        //     );
-        //     console.log(response, "course on save");
-        //     if (response?.success) {
-        //         toast.success("Module has been successfully added to profile.");
-        //         navigate(
-        //             `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
-        //             { state: { parts: course.partMetaData } }
-        //         );
-        //     } else {
-        //         toast.error("Error while adding module to user profile.");
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        //     toast.error("Error while adding module to user profile.");
-        // }
     }
 
     useEffect(() => {

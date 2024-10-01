@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import FileIcon from "../../assets/file.svg";
 import { AnimatePresence, motion } from "framer-motion";
@@ -22,25 +22,35 @@ function CourseContent({ content, parts }) {
     const dispatch = useDispatch();
     console.log(parts, "module parts in co");
     const { token } = useContext(AuthContext);
+    const partNumber = useSelector((state) => state.partNumber.partNumber);
+    const prevPartNumberRef = useRef(partNumber);
+    const [formData, setFormData] = useState({
+        _id: "",
+        partTitle: ""
+    })
+    const {userData} = useContext(AuthContext)
+
+    const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
+    
 
     function navigateToModule() {
-        if (window.innerWidth < 1024) {
+        if (window.innerWidth < 1024 && isExistingOnUserProfile) {
             dispatch(toggleModule());
         }
     }
 
-    async function handlePartChange(partId, partTitle) {
+    async function markAsCompleted (partId, partTitle) {
         const userServices = new UserServices();
-        const formDatToSend = new FormData();
-        if (partId) {
-            formDatToSend.append("_id", partId);
-        }
-        if (partTitle) {
-            formDatToSend.append("partTitle", partTitle);
-        }
+        setFormData(prevState => {
+            return {
+                ...prevState,
+                _id: partId,
+                partTitle: partTitle
+            }
+        })
         try {
             const response = await userServices.markPartAsCompleted(
-                formDatToSend,
+                formData,
                 token
             );
             if (response.success) {
@@ -52,6 +62,23 @@ function CourseContent({ content, parts }) {
             console.error(error.message);
         }
     }
+
+    async function handlePartChange(partId, partTitle) {
+        markAsCompleted(partId, partTitle)
+    }
+
+    useEffect(() => {
+        if (prevPartNumberRef.current < partNumber) {
+            // Find the part that corresponds to the new partNumber.
+            const nextPart = parts?.parts?.[partNumber - 1]; // Assuming parts is an array and partNumber is 1-based index
+    
+            if (nextPart) {
+                markAsCompleted(nextPart._id, nextPart.title);
+            }
+    
+            prevPartNumberRef.current = partNumber;
+        }
+    }, [partNumber, parts]);
 
     useEffect(() => {
         window.scrollTo(0, {
@@ -97,6 +124,7 @@ function CourseContent({ content, parts }) {
                                                                 part.title
                                                             )
                                                         }
+                                                        disabled = {!isExistingOnUserProfile}
                                                     />
                                                 </label>
                                                 <div>

@@ -1,9 +1,50 @@
-import React from 'react'
+import React, { useContext } from "react";
+import PropTypes from "prop-types";
+import Button from "../../reusables/Button";
+import { UserServices } from "../../../services/UserServices";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Overview() {
-  return (
-    <div><p className='text-primary-dark dark:text-primary-light'>Overview</p></div>
-  )
+function Overview({ parts }) {
+    const {token} = useContext(AuthContext)
+
+    async function startCourse() {
+        const userServices = new UserServices();
+        try {
+            const response = await userServices.addModuleToUserProfile(
+                parts.course,
+                token
+            );
+            console.log(response, "course on save");
+            if (response?.success) {
+                toast.success("Module has been successfully added to profile.");
+            } else {
+                toast.error("Error while adding module to user profile.");
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Error while adding module to user profile.");
+        }
+    }
+
+    return (
+        <div>
+            <p className="text-primary-dark dark:text-primary-light">
+                {parts.courseDescription}
+            </p>
+            <div className="flex justify-end mt-10">
+                <Button onClick={startCourse} className="text-white bg-brand-color rounded-lg p-3 border-[1.5px] border-brand-color hover:bg-transparent">
+                    Start Module
+                </Button>
+            </div>
+        </div>
+    );
 }
 
-export default Overview
+Overview.propTypes -
+    {
+        parts: PropTypes.object,
+    };
+
+export default Overview;

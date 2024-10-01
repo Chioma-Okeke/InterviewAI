@@ -41,13 +41,16 @@ function CoursesContainer() {
     const { module } = useParams();
     const { pathname } = useLocation();
     console.log(parts, "module parts");
+    const {userData} = useContext(AuthContext)
+
+    const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
 
     useEffect(() => {
         window.scrollTo(0, {
             top: document.body.scrollHeight,
-            behavior: "smooth"
-        })
-    })
+            behavior: "smooth",
+        });
+    }, []);
 
     useEffect(() => {
         async function fetchData() {
@@ -86,7 +89,13 @@ function CoursesContainer() {
     }, [data]);
 
     function handleDisplayToggle(e) {
-        setCurrentDisplay(e.target.innerText);
+        if (isExistingOnUserProfile) {
+            setCurrentDisplay(e.target.innerText);
+        }
+    }
+
+    function handleVisibility (page) {
+        setCurrentDisplay(page)
     }
 
     return (
@@ -127,6 +136,7 @@ function CoursesContainer() {
                                     parts={parts}
                                     imageContent={imageContent}
                                     content={bodyContent}
+                                    handleVisibility={handleVisibility}
                                     currentDisplay={currentDisplay}
                                 />
                             </div>
@@ -144,7 +154,7 @@ function CoursesContainer() {
                     </div>
                 </div>
                 <div className="w-[40%]">
-                    <CourseContent content={headerContent} />
+                    <CourseContent parts={parts} content={headerContent} />
                 </div>
             </div>
             {/* mobile screen */}
@@ -166,6 +176,7 @@ function CoursesContainer() {
                             />
                             <div className="mt-5 mb-8 px-4">
                                 <CourseBody
+                                    parts={parts}
                                     imageContent={imageContent}
                                     content={bodyContent}
                                     currentDisplay={currentDisplay}

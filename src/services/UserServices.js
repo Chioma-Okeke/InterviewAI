@@ -122,7 +122,7 @@ export class UserServices {
             );
 
             console.log(response, "in service");
-            return response;
+            return response.data;
         } catch (error) {
             console.error(
                 "Adding Module to Profile error:",
@@ -244,9 +244,11 @@ export class UserServices {
         try {
             const response = await apiClient.post("/markLearningModulePartAsComplete", partDetails, {
                 headers: {
+                    "Content-type": "application/json",
                     Authorization: `Bearer ${token}`
                 }
             })
+            console.log(response)
             return response.data
         } catch (error) {
             const errorMessage =
