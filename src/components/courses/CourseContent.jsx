@@ -7,7 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toggleModule } from "../../store/moduleSlice";
 
-function CourseContent({ content }) {
+function CourseContent({ content, parts }) {
     const [isPartContentOpen, setIsPartContentOpen] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
@@ -15,6 +15,7 @@ function CourseContent({ content }) {
     const { stagemodule } = useParams();
     const { module } = useParams();
     const dispatch = useDispatch();
+    console.log(parts, "module parts in co");
 
     function navigateToModule() {
         if (window.innerWidth < 1024) {
@@ -39,28 +40,36 @@ function CourseContent({ content }) {
                                     Course Content
                                 </h1>
                                 <ul className="px-6">
-                                    <li
-                                        className="flex gap-[14px] py-2"
-                                        onClick={navigateToModule}
-                                    >
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                className="w-5 border-[1.5px] border-primary-dark dark:border-[#C5C6CB] bg-transparent"
-                                            />
-                                        </label>
-                                        <div>
-                                            <p className="text-sm leading-6 text-[#4E4E4E] dark:text-primary-light">
-                                                1. {content.value}
-                                            </p>
-                                            <div className="flex items-center gap-2">
-                                                <img src={FileIcon} alt="" />
-                                                <span className="text-xs leading-6 text-ternary-light">
-                                                    5min
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    {parts?.map((part, index) => {
+                                        return (
+                                            <li
+                                                key={index}
+                                                className="flex gap-[14px] py-2"
+                                                onClick={navigateToModule}
+                                            >
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        className="w-5 border-[1.5px] border-primary-dark dark:border-[#C5C6CB] bg-transparent"
+                                                    />
+                                                </label>
+                                                <div>
+                                                    <p className="text-sm leading-6 text-[#4E4E4E] dark:text-primary-light">
+                                                        1. {part.title}
+                                                    </p>
+                                                    <div className="flex items-center gap-2">
+                                                        <img
+                                                            src={FileIcon}
+                                                            alt=""
+                                                        />
+                                                        <span className="text-xs leading-6 text-ternary-light">
+                                                            5min
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        );
+                                    })}
                                 </ul>
                             </motion.div>
                         )}
@@ -73,6 +82,7 @@ function CourseContent({ content }) {
 
 CourseContent.propTypes = {
     content: PropTypes.object,
+    parts: PropTypes.array
 };
 
 export default CourseContent;

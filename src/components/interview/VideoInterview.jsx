@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useRef, useEffect, useState, useMemo } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
@@ -11,10 +11,12 @@ const VideoInterview = () => {
     const [localStream, setLocalStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
     const [aiResponse, setAiResponse] = useState("");
+    const [videoSrc, setVideoSrc] = useState("");
+    const D_ID_API_KEY = btoa(import.meta.env.VITE_D_ID_API_KEY); 
 
     const configuration = {
         iceServers: [
-            { urls: "stun:stun.l.google.com:19302" }, // STUN server
+            { urls: "stun:stun.l.google.com:19302" }, 
         ],
     };
 
@@ -22,7 +24,7 @@ const VideoInterview = () => {
         (state) => state.interview.interviewDetails
     );
 
-    // Memoize payload to prevent unnecessary re-renders
+
     const payload = useMemo(
         () => ({
             candidateFirstname: interviewDetails.candidateFirstname,
@@ -34,21 +36,23 @@ const VideoInterview = () => {
         [interviewDetails]
     );
 
-    // Initialize the socket connection
+
     useEffect(() => {
         if (!socket.current) {
             socket.current = io("https://interview-ai-1-8he2.onrender.com/", {
                 query: payload,
             });
-
-            // Listen for messages from the server
             const handleInterviewerResponse = async (response) => {
                 const cleanedMessage = response.msg.replace(
                     /^Interviewer:\s*/,
                     ""
                 );
                 setAiResponse(cleanedMessage);
-                await sendTextToSpeech(cleanedMessage);
+                const talkId = await sendTextToSpeech(cleanedMessage);
+                const url = await getSpecificTalk(talkId);
+                console.log(url, "url");
+                const videoUrl = modifyPendingUrl(url.pending_url);
+                setVideoSrc(videoUrl);
             };
 
             socket.current.on(
@@ -65,17 +69,27 @@ const VideoInterview = () => {
                 socket.current = null;
             };
         }
-    }, [payload]); // Only re-run when payload changes
+    }, [payload]);
 
-    const D_ID_API_URL = "https://api.d-id.com/talks"; // Replace with the actual URL
-    const D_ID_API_KEY = "am9icmFpbC5jb21AcHJvdG9uLm1l:N-QXSNiKCpdXW7X3ZCtol"; // Replace with your actual API key
+    const modifyPendingUrl = (pendingUrl) => {
+        if (!pendingUrl) return "";
+        const httpsUrl = pendingUrl
+            .replace(
+                "s3://d-id-talks-prod/",
+                "https://d-id-talks-prod.s3.us-west-2.amazonaws.com/"
+            )
+            .replace("|", "%7C"); 
+
+        return httpsUrl;
+    };
 
     const sendTextToSpeech = async (text) => {
         try {
             const response = await axios.post(
-                D_ID_API_URL,
+                "/api",
                 {
-                    source_url: "https://myhost.com/image.jpg",
+                    source_url:
+                        "https://d-id-public-bucket.s3.us-west-2.amazonaws.com/alice.jpg",
                     script: {
                         type: "text",
                         input: text,
@@ -83,58 +97,75 @@ const VideoInterview = () => {
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${D_ID_API_KEY}`,
+                        Authorization: `Basic ${D_ID_API_KEY}`,
                         "Content-Type": "application/json",
                     },
                 }
             );
-            console.log(response.data, "helloo")
-            return response.data; // Handle the response as needed
+            console.log(response.data, "helloo");
+            return response.data.id; 
         } catch (error) {
             console.error("Error sending text to D-ID:", error);
-            throw error; // Rethrow the error for further handling
+            throw error; 
         }
     };
 
-    // Function to send AI response to D-ID API and get a video stream
-    const handleAiResponse = async (aiMessage) => {
+    async function getSpecificTalk(id) {
         try {
-            const response = await fetch("https://api.d-id.com/talks", {
-                method: "POST",
+            const response = await axios.get(`/getapi/${id}`, {
                 headers: {
+                    Authorization: `Basic ${D_ID_API_KEY}`,
                     "Content-Type": "application/json",
                 },
-                body: {
-                    source_url: "https://myhost.com/image.jpg",
-                    script: {
-                        type: "text",
-                        input: { aiMessage },
-                        provider: {
-                            type: "microsoft",
-                            voice_id: "en-US-JennyNeural",
-                            voice_config: {
-                                style: "Cheerful",
-                            },
-                        },
-                    },
-                },
             });
-            const data = await response.json();
-            if (data.streamUrl) {
-                remoteVideoRef.current.srcObject = await fetchStream(
-                    data.streamUrl
-                );
-            }
+            console.log(response.data, "uuuuuuu");
+            return response.data;
         } catch (error) {
-            console.error("Error sending AI response to D-ID API:", error);
+            console.error("Error fetching url");
+            throw error;
         }
-    };
+    }
+
+    // Function to send AI response to D-ID API and get a video stream
+    // const handleAiResponse = async (aiMessage) => {
+    //     try {
+    //         const response = await fetch("https://api.d-id.com/talks", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Access-Control-Allow-Origin": "*",
+    //             },
+    //             body: {
+    //                 source_url: "https://myhost.com/image.jpg",
+    //                 script: {
+    //                     type: "text",
+    //                     input: { aiMessage },
+    //                     provider: {
+    //                         type: "microsoft",
+    //                         voice_id: "en-US-JennyNeural",
+    //                         voice_config: {
+    //                             style: "Cheerful",
+    //                         },
+    //                     },
+    //                 },
+    //             },
+    //         });
+    //         const data = await response.json();
+    //         if (data.streamUrl) {
+    //             remoteVideoRef.current.srcObject = await fetchStream(
+    //                 data.streamUrl
+    //             );
+    //         }
+    //     } catch (error) {
+    //         console.error("Error sending AI response to D-ID API:", error);
+    //     }
+    // };
 
     // Function to fetch the video stream from a URL
-    const fetchStream = async (streamUrl) => {
-        const response = await fetch(streamUrl);
-        return response.body; // Assuming it returns a readable stream
-    };
+    // const fetchStream = async (streamUrl) => {
+    //     const response = await fetch(streamUrl);
+    //     return response.body; // Assuming it returns a readable stream
+    // };
 
     // Clean up the local stream and peer connection when the component unmounts
     useEffect(() => {
@@ -193,6 +224,7 @@ const VideoInterview = () => {
         setIsCalling(false);
         setLocalStream(null);
         setPeerConnection(null);
+        setVideoSrc("");
     };
 
     return (
@@ -229,6 +261,16 @@ const VideoInterview = () => {
                     </button>
                 )}
             </div>
+            {videoSrc && (
+                <div className=" mt-4">
+                    <video autoPlay width="320" height="240" controls>
+                        <source
+                            src={videoSrc}
+                            type="video/mp4"
+                        />
+                    </video>
+                </div>
+            )}
         </div>
     );
 };

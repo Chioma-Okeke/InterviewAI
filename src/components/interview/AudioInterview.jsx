@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { pauseAudioInterview } from "../../store/interviewSlice";
@@ -33,7 +33,6 @@ const AudioInterview = () => {
         [interviewDetails]
     );
 
-    // Initialize the socket connection
     useEffect(() => {
         if (!socket.current) {
             socket.current = io("https://interview-ai-1-8he2.onrender.com/", {
@@ -41,7 +40,6 @@ const AudioInterview = () => {
             });
         }
 
-        // Listen for messages from the server
         const handleInterviewerResponse = (response) => {
             const cleanedMessage = response.msg.replace(/^Interviewer:\s*/, "");
 
@@ -60,7 +58,6 @@ const AudioInterview = () => {
         };
     }, [payload]);
 
-    // Initialize speech recognition
     useEffect(() => {
         const SpeechRecognition =
             window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -77,7 +74,7 @@ const AudioInterview = () => {
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
                 socket.current.emit("message", currentTranscript);
-            }, 500); // Adjust debounce time as needed
+            }, 500); 
         };
 
         recognitionRef.current.onend = () => {
@@ -85,7 +82,7 @@ const AudioInterview = () => {
         };
 
         return () => {
-            recognitionRef.current.abort(); // Clean up when component unmounts
+            recognitionRef.current.abort(); 
         };
     }, []);
 
@@ -96,7 +93,7 @@ const AudioInterview = () => {
 
         const timer = setTimeout(() => {
             stopRecording();
-        }, 40000); // 30 seconds
+        }, 40000); 
 
         return () => clearTimeout(timer);
     };
@@ -105,11 +102,10 @@ const AudioInterview = () => {
         recognitionRef.current.stop();
     };
 
-    // Handle AI response
     useEffect(() => {
         if (aiResponse) {
             const utterance = new SpeechSynthesisUtterance(aiResponse);
-            window.speechSynthesis.cancel(); // Cancel any ongoing speech
+            window.speechSynthesis.cancel(); 
             window.speechSynthesis.speak(utterance);
         }
     }, [aiResponse]);

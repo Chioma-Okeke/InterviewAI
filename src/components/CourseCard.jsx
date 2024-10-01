@@ -31,29 +31,29 @@ function CourseCard({
     async function openIndividualModule() {
         const userServices = new UserServices();
         console.log(course, "course details");
-        // navigate(
-        //     `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
-        //     { state: { parts: course.partMetaData } }
-        // );
-        try {
-            const response = await userServices.addModuleToUserProfile(
-                course,
-                token
-            );
-            console.log(response, "course on save");
-            if (response?.success) {
-                toast.success("Module has been successfully added to profile.");
-                navigate(
-                    `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
-                    { state: { parts: course.partMetaData } }
-                );
-            } else {
-                toast.error("Error while adding module to user profile.");
-            }
-        } catch (error) {
-            console.error(error);
-            toast.error("Error while adding module to user profile.");
-        }
+        navigate(
+            `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
+            { state: { parts: course.partsMetaData } }
+        );
+        // try {
+        //     const response = await userServices.addModuleToUserProfile(
+        //         course,
+        //         token
+        //     );
+        //     console.log(response, "course on save");
+        //     if (response?.success) {
+        //         toast.success("Module has been successfully added to profile.");
+        //         navigate(
+        //             `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
+        //             { state: { parts: course.partMetaData } }
+        //         );
+        //     } else {
+        //         toast.error("Error while adding module to user profile.");
+        //     }
+        // } catch (error) {
+        //     console.error(error);
+        //     toast.error("Error while adding module to user profile.");
+        // }
     }
 
     useEffect(() => {

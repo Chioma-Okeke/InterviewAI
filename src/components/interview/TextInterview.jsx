@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
+import io from "socket.io-client";
+import { useDispatch, useSelector } from "react-redux";
+
 import Logo from "../../assets/logo-black-white.svg";
 import SendIcon from "../../assets/send.svg";
-import { useDispatch, useSelector } from "react-redux";
-import DialogBox from "../reusables/DialogBox";
 import { pauseTextInterview } from "../../store/interviewSlice";
-import io from "socket.io-client";
+import DialogBox from "../reusables/DialogBox";
 
 const TextInterview = () => {
-    const [messages, setMessages] = useState([]);
     const chatBoxRef = useRef(null);
+    const [messages, setMessages] = useState([]);
     const [inputValue, setInputValue] = useState("");
     const dispatch = useDispatch();
     const isPauseTextRequested = useSelector(
@@ -44,9 +45,6 @@ const TextInterview = () => {
         ]
     );
 
-    console.log(payload, "payload");
-
-    // Initialize the socket connection
     const socket = useRef(null);
 
     useEffect(() => {
@@ -54,13 +52,11 @@ const TextInterview = () => {
             query: payload,
         });
 
-        // Clean up the socket connection on component unmount
         return () => {
             socket.current.disconnect();
         };
     }, [payload]);
 
-    // Listen for messages from the server
     useEffect(() => {
         const handleInterviewerResponse = (response) => {
             console.log(response, "res from socket");
@@ -96,7 +92,6 @@ const TextInterview = () => {
         );
         socket.current.on("SERVER_ERROR", handleServerError);
 
-        // Clean up socket listeners on unmount
         return () => {
             socket.current.off(
                 "INTERVIEWER_RESPONSE",
@@ -123,17 +118,17 @@ const TextInterview = () => {
     const handleSendMessage = (e) => {
         e.preventDefault();
 
-        if (inputValue.trim() === "") return; // Prevent sending empty messages
+        if (inputValue.trim() === "") return; 
 
         const newMessage = {
             id: Date.now(),
             text: inputValue,
-            sender: "user", // Identify the user as the sender
+            sender: "user", 
         };
 
         setMessages((prevMessages) => [...prevMessages, newMessage]);
-        socket.current.emit("message", inputValue); // Emit the message to the server
-        setInputValue(""); // Clear input field after sending
+        socket.current.emit("message", inputValue); 
+        setInputValue(""); 
     };
 
     function closeDialog() {

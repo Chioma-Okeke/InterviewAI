@@ -21,7 +21,7 @@ function CoursesContainer() {
     const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
     const { token } = useContext(AuthContext);
     const location = useLocation();
-    const parts = location.state || {}
+    const parts = location.state || {};
     const [data, setData] = useState({});
     const [headerContent, setHeaderContent] = useState({});
     const [imageContent, setImageContent] = useState({});
@@ -37,14 +37,14 @@ function CoursesContainer() {
     const stageName = params.get("stageName");
     const partNumber = useSelector((state) => state.partNumber.partNumber);
     ring2.register();
-    const showModule = useSelector((state) => state.module.showModule)
+    const showModule = useSelector((state) => state.module.showModule);
     const { module } = useParams();
     const { pathname } = useLocation();
-    console.log(parts, "module parts")
+    console.log(parts, "module parts");
 
-    useEffect(()=> {
-        window.scrollTo(0,0)
-    }, [])
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         async function fetchData() {
@@ -58,7 +58,7 @@ function CoursesContainer() {
                     token
                 );
                 setData(response);
-                console.log(response, "module")
+                console.log(response, "module");
             } catch (error) {
                 console.error(error);
             } finally {
@@ -121,6 +121,7 @@ function CoursesContainer() {
                         {data && !isLoading && (
                             <div className="mt-6 mb-8">
                                 <CourseBody
+                                    parts={parts}
                                     imageContent={imageContent}
                                     content={bodyContent}
                                     currentDisplay={currentDisplay}
@@ -145,7 +146,8 @@ function CoursesContainer() {
             </div>
             {/* mobile screen */}
             <div className="block lg:hidden">
-                    {!showModule ? <div className="flex flex-col gap-3 cursor-pointer">
+                {!showModule ? (
+                    <div className="flex flex-col gap-3 cursor-pointer">
                         <Link
                             to={`/user/learning/stages/${stagemodule}`}
                             className="text-primary-dark dark:text-[#C5C6CB] items-center gap-2 flex"
@@ -177,10 +179,15 @@ function CoursesContainer() {
                     </div> */}
                             {/* <CourseFooter /> */}
                         </div>
-                    </div> :
+                    </div>
+                ) : (
                     <div>
-                        <MobModule headerContent={headerContent} content={bodyContent}/>
-                    </div>}
+                        <MobModule
+                            headerContent={headerContent}
+                            content={bodyContent}
+                        />
+                    </div>
+                )}
                 {/* <div className="w-[40%]">
                     <CourseContent />
                 </div> */}
