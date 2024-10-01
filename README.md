@@ -1,4 +1,4 @@
-## Inspiration
+## Jobrails
 
 Transitioning into the job market as a first-timer, especially without guidance, can be incredibly challenging. In Nigerian universities, while we are taught the skills needed to contribute to the workforce, we are rarely taught the skills necessary to secure the jobs where we can apply them. This creates a significant gap, leaving most graduates to navigate the job search process alone. Many turn to personal research, which can be overwhelming and confusing for someone without prior experience.
 
@@ -41,8 +41,9 @@ Additionally, **Jobrail** features a practice section that offers mock interview
 - After practicing, users can review their interview performance, see areas of improvement, and revisit modules to improve further.
 - Once confident, users can apply for jobs, using **Jobrail** as a guide throughout the entire journey.
 
-*Link to UI/UX Designs:*  
-*Link to User Flow Diagram:*  
+![image](https://github.com/user-attachments/assets/8c19dd68-26dc-4605-b407-f052ee662ccf)
+
+*To see the full User Flow Diagram, kindly visit: https://miro.com/app/board/uXjVKjUJ-bU=/*  
 
 ## How We Built It
 
@@ -66,51 +67,3 @@ Additionally, **Jobrail** features a practice section that offers mock interview
 - **TypeScript**: Employed for improved type safety, making the backend codebase more maintainable and robust.
 - **Redis**: Utilized for caching API requests and improving response times, particularly useful for repetitive interview data.
 - **WebSockets**: Implemented for real-time features, such as chat-based interview practice, allowing for a more interactive user experience.
-
-## Challenges We Ran Into
-
-While testing the AI-based interviewer, we faced challenges with rate limits on the Google Gemini API, especially due to the high volume of API requests made during testing. This limitation was primarily because we were using a free account, which restricted our testing capacity.
-
-## Accomplishments That We're Proud Of
-
-- Successfully developing the prototype of **Jobrail** in just one month, transforming a conceptual idea into a functional product.
-- Building a personalized and engaging interview practice system using Google Gemini to simulate real-world interview scenarios for job seekers.
-
-## What We Learned
-
-### Frontend Engineering
-- I learned the importance of managing global state effectively, especially with Redux Toolkit, which helped ensure the predictability of data flow across the app.
-- Mastered efficient data fetching using Axios, including handling loading states and error management.
-- Gained a deeper understanding of React Router, particularly the new loader functionality, which simplified data management.
-- Enhanced my skills in writing clean, reusable code by leveraging custom hooks and the Context API.
-
-### Backend Engineering
-- Understood how to build scalable RESTful APIs using Node.js and Express, focusing on modular code structure for better maintainability.
-- Learned to implement real-time data handling using WebSockets, which added interactivity to the interview experience.
-- Improved caching strategies with Redis, which optimized data retrieval times for frequently accessed information.
-
-### UI/UX Design
-- Developed an understanding of creating intuitive user interfaces that enhance the user experience, especially when guiding users through complex processes like job seeking.
-- Conducted user testing sessions with Figma prototypes, using feedback to iterate and improve the design for better usability.
-- Ensured that branding remained consistent across all user touchpoints, making the platform visually appealing and professional.
-
-Certainly! I've updated the "What's Next for Jobrail" section with the additions you requested:
-
----
-
-## What's Next for Jobrail
-
-We are excited about taking **Jobrail** to the next level and bringing it to real-world job seekers. Our immediate next steps include:
-
-- **Beta Testing**: Launching a beta version for initial users to gain feedback and refine the platform further.
-- **AI Enhancement**: Improving the AI-based mock interview system by incorporating more nuanced behavioral feedback.
-- **Video Interviewer**: Currently our application only handles text and audio interview sessions. In future sprints we will be introducing a video-based AI interviewer feature to provide users with a more wholesome and realistic interview experience, helping them practice body language and non-verbal cues.
-- **Personalized Career Paths**: Expanding our offerings to include more personalized career areas, ensuring that users from a wider range of industries receive tailored guidance and interview practice specific to their field.
-- **Mobile Version**: Developing a mobile-friendly version of **Jobrail** to make the platform accessible on the go.
-- **Collaborations**: Partnering with universities and job training programs to help new graduates get job-ready in a more efficient and personalized way.
-
-
-*Link to UI/UX Designs: https://www.figma.com/design/bic2obLgm5CW8t2GNHuebp/InterviewAI?node-id=795-6912&node-type=frame&t=4MCz9njxsR9QlcQN-0*  
-
-*Link to User Flow Diagram: https://miro.com/app/board/uXjVKjUJ-bU=/*  
-
