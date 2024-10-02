@@ -14,7 +14,6 @@ function PhoneNumberInput() {
     const [phoneNumber, setPhoneNumber] = useState("")
 
     function handleCountryChange (e) {
-        console.log(e.target.value, "selected")
         const selected = countryData.find((country) => country.name === e.target.value)
         setSelectedCountry(selected)
         setPhoneNumber("")
@@ -22,7 +21,6 @@ function PhoneNumberInput() {
 
     function handleChange (e) {
         const input = e.target.value
-        console.log(input)
         const formattedInput = input.replace(/\D/g, "")
         const formattedPhoneNumber = formatPhoneNumber(formattedInput, selectedCountry.format)
 

@@ -1,16 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Timer from "../../reusables/Timer";
 import Logo from "../../../assets/logo-black-white.svg";
+import DialogBox from "../../reusables/DialogBox";
 
 function InterviewLayout() {
     const timerRef = useRef(null);
+    const [showRulesDialog, setShowRulesDialog] = useState(true);
 
-    // useEffect(() => {
-    //     window.addEventListener("scroll", () => {
-    //         timerRef.current?.classList.add("fixed ");
-    //     });
-    // }, []);
+    useEffect(() => {
+        setTimeout(() => {
+            setShowRulesDialog(false)
+        }, 5000);
+    }, []);
 
     return (
         <main className="relative pt-1">
@@ -23,6 +25,7 @@ function InterviewLayout() {
                 </div>
             </div>
             <Outlet />
+            {showRulesDialog && <DialogBox message="This interview will last for 6 minutes." />}
         </main>
     );
 }

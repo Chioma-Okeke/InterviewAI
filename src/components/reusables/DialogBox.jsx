@@ -40,21 +40,21 @@ function DialogBox({
                         <main className="flex flex-col items-center justify-center h-full w-full relative">
                             <div className="modal-wrapper flex items-center z-30 relative xl:w-[70%] justify-center">
                                 <div className="w-[90%] lg:w-[469px] rounded-[20px] text-primary-dark dark:text-primary-light bg-secondary-light dark:bg-primary-dark shadow-lg relative p-4 md:p-8">
-                                    <img src={imgSrc} alt="" className="mx-auto mb-12" />
+                                    {imgSrc && <img src={imgSrc} alt="" className="mx-auto mb-12" />}
                                     {isDeleteInProgress ? (
                                         <CircularProgress/>
                                     ) : (
-                                        <div>
-                                            <div className="w-full">
+                                        <div className="flex flex-col justify-center">
+                                            {subHeading &&<div className="w-full">
                                                 <p className="text-center text-lg mb-4">
                                                     {subHeading}
                                                 </p>
-                                            </div>
-                                            <div className="w-full">
+                                            </div>}
+                                            {message && <div className="w-full">
                                                 <p className="text-center text-sm lg:tex-base mb-8 ">
                                                     {message}
                                                 </p>
-                                            </div>
+                                            </div>}
                                             <div className="w-fit flex flex-col md:flex-row items-center justify-between gap-6  mx-auto ">
                                                 {cancelText && <Button
                                                     onClick={close}
@@ -62,12 +62,12 @@ function DialogBox({
                                                 >
                                                     {cancelText}
                                                 </Button>}
-                                                <Button
+                                                {okText && <Button
                                                     onClick={handleSubmission}
                                                     className={`rounded-lg border md:min-w-[143px] border-brand-color p-2 text-white text-sm lg:text-base transition ease-in-out hover:bg-brand-color duration-500 ${okTextClassName}`}
                                                 >
                                                     {okText}
-                                                </Button>
+                                                </Button>}
                                             </div>
                                         </div>
                                     )}

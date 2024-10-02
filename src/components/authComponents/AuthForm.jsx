@@ -1,30 +1,27 @@
-// import React from "react";
-import { useContext, useEffect, useState } from "react";
-import Button from "../reusables/Button";
-import { CircularProgress } from "@mui/material";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
-import { AuthContext } from "../../contexts/AuthContext";
-import { UserAuthentication } from "../../services/AuthServices";
-import FormInput from "../reusables/FormInput";
-import { toast, ToastContainer } from "react-toastify";
+import { useContext, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import Button from "../reusables/Button";
 import HiddenInput from "../reusables/HiddenInput";
 import CustomTextField from "../reusables/CustomInputs";
-import useThemeSwitcher from "../../hooks/useThemeSwitcher";
-import DOMPurify from "dompurify"; // Import DOMPurify
+import { AuthContext } from "../../contexts/AuthContext";
+import { UserAuthentication } from "../../services/AuthServices";
 
 function AuthForm({ buttonText, authGate }) {
     const [formData, setFormData] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [showOtherFields, setShowOtherFields] = useState(false);
     const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-    const { login, setToken, logout, isAuthenticated } = useContext(AuthContext);
-    const [theme, setTheme] = useThemeSwitcher();
+    const { login, setToken, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/user/dashboard";
-    const [errors, setErrors] = useState({}); // State for errors
+    const [errors, setErrors] = useState({});
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -72,14 +69,12 @@ function AuthForm({ buttonText, authGate }) {
                     setToken,
                     logout,
                 });
-                console.log(res, "response");
                 if (res.status === "success") {
                     toast.success(res.msg);
                     navigate("/auth/verifyemail");
                 }
             } else {
                 res = await userAuthentication.login(sanitizedFormData);
-                console.log(res, "signin response");
                 toast.success("You have successfully signed in.");
                 login(
                     res.data.tokens.accessToken,
@@ -184,7 +179,8 @@ function AuthForm({ buttonText, authGate }) {
 }
 
 AuthForm.propTypes = {
-    setShowModal: PropTypes.func,
+    buttonText: PropTypes.string,
+    authGate: PropTypes.string
 };
 
 export default AuthForm;

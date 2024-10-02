@@ -59,7 +59,7 @@ const Timer = () => {
     }, [isRunning]);
 
     useEffect(()=> {
-        if (time.minutes === 2 && time.seconds === 0) {
+        if (time.minutes === 6 && time.seconds === 0) {
             alert("Time up!");
             handleStop();
         }

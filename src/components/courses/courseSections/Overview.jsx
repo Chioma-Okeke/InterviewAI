@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Overview({ parts }) {
-    const {token} = useContext(AuthContext)
+    const { token, userData } = useContext(AuthContext);
+
+    const isExistingOnUserProfile = userData?.learningProfile.some(
+        (module) => module._id === parts.course._id
+    );
 
     async function startCourse() {
         const userServices = new UserServices();
@@ -16,7 +20,6 @@ function Overview({ parts }) {
                 parts.course,
                 token
             );
-            console.log(response, "course on save");
             if (response?.success) {
                 toast.success("Module has been successfully added to profile.");
             } else {
@@ -33,11 +36,16 @@ function Overview({ parts }) {
             <p className="text-primary-dark dark:text-primary-light">
                 {parts.courseDescription}
             </p>
-            <div className="flex justify-end mt-10">
-                <Button onClick={startCourse} className="text-white bg-brand-color rounded-lg p-3 border-[1.5px] border-brand-color hover:bg-transparent">
-                    Start Module
-                </Button>
-            </div>
+            {!isExistingOnUserProfile && (
+                <div className="flex justify-end mt-10">
+                    <Button
+                        onClick={startCourse}
+                        className="text-white bg-brand-color rounded-lg p-3 border-[1.5px] border-brand-color hover:bg-transparent"
+                    >
+                        Start Module
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }

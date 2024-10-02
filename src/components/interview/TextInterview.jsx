@@ -6,9 +6,9 @@ import Logo from "../../assets/logo-black-white.svg";
 import SendIcon from "../../assets/send.svg";
 import TrophyIcon from "../../assets/trophy.svg";
 import WarnIcon from "../../assets/warning.svg"
-import { endTextInterview, pauseTextInterview } from "../../store/interviewSlice";
+import { endAudioInterview, endTextInterview, endVideoInterview, pauseTextInterview } from "../../store/interviewSlice";
 import DialogBox from "../reusables/DialogBox";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { resumeTimer } from "../../store/timerSlice";
 
 const TextInterview = () => {
@@ -26,6 +26,7 @@ const TextInterview = () => {
     const interviewDetails = useSelector(
         (state) => state.interview.interviewDetails
     );
+    const {pathname} = useLocation()
 
     const {
         candidateFirstname,
@@ -67,7 +68,6 @@ const TextInterview = () => {
 
     useEffect(() => {
         const handleInterviewerResponse = (response) => {
-            console.log(response, "res from socket");
             const cleanedMessage = response.msg.replace(/^Interviewer:\s*/, "");
             setMessages((prevMessages) => [
                 ...prevMessages,
@@ -145,6 +145,17 @@ const TextInterview = () => {
     }
 
     function navigateToResult () {
+        switch (pathname) {
+            case "/user/practice/interviewdemo/text":
+                dispatch(endTextInterview());
+                break;
+            case "/user/practice/interviewdemo/audio":
+                dispatch(endAudioInterview());
+                break;
+            case "/user/practice/interviewdemo/video":
+                dispatch(endVideoInterview());
+                break;
+        }
         navigate("/user/practice/results")
     }
 

@@ -7,12 +7,13 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { IoIosArrowBack } from "react-icons/io";
+import { toast, ToastContainer } from "react-toastify";
+
 import { UserServices } from "../../services/UserServices";
 import { AuthContext } from "../../contexts/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import LoadingComponent from "../../components/reusables/LoadingComponent";
-import { IoIosArrowBack } from "react-icons/io";
 
 function IndividualStagePage() {
     const { stagemodule } = useParams();
@@ -29,7 +30,6 @@ function IndividualStagePage() {
         });
     });
 
-    // Fetch data on initial load
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
@@ -38,14 +38,11 @@ function IndividualStagePage() {
                 if (isAuthenticated) {
                     const response = await userServices.getModules(
                         token,
-                        stagemodule // Cache-busting
+                        stagemodule
                     );
-
-                    console.log(response, "data");
                     if (Array.isArray(response)) {
                         setData(response);
                     } else {
-                        // Handle if response is not an array
                         setData([response]);
                     }
                 } else {

@@ -21,7 +21,6 @@ export class UserServices {
 
     async getModules(token, stageId) {
         try {
-            console.log(stageId, "id")
             const response = await apiClient.get("/modules", {
                 params: {
                     stageNumber: stageId,
@@ -31,7 +30,6 @@ export class UserServices {
                     "Content-type": "application/json",
                 },
             });
-            console.log(response, "inservice rrr")
             return response.data.data.learningModules;
         } catch (error) {
             console.error(
@@ -120,8 +118,6 @@ export class UserServices {
                     },
                 }
             );
-
-            console.log(response, "in service");
             return response.data;
         } catch (error) {
             console.error(
@@ -165,8 +161,6 @@ export class UserServices {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log(response, "in service");
             return response.data;
         } catch (error) {
             const errorMessage =
@@ -185,8 +179,6 @@ export class UserServices {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log(response.data, "in service");
             return response.data.data.userJobProfiles;
         } catch (error) {
             const errorMessage =
@@ -208,8 +200,6 @@ export class UserServices {
                     },
                 }
             );
-
-            console.log(response.data, "in service");
             return response.data;
         } catch (error) {
             const errorMessage =
@@ -228,8 +218,6 @@ export class UserServices {
                     Authorization: `Bearer ${token}`,
                 },
             });
-
-            console.log(response.data.data, "in service");
             return response.data.data;
         } catch (error) {
             const errorMessage =
@@ -248,7 +236,6 @@ export class UserServices {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log(response)
             return response.data
         } catch (error) {
             const errorMessage =

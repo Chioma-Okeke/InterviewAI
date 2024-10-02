@@ -1,19 +1,18 @@
 import PropTypes from "prop-types";
 import { FaPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SlOptionsVertical } from "react-icons/sl";
+import { toast, ToastContainer } from "react-toastify";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import Button from "../reusables/Button";
-import ProfileSelectionModal from "../modals/ProfileSelectionModal";
-import useThemeSwitcher from "../../hooks/useThemeSwitcher";
-import { UserServices } from "../../services/UserServices";
 import DialogBox from "../reusables/DialogBox";
 import { AuthContext } from "../../contexts/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
-import DescriptionModal from "../modals/DescriptionModal";
-import { useDispatch } from "react-redux";
+import { UserServices } from "../../services/UserServices";
+import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { updateProfileData } from "../../store/interviewSlice";
+import ProfileSelectionModal from "../modals/ProfileSelectionModal";
 
 const columnsClass = {
     2: "lg:grid-cols-2",
@@ -22,19 +21,18 @@ const columnsClass = {
 };
 
 const ExistingProfiles = ({ userProfiles, fetchData }) => {
-    const [isCreateRequested, setIsCreateRequested] = useState(false);
-    const [isDeleteRequested, setIsDeleteRequested] = useState(false);
-    const gridColumns = userProfiles.length + 1;
-    const [theme, setTheme] = useThemeSwitcher();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [theme] = useThemeSwitcher();
+    const { token } = useContext(AuthContext);
+    const gridColumns = userProfiles.length + 1;
     const [selectedProfile, setSelectedProfile] = useState({});
     const [profileToDelete, setProfileToDelete] = useState("");
-    const { token, userData } = useContext(AuthContext);
+    const [isCreateRequested, setIsCreateRequested] = useState(false);
+    const [isDeleteRequested, setIsDeleteRequested] = useState(false);
     const [descriptionGenerationData, setDescriptionGenerationData] = useState(
         {}
     );
-    const dispatch = useDispatch();
-
     const enableButton = Object.keys(selectedProfile).length > 0;
 
     const nextPage = useCallback(() => {
@@ -46,17 +44,12 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
     useEffect(() => {
         window.scrollTo(0, {
             top: 0,
-            behavior: "smooth"
-        })
-    })
+            behavior: "smooth",
+        });
+    }, []);
 
     const selectProfile = (profile) => {
-        console.log(profile, "selected");
-        console.log(userData, "user");
         const { jobRole, experienceLevel, resumeUrl } = profile;
-        console.log(jobRole, "jon");
-        console.log(experienceLevel, "exp");
-        console.log(resumeUrl, "res");
         setSelectedProfile(profile);
         setDescriptionGenerationData({ jobRole, experienceLevel, resumeUrl });
         dispatch(
@@ -75,13 +68,11 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
 
     async function deleteJobProfile() {
         const userServices = new UserServices();
-        console.log(token, "tok");
         try {
             const response = await userServices.deleteJobProfile(
                 profileToDelete,
                 token
             );
-            console.log(response, "resp");
             toast.success("Job Profile successfully deleted.");
             fetchData();
         } catch (error) {

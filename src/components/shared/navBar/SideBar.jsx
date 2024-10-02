@@ -1,27 +1,25 @@
-import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
-
-import LogoDark from "../../../assets/logo-black-white.svg";
-import LogoLight from "../../../assets/logo.svg";
-import useThemeSwitcher from "../../../hooks/useThemeSwitcher";
-import BookIcon from "../../../assets/book.svg";
-import SuitcaseIcon from "../../../assets/suitcase.svg";
-import bigScreenNavIcon from "../../../assets/sideIcon.svg";
-import MobNavIcon from "../../../assets/sideIconMob.svg";
-import { useDispatch } from "react-redux";
-import { toggleNavBar } from "../../../store/navSlice";
-import { IoIosLogOut } from "react-icons/io";
 import { useContext } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
-import { toast, ToastContainer } from "react-toastify";
+import PropTypes from "prop-types";
+import { NavLink } from "react-router-dom";
+import { IoIosLogOut } from "react-icons/io";
 import "react-toastify/dist/ReactToastify.css";
 import { IoMoonOutline } from "react-icons/io5";
 import { MdOutlineWbSunny } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
+
+import { useDispatch } from "react-redux";
+import { toggleNavBar } from "../../../store/navSlice";
+
+import BookIcon from "../../../assets/book.svg";
+import LogoLight from "../../../assets/logo.svg";
+import SuitcaseIcon from "../../../assets/suitcase.svg";
+import LogoDark from "../../../assets/logo-black-white.svg";
+import { AuthContext } from "../../../contexts/AuthContext";
+import useThemeSwitcher from "../../../hooks/useThemeSwitcher";
 
 function SideBar() {
     const [theme, setTheme] = useThemeSwitcher();
     const { logout } = useContext(AuthContext);
-    console.log(theme, "in sdie bar");
     const dispatch = useDispatch();
 
     function handleSideBarToggle() {

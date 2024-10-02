@@ -1,34 +1,29 @@
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import CreateInterviewCard from "./CreateInterviewCard";
-import ExistingProfiles from "./ExistingProfiles";
-import { UserServices } from "../../services/UserServices";
-import { toast, ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { useCallback, useContext, useEffect, useState } from "react";
+
+import Button from "../reusables/Button";
+import ExistingProfiles from "./ExistingProfiles";
+import CreateInterviewCard from "./CreateInterviewCard";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
+import { UserServices } from "../../services/UserServices";
 import LoadingComponent from "../reusables/LoadingComponent";
 import ConstructionIllustration from "../../assets/construction-concept-illustration.png";
-import Button from "../reusables/Button";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 function First() {
-    const [isInView, setIsInView] = useState(false);
-    const sectionRef = useRef(null);
     const [tabIndex, setTabIndex] = useState(1);
-    const [isProfileExisting, setIsProfileExisting] = useState(false);
     const [loading, setLoading] = useState(false);
     const [userProfiles, setUserProfiles] = useState([]);
     const { token } = useContext(AuthContext);
-    const { pathname } = useLocation();
 
     const fetchData = useCallback(async () => {
         const userServices = new UserServices();
         setLoading(true);
         try {
             const response = await userServices.getJobProfiles(token);
-            console.log(response, "data from job profile fetch");
             setUserProfiles(response);
         } catch (error) {
             toast.error(
@@ -105,14 +100,14 @@ function First() {
                             <div className="max-w-[382px] flex flex-col gap-8 lg:gap-10 mt-5">
                                 <div className="px-[20.5px]">
                                     <LazyLoadImage
-                    src={ConstructionIllustration}
-                    alt="Listing Image"
-                    effect="blur"
-                    className="mx-auto"
-                    wrapperProps={{
-                        style: {transitionDelay: "1s"},
-                    }}
-                />
+                                        src={ConstructionIllustration}
+                                        alt="Listing Image"
+                                        effect="blur"
+                                        className="mx-auto"
+                                        wrapperProps={{
+                                            style: { transitionDelay: "1s" },
+                                        }}
+                                    />
                                 </div>
                                 <div className="flex flex-col gap-4 text-center">
                                     <h2 className="text-primary-dark dark:text-primary-light text-xl lg:text-[23px] ">

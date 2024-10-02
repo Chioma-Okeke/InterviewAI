@@ -71,14 +71,12 @@ function AuthForm({ buttonText, authGate }) {
                     setToken,
                     logout,
                 });
-                console.log(res, "response");
                 if (res.status === "success") {
                     toast.success(res.msg);
                     navigate("/auth/verifyemail");
                 }
             } else {
                 res = await userAuthentication.login(sanitizedFormData);
-                console.log(res, "signin response");
                 toast.success("You have successfully signed in.");
                 login(
                     res.data.tokens.accessToken,

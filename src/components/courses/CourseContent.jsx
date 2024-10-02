@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { useContext, useEffect, useRef, useState } from "react";
 import FileIcon from "../../assets/file.svg";
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModule } from "../../store/moduleSlice";
 import { UserServices } from "../../services/UserServices";
@@ -13,25 +11,19 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function CourseContent({ content, parts }) {
-    const [isPartContentOpen, setIsPartContentOpen] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const { stagemodule } = useParams();
-    const { module } = useParams();
     const dispatch = useDispatch();
-    console.log(parts, "module parts in co");
     const { token } = useContext(AuthContext);
     const partNumber = useSelector((state) => state.partNumber.partNumber);
     const prevPartNumberRef = useRef(partNumber);
     const [formData, setFormData] = useState({
         _id: "",
-        partTitle: ""
-    })
-    const {userData} = useContext(AuthContext)
+        partTitle: "",
+    });
+    const { userData } = useContext(AuthContext);
 
-    const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
-    
+    const isExistingOnUserProfile = userData?.learningProfile.some(
+        (module) => module._id === parts.course._id
+    );
 
     function navigateToModule() {
         if (window.innerWidth < 1024 && isExistingOnUserProfile) {
@@ -39,15 +31,15 @@ function CourseContent({ content, parts }) {
         }
     }
 
-    async function markAsCompleted (partId, partTitle) {
+    async function markAsCompleted(partId, partTitle) {
         const userServices = new UserServices();
-        setFormData(prevState => {
+        setFormData((prevState) => {
             return {
                 ...prevState,
                 _id: partId,
-                partTitle: partTitle
-            }
-        })
+                partTitle: partTitle,
+            };
+        });
         try {
             const response = await userServices.markPartAsCompleted(
                 formData,
@@ -64,18 +56,18 @@ function CourseContent({ content, parts }) {
     }
 
     async function handlePartChange(partId, partTitle) {
-        markAsCompleted(partId, partTitle)
+        markAsCompleted(partId, partTitle);
     }
 
     useEffect(() => {
         if (prevPartNumberRef.current < partNumber) {
             // Find the part that corresponds to the new partNumber.
             const nextPart = parts?.parts?.[partNumber - 1]; // Assuming parts is an array and partNumber is 1-based index
-    
+
             if (nextPart) {
                 markAsCompleted(nextPart._id, nextPart.title);
             }
-    
+
             prevPartNumberRef.current = partNumber;
         }
     }, [partNumber, parts]);
@@ -124,7 +116,9 @@ function CourseContent({ content, parts }) {
                                                                 part.title
                                                             )
                                                         }
-                                                        disabled = {!isExistingOnUserProfile}
+                                                        disabled={
+                                                            !isExistingOnUserProfile
+                                                        }
                                                     />
                                                 </label>
                                                 <div>

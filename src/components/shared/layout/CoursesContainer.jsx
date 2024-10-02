@@ -1,47 +1,43 @@
-import { useContext, useEffect, useState, useSyncExternalStore } from "react";
+import { ring2 } from "ldrs";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { IoIosArrowBack } from "react-icons/io";
+import { useContext, useEffect, useState } from "react";
+import { Link, Outlet, useLocation, useParams } from "react-router-dom";
+
 import CourseHeader from "../../courses/CourseHeader";
 import CourseBody from "../../courses/CourseBody";
 // import CourseFooter from "../../courses/CourseFooter";
 import CourseContent from "../../courses/CourseContent";
-import { Link, Outlet, useLocation, useParams } from "react-router-dom";
 // import QuizWelcome from "../../quiz/QuizWelcome";
 // import QuestionSection from "../../quiz/QuestionSection";
-import QuizCompleted from "../../quiz/QuizCompleted";
+// import QuizCompleted from "../../quiz/QuizCompleted";
 import { UserServices } from "../../../services/UserServices";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { ring2 } from "ldrs";
 import useThemeSwitcher from "../../../hooks/useThemeSwitcher";
 import MobModule from "../../courses/courseSections/MobModule";
-import { useSelector } from "react-redux";
 
 function CoursesContainer() {
-    const [theme, setTheme] = useThemeSwitcher();
-    const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
-    const { token } = useContext(AuthContext);
+    ring2.register();
     const location = useLocation();
     const parts = location.state || {};
-    const [data, setData] = useState({});
-    const [headerContent, setHeaderContent] = useState({});
-    const [imageContent, setImageContent] = useState({});
-    const [bodyContent, setBodyContent] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    // const { module } = useParams();
-    const [currentDisplay, setCurrentDisplay] = useState(firstPage);
     const { stagemodule } = useParams();
-
-    const params = new URLSearchParams(location.search);
+    const [data, setData] = useState({});
     const moduleId = params.get("moduleId");
-    const totalParts = params.get("totalParts");
-    const stageName = params.get("stageName");
-    const partNumber = useSelector((state) => state.partNumber.partNumber);
-    ring2.register();
-    const showModule = useSelector((state) => state.module.showModule);
-    const { module } = useParams();
-    const { pathname } = useLocation();
-    console.log(parts, "module parts");
     const {userData} = useContext(AuthContext)
+    const stageName = params.get("stageName");
+    const totalParts = params.get("totalParts");
+    const { token } = useContext(AuthContext);
+    const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
+    const [theme, setTheme] = useThemeSwitcher();
+    const [isLoading, setIsLoading] = useState(false);
+    const params = new URLSearchParams(location.search);
+    const [bodyContent, setBodyContent] = useState({});
+    const [imageContent, setImageContent] = useState({});
+    const [headerContent, setHeaderContent] = useState({});
+    const [currentDisplay, setCurrentDisplay] = useState(firstPage);
+    const showModule = useSelector((state) => state.module.showModule);
+    const partNumber = useSelector((state) => state.partNumber.partNumber);
 
     const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
 
@@ -64,7 +60,6 @@ function CoursesContainer() {
                     token
                 );
                 setData(response);
-                console.log(response, "module");
             } catch (error) {
                 console.error(error);
             } finally {
@@ -108,7 +103,7 @@ function CoursesContainer() {
                         className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2"
                     >
                         <IoIosArrowBack />
-                        <span className="text-xs">Back to Learning Pages</span>
+                        <span className="text-xs lg:text-base">Back to Learning Pages</span>
                     </Link>
                     <div className="w-full relative">
                         <CourseHeader
@@ -166,7 +161,7 @@ function CoursesContainer() {
                             className="text-primary-dark dark:text-[#C5C6CB] items-center gap-2 flex"
                         >
                             <IoIosArrowBack />
-                            <span>Back to Learning Pages</span>
+                            <span className="text-xs lg:text-base">Back to Learning Pages</span>
                         </Link>
                         <div>
                             <CourseHeader

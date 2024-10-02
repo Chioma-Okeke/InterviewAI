@@ -44,7 +44,6 @@ const interviewSlice = createSlice({
             state.interviewDetails.experienceLevel = experienceLevel;
             state.interviewDetails.roleName = jobRole;
             state.interviewDetails.candidateFirstname = firstName;
-            console.log(state.interviewDetails.candidateFirstname, "details in store");
         },
         updateDescription: (state, action) => {
             const { description } = action.payload;
@@ -66,6 +65,6 @@ export const {
     updateUserFirstName,
     endTextInterview,
     endAudioInterview,
-    endVideoInterview
+    endVideoInterview,
 } = interviewSlice.actions;
 export default interviewSlice.reducer;

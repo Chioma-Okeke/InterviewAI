@@ -17,8 +17,6 @@ function AppHeader() {
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    console.log(isAuthenticated, "auth")
-
     function toggleSideBar() {
         dispatch(toggleNavBar());
     }

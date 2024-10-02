@@ -3,8 +3,17 @@ import ConstructionIllustration from "../../assets/construction-concept-illustra
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Button from "../reusables/Button"
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useEffect } from "react";
 
 function Results() {
+
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
+
     return (
         <main className="relative lg:min-h-screen text-primary-dark dark:text-primary-light flex  justify-center mb-10">
             <div className="max-w-[382px] flex flex-col gap-10">

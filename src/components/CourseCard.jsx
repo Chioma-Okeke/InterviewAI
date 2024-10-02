@@ -1,16 +1,12 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { HiOutlineArrowRight } from "react-icons/hi2";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import saveIcon from "../assets/save.svg";
 import ProgressBar from "./reusables/ProgressBar";
-import { UserServices } from "../services/UserServices";
-import { AuthContext } from "../contexts/AuthContext";
 import useThemeSwitcher from "../hooks/useThemeSwitcher";
-// import image from "../assets/image.png";
 
 function CourseCard({
     title,
@@ -26,11 +22,9 @@ function CourseCard({
     const sectionRef = useRef(null);
     const [progress, setProgress] = useState(50);
     const navigate = useNavigate();
-    const { token } = useContext(AuthContext);
     const [theme, setTheme] = useThemeSwitcher();
 
     async function openIndividualModule() {
-        console.log(course, "course details");
         navigate(
             `/user/learning/stages/${stageNumber}/${title}?stageName=${stageName}&moduleId=${moduleId}&totalParts=${totalParts}`,
             { state: { parts: course.partsMetaData, courseDescription: description, course: course } }
@@ -152,6 +146,8 @@ CourseCard.propTypes = {
     addModuleToProfile: PropTypes.func,
     stageNumber: PropTypes.number,
     course: PropTypes.object,
+    stageName: PropTypes.string,
+    description: PropTypes.string
 };
 
 export default CourseCard;

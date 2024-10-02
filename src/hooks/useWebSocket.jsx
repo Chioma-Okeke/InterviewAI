@@ -1,5 +1,5 @@
 // src/hooks/useWebSocket.js
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import io from "socket.io-client";
 import { AuthContext } from "../contexts/AuthContext";
 import { useSelector } from "react-redux";
@@ -12,7 +12,6 @@ const useWebSocket = (onMessage) => {
         (state) => state.interview.interviewDetails
     );
     const socketRef = useRef();
-    // Destructure the properties
     const {
         candidateFirstname,
         resumeUrl,
@@ -21,14 +20,13 @@ const useWebSocket = (onMessage) => {
         jobDescription,
     } = interviewDetails;
 
-    // Use the destructured values to create your payload
-    const payload = {
+    const payload = useMemo(() => ({
         candidateFirstname,
         resumeUrl,
         roleName,
         experienceLevel,
         jobDescription,
-    };
+    }), [candidateFirstname, experienceLevel, jobDescription, resumeUrl, roleName]) 
 
     useEffect(() => {
         // Connect to the WebSocket server
@@ -53,18 +51,12 @@ const useWebSocket = (onMessage) => {
 
         // Listen for messages from the server
         socketRef.current.on("INCOMPLETE_INTERVIEW_DATA", (response) => {
-            // Sample Response
-            // { candidateFirstname, roleName, experienceLevel, jobDescription  }
-            // check null field
-
             window.alert("INCOMPLETE INTERVIEW DETAILS SENT TO SERVER");
             window.alert(response);
         });
 
         // Listen for messages from the server
         socketRef.current.on("SERVER_ERROR", (response) => {
-            // Sample Response
-            // "a string"
             window.alert("SERVER ERROR");
         });
 
@@ -72,7 +64,7 @@ const useWebSocket = (onMessage) => {
         return () => {
             socketRef.current.disconnect();
         };
-    }, [interviewDetails, onMessage]);
+    }, [interviewDetails, onMessage, payload]);
 
     return socketRef;
 };

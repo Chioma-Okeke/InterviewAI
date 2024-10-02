@@ -1,4 +1,3 @@
-import { motion, AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
 import Button from "../reusables/Button";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -13,14 +12,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
     updateDescription,
-    updateUserFirstName,
 } from "../../store/interviewSlice";
 import { IoIosArrowBack } from "react-icons/io";
 
 const DescriptionModal = () => {
     const [theme, setTheme] = useThemeSwitcher();
     const [data, setData] = useState([]);
-    const { token, userData } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const [selected, setSelected] = useState("");
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -29,6 +27,13 @@ const DescriptionModal = () => {
     const { descriptionGenerationData } = location.state || {};
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo(0, {
+            top: 0,
+            behavior: "smooth"
+        })
+    }, [])
 
     useEffect(() => {
         async function fetchDescriptions() {
@@ -51,7 +56,6 @@ const DescriptionModal = () => {
     }, [descriptionGenerationData, token]);
 
     function saveDescription() {
-        console.log(selected, "picked description");
         dispatch(updateDescription({ description: selected }));
         toast.success("Kindly click next to continue.");
         navigate("/user/practice/interviewmethods");

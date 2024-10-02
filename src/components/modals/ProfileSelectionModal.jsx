@@ -1,16 +1,17 @@
-import { motion, AnimatePresence } from "framer-motion";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
+import { useContext, useState } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { IoIosArrowDown } from "react-icons/io";
+import { CircularProgress } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
+
+import Input from "../reusables/Input";
 import Button from "../reusables/Button";
 import EditIcon from "../../assets/edit.svg";
-import Input from "../reusables/Input";
-import { IoIosArrowDown } from "react-icons/io";
-import { useContext, useState } from "react";
 import AddFiles from "../reusables/AddFiles";
-import { UserServices } from "../../services/UserServices";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../contexts/AuthContext";
-import { CircularProgress } from "@mui/material";
+import { UserServices } from "../../services/UserServices";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 
 const levelsOfExperience = [
@@ -22,15 +23,14 @@ const levelsOfExperience = [
 ];
 
 function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
-    const [formData, setFormData] = useState({});
-    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [pdfs, setPdfs] = useState([]);
     const { token } = useContext(AuthContext);
-    const [isSaveInProgress, setIsSaveInProgress] = useState(false)
-    const [theme, setTheme] = useThemeSwitcher()
+    const [formData, setFormData] = useState({});
+    const [theme, setTheme] = useThemeSwitcher();
+    const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+    const [isSaveInProgress, setIsSaveInProgress] = useState(false);
 
     const handlePdfsChange = (newPdfs) => {
-        console.log(newPdfs, "pdfs");
         const filteredPdfs = newPdfs.filter(
             (file) => file.file.type === "application/pdf"
         );
@@ -73,17 +73,13 @@ function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
     async function handleSubmit() {
         const userServices = new UserServices();
         const formDataToSend = new FormData();
-        setIsSaveInProgress(true)
+        setIsSaveInProgress(true);
 
         formDataToSend.append("jobRole", formData.jobRole);
         formDataToSend.append("experienceLevel", formData.experienceLevel);
 
         if (pdfs[0]?.file) {
             formDataToSend.append("resume", pdfs[0].file);
-        }
-
-        for (let pair of formDataToSend.entries()) {
-            console.log(pair[0] + ": " + pair[1]);
         }
 
         try {
@@ -94,14 +90,14 @@ function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
             if (response?.success) {
                 toast.success("Job Profile successfully created.");
                 setIsCreateRequested(false);
-                fetchData()
+                fetchData();
             } else {
-                toast.error(response?.mgs)
+                toast.error(response?.mgs);
             }
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         } finally {
-            isSaveInProgress(false)
+            isSaveInProgress(false);
         }
     }
 
@@ -269,7 +265,18 @@ function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
                                                 onClick={handleSubmit}
                                                 className="rounded-lg bg-brand-color border border-brand-color py-2 px-3 text-white text-sm transition ease-in-out hover:bg-transparent duration-500 w-28"
                                             >
-                                                {isSaveInProgress ? <CircularProgress size={14} color={theme === "dark" ? "#ECECEC" : "#212121"}/> : "Save Profile"}
+                                                {isSaveInProgress ? (
+                                                    <CircularProgress
+                                                        size={14}
+                                                        color={
+                                                            theme === "dark"
+                                                                ? "#ECECEC"
+                                                                : "#212121"
+                                                        }
+                                                    />
+                                                ) : (
+                                                    "Save Profile"
+                                                )}
                                             </Button>
                                         </div>
                                     </div>
@@ -286,6 +293,7 @@ function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
 ProfileSelectionModal.propTypes = {
     setIsCreateRequested: PropTypes.func,
     setUserProfiles: PropTypes.func,
+    fetchData: PropTypes.func,
 };
 
 export default ProfileSelectionModal;

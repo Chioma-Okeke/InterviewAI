@@ -111,19 +111,6 @@ const router = createBrowserRouter(
                                 </Route> */}
                             </Route>
                         </Route>
-                        <Route path="corestage" element={<CoreStage />} />
-                        <Route
-                            path="preparationstage"
-                            element={<PreparationStage />}
-                        />
-                        <Route
-                            path="applicationstage"
-                            element={<ApplicationStage />}
-                        />
-                        <Route
-                            path="interviewstage"
-                            element={<InterviewStage />}
-                        />
                     </Route>
                     <Route path="profile" element={<UserProfile />} />
                 </Route>

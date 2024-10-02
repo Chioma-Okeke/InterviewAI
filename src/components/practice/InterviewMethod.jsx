@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import {useNavigate } from "react-router-dom";
+import { SlOptionsVertical } from "react-icons/sl";
+
 import listIcon from "../../assets/list.svg";
 import micIcon from "../../assets/microphone.svg";
 import videoIcon from "../../assets/video.svg";
-import { SlOptionsVertical } from "react-icons/sl";
 import Button from "../reusables/Button";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const interviewMethod = [
     {
@@ -24,16 +24,7 @@ const interviewMethod = [
 
 function InterviewMethod() {
     const [selectedMethod, setSelectedMethod] = useState("");
-    const location = useLocation();
-    const { selectedProfile, description } = location.state || {};
-    console.log(selectedProfile, "in interview method selection")
     const navigate = useNavigate()
-    const interViewDetails = useSelector((state) => state.interview.interviewDetails)
-    console.log(interViewDetails, "interview details")
-
-    useEffect(() => {
-        console.log(selectedMethod, "method")
-    })
 
     useEffect(() => {
         window.scrollTo(0, {
