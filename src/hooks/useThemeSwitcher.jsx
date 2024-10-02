@@ -6,14 +6,13 @@ function useThemeSwitcher() {
         if (localStorage.theme) {
             return localStorage.theme;
         } else {
-            // return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-            //     ? 'dark'
-            //     : 'light';
-            return "dark"
+            return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
         }
     };
 
-    const [theme, setTheme] = useState(getInitialTheme);
+    const [theme, setTheme] = useState("dark");
 
     useEffect(() => {
         const root = window.document.documentElement;
