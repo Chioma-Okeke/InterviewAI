@@ -20,6 +20,7 @@ import MobModule from "../../courses/courseSections/MobModule";
 function CoursesContainer() {
     ring2.register();
     const location = useLocation();
+    const params = new URLSearchParams(location.search);
     const parts = location.state || {};
     const { stagemodule } = useParams();
     const [data, setData] = useState({});
@@ -31,7 +32,6 @@ function CoursesContainer() {
     const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
     const [theme, setTheme] = useThemeSwitcher();
     const [isLoading, setIsLoading] = useState(false);
-    const params = new URLSearchParams(location.search);
     const [bodyContent, setBodyContent] = useState({});
     const [imageContent, setImageContent] = useState({});
     const [headerContent, setHeaderContent] = useState({});

@@ -11,7 +11,7 @@ function InterviewLayout() {
     useEffect(() => {
         setTimeout(() => {
             setShowRulesDialog(false)
-        }, 5000);
+        }, 3000);
     }, []);
 
     return (

@@ -70,6 +70,10 @@ function IndividualStagePage() {
         fetchData();
     }, [stagemodule, token, isAuthenticated, navigate]);
 
+    useEffect(() => {
+        console.log(data)
+    }, [data])
+
     return (
         <main className="lg:px-8 pb-10 mb-10">
             {pathname === `/user/learning/stages/${stagemodule}` && (
@@ -84,10 +88,10 @@ function IndividualStagePage() {
                 </Link>
             )}
             {pathname === `/user/learning/stages/${stagemodule}` && (
-                <div className="relative min-h-screen px-4 lg:px-0">
+                <div className={`relative min-h-screen px-4 lg:px-0`}>
                     {!loading && (
-                        <div className="grid lg:grid-cols-3 gap-x-24 gap-y-16">
-                            {data.length > 0 ? (
+                        <div className={` ${data.length > 0 && data[0] !== null ? "grid lg:grid-cols-3 gap-x-24 gap-y-16" : ""}`}>
+                            {data.length > 0 && data[0] !== null ? (
                                 data.map((module, index) => (
                                     <CourseCard
                                         key={index}
@@ -97,12 +101,12 @@ function IndividualStagePage() {
                                         imgSrc={module?.imgSrc}
                                         stageNumber={module?.stageNumber}
                                         stageName={module?.stageName}
-                                        description={module.description}
+                                        description={module?.description}
                                         course={module}
                                     />
                                 ))
                             ) : (
-                                <p className="text-primary-dark dark:text-primary-light">
+                                <p className="text-primary-dark dark:text-primary-light text-2xl w-full">
                                     No learning modules available.
                                 </p>
                             )}
