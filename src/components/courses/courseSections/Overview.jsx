@@ -7,10 +7,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function Overview({ parts }) {
-    const { token, userData } = useContext(AuthContext);
+    const { token, userData, updateLearningProfile } = useContext(AuthContext);
 
     const isExistingOnUserProfile = userData?.learningProfile.some(
-        (module) => module._id === parts.course._id
+        (module) => module?._id === parts.course._id
     );
 
     async function startCourse() {
@@ -20,7 +20,10 @@ function Overview({ parts }) {
                 parts.course,
                 token
             );
+            console.log(parts.course, "course")
+            console.log(response, "res")
             if (response?.success) {
+                updateLearningProfile({newModule: parts.course})
                 toast.success("Module has been successfully added to profile.");
             } else {
                 toast.error("Error while adding module to user profile.");

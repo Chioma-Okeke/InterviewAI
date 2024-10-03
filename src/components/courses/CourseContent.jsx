@@ -22,7 +22,7 @@ function CourseContent({ content, parts }) {
     const { userData } = useContext(AuthContext);
 
     const isExistingOnUserProfile = userData?.learningProfile.some(
-        (module) => module._id === parts.course._id
+        (module) => module?._id === parts.course._id
     );
 
     function navigateToModule() {

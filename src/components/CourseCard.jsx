@@ -58,10 +58,10 @@ function CourseCard({
     }, []);
 
     return (
-        <div className="cursor-pointer">
+        <div className="cursor-pointer w-fit">
             <div
                 onClick={openIndividualModule}
-                className="lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-[#F4F4F4] dark:bg-hover-dark pb-[27.93px] lg:pb-[19.2px] mx-auto border border-[#E5E5E5] dark:border-0"
+                className="lg:w-[279.76px] rounded-[23.94px] lg:rounded-2xl bg-[#F4F4F4] dark:bg-hover-dark pb-[27.93px] lg:pb-[19.2px] border border-[#E5E5E5] dark:border-0"
             >
                 <div
                     ref={sectionRef}

@@ -17,11 +17,13 @@ import LoadingComponent from "../../components/reusables/LoadingComponent";
 
 function IndividualStagePage() {
     const { stagemodule } = useParams();
-    const { token, isAuthenticated } = useContext(AuthContext);
+    const { token, isAuthenticated, userData } = useContext(AuthContext);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { pathname } = useLocation();
+
+    console.log(userData, "user")
 
     useEffect(() => {
         window.scrollTo(0, {
@@ -90,7 +92,7 @@ function IndividualStagePage() {
             {pathname === `/user/learning/stages/${stagemodule}` && (
                 <div className={`relative min-h-screen px-4 lg:px-0`}>
                     {!loading && (
-                        <div className={` ${data.length > 0 && data[0] !== null ? "grid lg:grid-cols-3 gap-x-24 gap-y-16" : ""}`}>
+                        <div className={` ${data.length > 0 && data[0] !== null ? "grid lg:grid-cols-3 2xl:grid-cols-4 gap-x-24 gap-y-16" : ""}`}>
                             {data.length > 0 && data[0] !== null ? (
                                 data.map((module, index) => (
                                     <CourseCard

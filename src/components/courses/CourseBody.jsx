@@ -11,7 +11,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 function CourseBody({currentDisplay, content, imageContent, parts}) {
     const {userData} = useContext(AuthContext)
 
-    const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
+    const isExistingOnUserProfile = userData?.learningProfile.some(module => module?._id === parts.course._id)
 
     const [pageContent, setPageContent] = useState(() => !isExistingOnUserProfile ? Overview : window.innerWidth > 1024 ? Module : CourseContent)
 

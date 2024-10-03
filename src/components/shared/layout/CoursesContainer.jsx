@@ -39,7 +39,7 @@ function CoursesContainer() {
     const showModule = useSelector((state) => state.module.showModule);
     const partNumber = useSelector((state) => state.partNumber.partNumber);
 
-    const isExistingOnUserProfile = userData?.learningProfile.some(module => module._id === parts.course._id)
+    const isExistingOnUserProfile = userData?.learningProfile.some(module => module?._id === parts.course._id)
 
     useEffect(() => {
         window.scrollTo(0, {

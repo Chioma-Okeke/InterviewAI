@@ -7,7 +7,7 @@ const InfiniteScrollComponent = ({ data }) => {
     const [learningModules, setLearningModules] = useState([])
 
     return (
-        <div className="grid lg:grid-cols-3 gap-x-24 gap-y-16">
+        <div className="grid lg:grid-cols-3 2xl:grid-cols-4 gap-x-24 gap-y-16">
             {data.map((course, index) => (
                 <CourseCard
                     key={index}

@@ -1,5 +1,12 @@
 /* eslint-disable react/prop-types */
-import { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useEffect,
+    useLayoutEffect,
+    useRef,
+    useState,
+} from "react";
 import apiClient from "../serviceClients/apiClient";
 import LoadingComponent from "../components/reusables/LoadingComponent";
 
@@ -11,7 +18,7 @@ export default function AuthProvider({ children }) {
     const [userData, setUserData] = useState({});
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     // const storedData = JSON.parse(localStorage.getItem("user_data"));
-    const isRefreshing = useRef(false)
+    const isRefreshing = useRef(false);
     const failedQueue = useRef([]);
 
     useEffect(() => {
@@ -21,7 +28,7 @@ export default function AuthProvider({ children }) {
             setToken(userToken);
             setUserData(user);
             setIsAuthenticated(true);
-        } 
+        }
         setLoading(false);
     }, []);
 
@@ -44,11 +51,11 @@ export default function AuthProvider({ children }) {
     //         try {
     //             const storedData = JSON.parse(localStorage.getItem("user_data"));
     //             const token = storedData?.accessToken;
-        
+
     //             if (token) {
     //                 config.headers.Authorization = `Bearer ${token}`;
     //             }
-        
+
     //             return config;
     //         } catch (error) {
     //             console.error("Error attaching token to request", error);
@@ -189,13 +196,39 @@ export default function AuthProvider({ children }) {
         setIsAuthenticated(false);
     }
 
+    function updateLearningProfile({ newModule }) {
+        setUserData((prevState) => ({
+            ...prevState,
+            learningProfile: [...prevState.learningProfile, newModule],
+        }));
+    }
+
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem("user_data"));
+        localStorage.setItem(
+            "user_data",
+            JSON.stringify({
+                ...storedData,
+                user: userData,
+            })
+        );
+    }, [userData])
+
     if (loading) {
-        return <LoadingComponent/>; // You can customize this loading indicator
+        return <LoadingComponent />; 
     }
 
     return (
         <AuthContext.Provider
-            value={{ token, isAuthenticated, login, logout, loading, userData }}
+            value={{
+                token,
+                isAuthenticated,
+                login,
+                logout,
+                loading,
+                userData,
+                updateLearningProfile,
+            }}
         >
             {children}
         </AuthContext.Provider>
