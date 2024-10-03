@@ -23,8 +23,6 @@ function IndividualStagePage() {
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
-    console.log(userData, "user")
-
     useEffect(() => {
         window.scrollTo(0, {
             top: document.body.scrollHeight,
@@ -71,10 +69,6 @@ function IndividualStagePage() {
 
         fetchData();
     }, [stagemodule, token, isAuthenticated, navigate]);
-
-    useEffect(() => {
-        console.log(data)
-    }, [data])
 
     return (
         <main className="lg:px-8 pb-10 mb-10">

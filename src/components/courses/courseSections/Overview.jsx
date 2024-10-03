@@ -20,8 +20,6 @@ function Overview({ parts }) {
                 parts.course,
                 token
             );
-            console.log(parts.course, "course")
-            console.log(response, "res")
             if (response?.success) {
                 updateLearningProfile({newModule: parts.course})
                 toast.success("Module has been successfully added to profile.");
