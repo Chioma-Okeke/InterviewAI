@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-import { pauseAudioInterview } from "../../store/interviewSlice";
+import { endAudioInterview, endTextInterview, endVideoInterview, pauseAudioInterview } from "../../store/interviewSlice";
 import marble from "../../assets/marble.png";
 import audio from "../../assets/audio.png";
 import DialogBox from "../reusables/DialogBox";
 import TrophyIcon from "../../assets/trophy.svg";
 import WarnIcon from "../../assets/warning.svg"
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { resumeTimer } from "../../store/timerSlice";
 
 const AudioInterview = () => {
@@ -30,6 +30,7 @@ const AudioInterview = () => {
     const isEndAudioRequested = useSelector(
         (state) => state.interview.isEndAudioRequested
     );
+    const {pathname} = useLocation()
 
     const payload = useMemo(
         () => ({
@@ -125,6 +126,17 @@ const AudioInterview = () => {
     }
 
     function navigateToResult () {
+        switch (pathname) {
+            case "/user/practice/interviewdemo/text":
+                dispatch(endTextInterview());
+                break;
+            case "/user/practice/interviewdemo/audio":
+                dispatch(endAudioInterview());
+                break;
+            case "/user/practice/interviewdemo/video":
+                dispatch(endVideoInterview());
+                break;
+        }
         navigate("/user/practice/results")
     }
 

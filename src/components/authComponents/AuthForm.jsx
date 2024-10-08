@@ -71,7 +71,7 @@ function AuthForm({ buttonText, authGate }) {
                 });
                 if (res.status === "success") {
                     toast.success(res.msg);
-                    navigate("/auth/verifyemail");
+                    navigate("/auth/verifyemail", {state: {userEmail: formData.email}});
                 }
             } else {
                 res = await userAuthentication.login(sanitizedFormData);
@@ -90,7 +90,7 @@ function AuthForm({ buttonText, authGate }) {
         } catch (err) {
             console.error(err);
             toast.error(
-                err.response?.data?.message || "Error when authenticating user"
+               err.message
             );
         } finally {
             setIsLoading(false);

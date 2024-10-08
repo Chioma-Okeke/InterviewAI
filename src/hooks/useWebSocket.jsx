@@ -36,7 +36,6 @@ const useWebSocket = (onMessage) => {
 
         // Listen for incoming messages
         socketRef.current.on("INTERVIEWER_RESPONSE", (message) => {
-            console.log(message, "coming in")
             if (onMessage) {
                 onMessage(message);
             }

@@ -349,7 +349,7 @@ function SideBar() {
                         </ul>
                     </nav>
                 </div>
-                <div
+                {/* <div
                     onClick={() =>
                         setTheme(theme === "dark" ? "light" : "dark")
                     }
@@ -364,7 +364,7 @@ function SideBar() {
                     <span className="leading-[20px] text-sm text-[#0D0D0D] dark:text-primary-light">
                         Change to {theme === "dark" ? "Light" : "Dark"} mode
                     </span>
-                </div>
+                </div> */}
             </div>
             <ToastContainer />
         </section>

@@ -26,9 +26,9 @@ function First() {
             const response = await userServices.getJobProfiles(token);
             setUserProfiles(response);
         } catch (error) {
-            toast.error(
-                error.response?.data?.msg || "Error when fetching profiles"
-            );
+            // toast.error(
+            //     error.response?.data?.msg || "Error when fetching profiles"
+            // );
         } finally {
             setLoading(false);
         }
