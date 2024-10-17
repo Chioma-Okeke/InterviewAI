@@ -5,7 +5,6 @@ import Button from "../reusables/Button";
 // import { useNavigate } from "react-router-dom";
 // import UserAuthentication from "../../services/AuthServices";
 // import FetchClient from "../../ServiceClients/FetchClient";
-import { ToastContainer } from "react-toastify";
 import HiddenInput from "../reusables/HiddenInput";
 // import { toast } from "react-toastify";
 
@@ -93,7 +92,6 @@ function ChangePasswordForm() {
                     Reset Password
                 </Button>
             </form>
-            <ToastContainer/>
         </div>
     );
 }

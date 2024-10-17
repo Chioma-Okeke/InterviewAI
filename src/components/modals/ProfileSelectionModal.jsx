@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
 import { useContext, useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { CircularProgress } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";

@@ -5,7 +5,6 @@ import FacebookIcon from "../../assets/facebook.svg";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import { UserAuthentication } from "../../services/AuthServices";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 

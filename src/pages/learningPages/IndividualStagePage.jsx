@@ -7,9 +7,8 @@ import {
     useNavigate,
     useParams,
 } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
 import { IoIosArrowBack } from "react-icons/io";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { UserServices } from "../../services/UserServices";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -112,7 +111,6 @@ function IndividualStagePage() {
                 </div>
             )}
             <Outlet />
-            <ToastContainer />
         </main>
     );
 }

@@ -6,8 +6,7 @@ import PropTypes from "prop-types";
 import { AuthContext } from "../../contexts/AuthContext";
 import { UserAuthentication } from "../../services/AuthServices";
 import FormInput from "../reusables/FormInput";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast} from "react-toastify";
 import HiddenInput from "../reusables/HiddenInput";
 import CustomTextField from "../reusables/CustomInputs";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
@@ -166,7 +165,6 @@ function AuthForm({ buttonText, authGate }) {
                     )}
                 </Button>
             </form>
-            <ToastContainer />
         </div>
     );
 }

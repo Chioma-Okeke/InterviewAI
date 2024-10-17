@@ -1,7 +1,6 @@
 import CourseCard from "../CourseCard";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
 
 const InfiniteScrollComponent = ({ data }) => {
     const [learningModules, setLearningModules] = useState([])

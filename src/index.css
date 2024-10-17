@@ -103,3 +103,8 @@
 .custom-animate-pulse {
   animation: custom-pulse 0.5s ease-in-out infinite; /* Adjust the duration (0.5s) for higher frequency */
 }
+
+.demo-image {
+  /* box-shadow: 0px -100px 20px 0px black inset; */
+  /* clip-path: inset(50px 0 0 0) */
+}

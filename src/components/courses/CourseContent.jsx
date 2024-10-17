@@ -7,8 +7,7 @@ import { toggleModule } from "../../store/moduleSlice";
 import { UserServices } from "../../services/UserServices";
 import { AuthContext } from "../../contexts/AuthContext";
 import { incrementPartNumber } from "../../store/partNumberSlice";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function CourseContent({ content, parts }) {
     const dispatch = useDispatch();
@@ -144,7 +143,6 @@ function CourseContent({ content, parts }) {
                     </AnimatePresence>
                 </div>
             </div>
-            <ToastContainer />
         </section>
     );
 }

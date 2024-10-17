@@ -2,8 +2,7 @@ import PropTypes from "prop-types";
 import Button from "../reusables/Button";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserServices } from "../../services/UserServices";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../contexts/AuthContext";
 import { CircularProgress } from "@mui/material";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
@@ -176,7 +175,6 @@ const DescriptionModal = () => {
                     </Button>
                 </div>
             </div>
-            <ToastContainer />
         </main>
     );
 };

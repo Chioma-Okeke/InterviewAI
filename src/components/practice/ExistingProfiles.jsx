@@ -3,7 +3,7 @@ import { FaPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { SlOptionsVertical } from "react-icons/sl";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import Button from "../reusables/Button";
@@ -179,7 +179,6 @@ const ExistingProfiles = ({ userProfiles, fetchData }) => {
                     handleSubmission={deleteJobProfile}
                 />
             )}
-            <ToastContainer />
         </main>
     );
 };

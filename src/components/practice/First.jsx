@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -127,7 +126,6 @@ function First() {
                     )}
                 </div>
             )}
-            <ToastContainer />
         </main>
     );
 }

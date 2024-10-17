@@ -1,9 +1,8 @@
 import DOMPurify from "dompurify";
 import PropTypes from "prop-types";
 import { useContext, useState } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress } from "@mui/material";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import Button from "../reusables/Button";
@@ -173,7 +172,6 @@ function AuthForm({ buttonText, authGate }) {
                     )}
                 </Button>
             </form>
-            <ToastContainer />
         </div>
     );
 }

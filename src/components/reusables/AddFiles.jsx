@@ -4,7 +4,6 @@ import { IoIosClose } from "react-icons/io";
 import folderIcon from "../../assets/folder-open.svg";
 import EditIcon from "../../assets/edit.svg";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const AddFiles = ({ onFilesChange }) => {
     const fileInputRef = useRef(null);

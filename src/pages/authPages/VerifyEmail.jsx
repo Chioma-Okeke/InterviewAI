@@ -1,6 +1,5 @@
 import React from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Container from "../../components/shared/layout/Container";
 import { motion } from "framer-motion";
 import Logo from "../../assets/logo.svg";

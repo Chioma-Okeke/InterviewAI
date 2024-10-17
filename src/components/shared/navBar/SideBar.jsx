@@ -2,10 +2,9 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { IoIosLogOut } from "react-icons/io";
-import "react-toastify/dist/ReactToastify.css";
 import { IoMoonOutline } from "react-icons/io5";
 import { MdOutlineWbSunny } from "react-icons/md";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 import { useDispatch } from "react-redux";
 import { toggleNavBar } from "../../../store/navSlice";
@@ -366,7 +365,6 @@ function SideBar() {
                     </span>
                 </div>
             </div>
-            <ToastContainer />
         </section>
     );
 }

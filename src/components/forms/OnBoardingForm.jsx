@@ -4,8 +4,7 @@ import Button from "../reusables/Button";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { AuthContext } from "../../contexts/AuthContext";;
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { UserServices } from "../../services/UserServices";
 
 function OnBoardingForm() {
@@ -80,7 +79,6 @@ function OnBoardingForm() {
                     Agree
                 </Button>
             </form>
-            <ToastContainer />
         </div>
     );
 }

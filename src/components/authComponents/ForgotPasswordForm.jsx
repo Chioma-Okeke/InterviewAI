@@ -1,7 +1,5 @@
 import React from "react";
-import { ToastContainer } from "react-toastify";
 // import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 import FormInput from "../reusables/FormInput";
 import Button from "../reusables/Button";
 // import axios from "axios";
@@ -57,7 +55,6 @@ function ForgotPasswordForm() {
                     Send Email
                 </Button>
             </form>
-            <ToastContainer/>
         </div>
     );
 }

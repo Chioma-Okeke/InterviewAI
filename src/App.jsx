@@ -8,6 +8,8 @@ import {
 
 import AuthProvider from "./contexts/AuthContext";
 import useThemeSwitcher from "./hooks/useThemeSwitcher";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //layouts
 import PageLayout from "./components/shared/layout/PageLayout";
 import Container from "./components/shared/layout/Container";
@@ -55,7 +57,7 @@ const router = createBrowserRouter(
                 element={<RootLayout />}
                 errorElement={<ErrorPage />}
             >
-                <Route index element={<Home />} />
+                <Route index element={<LandingPage />} />
                 <Route path="user" element={<PageLayout />}>
                     <Route path="dashboard" element={<Home />} />
                     <Route element={<ProtectedRoute />}>
@@ -151,6 +153,7 @@ function App() {
                     </RouterProvider>
                 </div>
             </AuthProvider>
+            <ToastContainer/>
         </div>
     );
 }

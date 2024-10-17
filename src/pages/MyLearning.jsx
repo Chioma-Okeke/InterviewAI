@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import useThemeSwitcher from '../hooks/useThemeSwitcher'
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { ring2 } from "ldrs";
 import { UserServices } from '../services/UserServices';
 import InfiniteScrollComponent from '../components/reusables/InfiniteScrollComponent';
@@ -56,7 +55,6 @@ function MyLearning() {
                 )}
             </div>
         </div>
-            <ToastContainer />
     </main>
   )
 }

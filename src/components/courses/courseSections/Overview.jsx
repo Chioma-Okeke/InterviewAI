@@ -4,7 +4,6 @@ import Button from "../../reusables/Button";
 import { UserServices } from "../../../services/UserServices";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 function Overview({ parts }) {
     const { token, userData, updateLearningProfile } = useContext(AuthContext);
