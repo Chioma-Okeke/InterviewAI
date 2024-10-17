@@ -4,6 +4,7 @@ import LogoLight from "../assets/logo.svg";
 import BookIcon from "../assets/book.svg";
 import SuitcaseIcon from "../assets/suitcase.svg";
 import ServiceCard from "../components/ServiceCard";
+import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -30,12 +31,18 @@ function Home() {
     useEffect(() => {
         window.scrollTo(0, {
             top: document.body.scrollHeight,
-            behavior: "smooth"
-        })
-    })
+            behavior: "smooth",
+        });
+    });
 
     return (
-        <main className="relative flex-1 flex lg:items-center lg:justify-center px-5 lg:px-8 pb-10">
+        <motion.main
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeInOut", duration: 0.4 }}
+            className="relative flex-1 flex lg:items-center lg:justify-center px-5 lg:px-8 pb-10"
+        >
             <div className="flex items-center flex-col gap-[100px] lg:w-[868px] mx-auto">
                 <div className="hidden lg:block">
                     {theme === "dark" ? (
@@ -66,7 +73,7 @@ function Home() {
                     })}
                 </div>
             </div>
-        </main>
+        </motion.main>
     );
 }
 

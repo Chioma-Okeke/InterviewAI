@@ -56,7 +56,6 @@ const DescriptionModal = () => {
 
     function saveDescription() {
         dispatch(updateDescription({ description: selected }));
-        toast.success("Kindly click next to continue.");
         navigate("/user/practice/interviewmethods");
     }
 

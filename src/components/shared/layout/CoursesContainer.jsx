@@ -1,5 +1,6 @@
 import { ring2 } from "ldrs";
 import PropTypes from "prop-types";
+import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { IoIosArrowBack } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
@@ -25,7 +26,7 @@ function CoursesContainer() {
     const { stagemodule } = useParams();
     const [data, setData] = useState({});
     const moduleId = params.get("moduleId");
-    const {userData} = useContext(AuthContext)
+    const { userData } = useContext(AuthContext);
     const stageName = params.get("stageName");
     const totalParts = params.get("totalParts");
     const { token } = useContext(AuthContext);
@@ -39,7 +40,9 @@ function CoursesContainer() {
     const showModule = useSelector((state) => state.module.showModule);
     const partNumber = useSelector((state) => state.partNumber.partNumber);
 
-    const isExistingOnUserProfile = userData?.learningProfile.some(module => module?._id === parts.course._id)
+    const isExistingOnUserProfile = userData?.learningProfile.some(
+        (module) => module?._id === parts.course._id
+    );
 
     useEffect(() => {
         window.scrollTo(0, {
@@ -89,12 +92,17 @@ function CoursesContainer() {
         }
     }
 
-    function handleVisibility (page) {
-        setCurrentDisplay(page)
+    function handleVisibility(page) {
+        setCurrentDisplay(page);
     }
 
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeInOut", duration: 0.4 }}
+        >
             {/* desktop screen */}
             <div className="lg:flex gap-8 justify-center hidden xl:max-w-[1024px] 2xl:max-w-[1440px] mx-auto">
                 <div className="w-[60%] flex flex-col gap-3 cursor-pointer lg:max-w-[683px]">
@@ -103,7 +111,9 @@ function CoursesContainer() {
                         className="text-ternary-light dark:text-[#C5C6CB] flex items-center gap-2"
                     >
                         <IoIosArrowBack />
-                        <span className="text-xs lg:text-base">Back to Learning Pages</span>
+                        <span className="text-xs lg:text-base">
+                            Back to Learning Pages
+                        </span>
                     </Link>
                     <div className="w-full relative">
                         <CourseHeader
@@ -161,7 +171,9 @@ function CoursesContainer() {
                             className="text-primary-dark dark:text-[#C5C6CB] items-center gap-2 flex"
                         >
                             <IoIosArrowBack />
-                            <span className="text-xs lg:text-base">Back to Learning Pages</span>
+                            <span className="text-xs lg:text-base">
+                                Back to Learning Pages
+                            </span>
                         </Link>
                         <div>
                             <CourseHeader
@@ -201,7 +213,7 @@ function CoursesContainer() {
                     <CourseContent />
                 </div> */}
             </div>
-        </div>
+        </motion.div>
     );
 }
 

@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -79,7 +80,12 @@ function First() {
                     </div>
 
                     {tabIndex === 1 && (
-                        <div>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ ease: "easeInOut", duration: 0.4 }}
+                        >
                             <div className="mt-16">
                                 {userProfiles?.length > 0 ? (
                                     <ExistingProfiles
@@ -92,10 +98,16 @@ function First() {
                                     />
                                 )}
                             </div>
-                        </div>
+                        </motion.div>
                     )}
                     {tabIndex === 2 && (
-                        <main className="relative lg:min-h-screen text-primary-dark dark:text-primary-light flex lg:items-center justify-center mb-10">
+                        <motion.main
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ ease: "easeInOut", duration: 0.4 }}
+                            className="relative lg:min-h-screen text-primary-dark dark:text-primary-light flex lg:items-center justify-center mb-10"
+                        >
                             <div className="max-w-[382px] flex flex-col gap-8 lg:gap-10 mt-5">
                                 <div className="px-[20.5px]">
                                     <LazyLoadImage
@@ -122,7 +134,7 @@ function First() {
                                     </Button>
                                 </Link>
                             </div>
-                        </main>
+                        </motion.main>
                     )}
                 </div>
             )}

@@ -4,6 +4,7 @@ import FolderIcon from "../../assets/folder.svg";
 import PencilIcon from "../../assets/pencil.svg";
 import LogoOutLine from "../../assets/logooutline.svg";
 import ServiceCard from "../../components/ServiceCard";
+import { motion } from "framer-motion";
 
 const stages = [
     {
@@ -46,7 +47,12 @@ function Stages() {
 
     return (
         // <div>{data?.selectedInterest}</div>
-        <div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ ease: "easeInOut", duration: 0.4 }}
+        >
             <main className="px-5 lg:px-8 pb-10">
                 <div>
                     <div>
@@ -72,7 +78,7 @@ function Stages() {
                     </div>
                 </div>
             </main>
-        </div>
+        </motion.div>
     );
 }
 
