@@ -39,7 +39,7 @@ function First() {
     }, [fetchData]);
 
     if (loading) {
-        <LoadingComponent />;
+        return <LoadingComponent />;
     }
 
     return (

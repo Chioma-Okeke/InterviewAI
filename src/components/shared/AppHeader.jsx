@@ -12,8 +12,8 @@ import { AuthContext } from "../../contexts/AuthContext";
 function AppHeader() {
     const dispatch = useDispatch();
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
-    const showModule = useSelector((state) => state.module.showModule)
-    const [theme, setTheme] = useThemeSwitcher();
+    const showModule = useSelector((state) => state.module.showModule);
+    const [theme] = useThemeSwitcher();
     const { isAuthenticated } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -124,6 +124,13 @@ function AppHeader() {
                 </div>
                 {isAuthenticated ? (
                     <div
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                navigateToUserProfile();
+                            }
+                        }}
                         className="hidden lg:block cursor-pointer"
                         onClick={navigateToUserProfile}
                     >

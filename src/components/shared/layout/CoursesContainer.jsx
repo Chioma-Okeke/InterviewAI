@@ -31,7 +31,7 @@ function CoursesContainer() {
     const totalParts = params.get("totalParts");
     const { token } = useContext(AuthContext);
     const firstPage = window.innerWidth > 1024 ? "Module" : "Course Content";
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const [isLoading, setIsLoading] = useState(false);
     const [bodyContent, setBodyContent] = useState({});
     const [imageContent, setImageContent] = useState({});

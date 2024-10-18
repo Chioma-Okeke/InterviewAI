@@ -14,7 +14,7 @@ import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import ThirdPartyAuthForm from "../../components/authComponents/ThirdPartyAuthForm";
 
 function SignUp() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
 
     return (
         <motion.div

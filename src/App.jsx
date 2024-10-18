@@ -128,7 +128,7 @@ const router = createBrowserRouter(
 );
 
 function App() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
 
     useEffect(() => {
         // const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;

@@ -22,7 +22,7 @@ function CourseCard({
     const sectionRef = useRef(null);
     const [progress, setProgress] = useState(50);
     const navigate = useNavigate();
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
 
     async function openIndividualModule() {
         navigate(
@@ -143,7 +143,6 @@ CourseCard.propTypes = {
     moduleId: PropTypes.string,
     totalParts: PropTypes.number,
     imgSrc: PropTypes.string,
-    addModuleToProfile: PropTypes.func,
     stageNumber: PropTypes.number,
     course: PropTypes.object,
     stageName: PropTypes.string,

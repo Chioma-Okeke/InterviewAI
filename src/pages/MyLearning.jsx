@@ -8,11 +8,8 @@ import InfiniteScrollComponent from '../components/reusables/InfiniteScrollCompo
 import LoadingComponent from '../components/reusables/LoadingComponent';
 
 function MyLearning() {
-  const [theme, setTheme] = useThemeSwitcher()
   const [isLoading, setIsLoading] = useState(false)
-  const [data, setData] = useState([])
-  const [quizData, setQuizData] = useState([])
-  const {token, userId, userData} = useContext(AuthContext)
+  const {userData} = useContext(AuthContext)
   ring2.register();
 
   useEffect(() => {

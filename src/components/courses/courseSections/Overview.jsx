@@ -50,7 +50,7 @@ function Overview({ parts }) {
     );
 }
 
-Overview.propTypes -
+Overview.propTypes =
     {
         parts: PropTypes.object,
     };

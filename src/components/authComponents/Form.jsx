@@ -18,7 +18,6 @@ function AuthForm({ buttonText, authGate }) {
     const [showOtherFields, setShowOtherFields] = useState(false);
     const emailRegex = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
     const { login, setToken, logout, isAuthenticated } = useContext(AuthContext);
-    const [theme, setTheme] = useThemeSwitcher();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/user/dashboard";

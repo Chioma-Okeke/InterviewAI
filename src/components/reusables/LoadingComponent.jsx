@@ -4,7 +4,7 @@ import LogoLight from "../../assets/logo.svg";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 
 function LoadingComponent() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     return (
         <main className="h-[70vh] flex items-center justify-center">
             {theme === "dark" ? (

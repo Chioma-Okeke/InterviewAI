@@ -40,7 +40,7 @@ function QuestionSection() {
             setQuestion(data[index])
             setLock(false)
             console.log(question, "question on next")
-            optionArray.map((option) => {
+            optionArray.forEach((option) => {
                 option.current.classList.remove("wrong")
                 option.current.classList.remove("correct")
                 return null

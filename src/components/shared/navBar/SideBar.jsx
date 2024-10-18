@@ -116,7 +116,9 @@ function SideBar() {
                                 className={({ isActive }) => {
                                     return (
                                         "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
-                                        (isActive ? "bg-primary-light dark:bg-primary-dark" : "")
+                                        (isActive
+                                            ? "bg-primary-light dark:bg-primary-dark"
+                                            : "")
                                     );
                                 }}
                             >
@@ -142,7 +144,9 @@ function SideBar() {
                                 className={({ isActive }) => {
                                     return (
                                         "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
-                                        (isActive ? "bg-primary-light dark:bg-primary-dark" : "")
+                                        (isActive
+                                            ? "bg-primary-light dark:bg-primary-dark"
+                                            : "")
                                     );
                                 }}
                             >
@@ -204,7 +208,9 @@ function SideBar() {
                                 className={({ isActive }) => {
                                     return (
                                         "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
-                                        (isActive ? "bg-primary-light dark:bg-primary-dark" : "")
+                                        (isActive
+                                            ? "bg-primary-light dark:bg-primary-dark"
+                                            : "")
                                     );
                                 }}
                             >
@@ -266,7 +272,9 @@ function SideBar() {
                                 className={({ isActive }) => {
                                     return (
                                         "flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg " +
-                                        (isActive ? "bg-primary-light dark:bg-primary-dark" : "")
+                                        (isActive
+                                            ? "bg-primary-light dark:bg-primary-dark"
+                                            : "")
                                     );
                                 }}
                             >
@@ -332,6 +340,13 @@ function SideBar() {
                                 </span>
                             </NavLink>
                             <div
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        logUserOut()
+                                    }
+                                }}
                                 onClick={logUserOut}
                                 className="flex items-center gap-3 mb-4 p-2 dark:hover:bg-primary-dark rounded-lg cursor-pointer"
                             >
@@ -349,10 +364,17 @@ function SideBar() {
                     </nav>
                 </div>
                 <div
+                    role="button"
+                    tabIndex={0}
                     onClick={() =>
                         setTheme(theme === "dark" ? "light" : "dark")
                     }
                     aria-label="Theme Switcher"
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            setTheme(theme === "dark" ? "light" : "dark");
+                        }
+                    }}
                     className="cursor-pointer flex items-center gap-2 p-2 hover:shadow"
                 >
                     {theme === "dark" ? (

@@ -21,7 +21,7 @@ const navLinks = [
 ];
 
 function Header() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const [isMobileScreen, setIsMobileScreen] = useState(false);
 
     useEffect(() => {

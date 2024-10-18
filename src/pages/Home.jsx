@@ -26,7 +26,7 @@ const services = [
 ];
 
 function Home() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
 
     useEffect(() => {
         window.scrollTo(0, {

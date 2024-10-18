@@ -25,7 +25,7 @@ function ProfileSelectionModal({ setIsCreateRequested, fetchData }) {
     const [pdfs, setPdfs] = useState([]);
     const { token } = useContext(AuthContext);
     const [formData, setFormData] = useState({});
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const [isDropDownOpen, setIsDropDownOpen] = useState(false);
     const [isSaveInProgress, setIsSaveInProgress] = useState(false);
 

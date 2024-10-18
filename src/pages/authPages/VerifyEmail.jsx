@@ -11,7 +11,7 @@ import { UserAuthentication } from "../../services/AuthServices";
 import { useNavigate } from "react-router-dom";
 
 function VerifyEmail() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const navigate = useNavigate()
 
     async function verifyUser() {

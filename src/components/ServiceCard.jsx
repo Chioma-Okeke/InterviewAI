@@ -42,7 +42,6 @@ ServiceCard.propTypes = {
     Icon: PropTypes.node,
     title: PropTypes.string,
     description: PropTypes.string,
-    onclick: PropTypes.func,
     link: PropTypes.string,
 };
 

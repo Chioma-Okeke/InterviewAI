@@ -9,11 +9,11 @@ import { toggleNavBar } from "../../../store/navSlice";
 
 function PageLayout() {
     const isSideBarVisible = useSelector((state) => state.nav.showNavBar);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     function closeSideBar() {
         if (window.innerWidth < 1024 && isSideBarVisible) {
-            dispatch(toggleNavBar())
+            dispatch(toggleNavBar());
         }
     }
 
@@ -44,8 +44,17 @@ function PageLayout() {
             >
                 <div className=" flex flex-col dark:bg-primary-dark bg-secondary-light">
                     <AppHeader />
-                    <div onClick={closeSideBar}>
-                        <Outlet/>
+                    <div
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                                closeSideBar();
+                            }
+                        }}
+                        onClick={closeSideBar}
+                    >
+                        <Outlet />
                     </div>
                 </div>
             </motion.section>

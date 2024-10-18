@@ -10,7 +10,7 @@ import useThemeSwitcher from "../hooks/useThemeSwitcher";
 import OnBoardingForm from "../components/forms/OnBoardingForm";
 
 function OnBoarding() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     return (
         <motion.div
             initial={{ opacity: 0 }}

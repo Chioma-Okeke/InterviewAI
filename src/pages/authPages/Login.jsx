@@ -10,7 +10,7 @@ import useThemeSwitcher from "../../hooks/useThemeSwitcher";
 import ThirdPartyAuthForm from "../../components/authComponents/ThirdPartyAuthForm";
 
 function LogIn() {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
 
     return (
         <motion.div

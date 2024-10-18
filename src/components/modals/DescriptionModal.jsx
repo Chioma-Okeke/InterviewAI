@@ -15,7 +15,7 @@ import {
 import { IoIosArrowBack } from "react-icons/io";
 
 const DescriptionModal = () => {
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const [data, setData] = useState([]);
     const { token } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);

@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 function ThirdPartyAuthForm() {
     const { login } = useContext(AuthContext);
-    const [theme, setTheme] = useThemeSwitcher();
+    const [theme] = useThemeSwitcher();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/user/dashboard";
