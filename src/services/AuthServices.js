@@ -7,8 +7,11 @@ export class UserAuthentication {
             const response = await apiClient.post(`/signup`, userData)
             return response.data
         } catch (error) {
-            console.error('Signup error:', error.response?.data || error.message)
-            throw error
+            const errorMessage =
+                error.response?.data?.msg ||
+                "Error when authenticating user";
+            console.error("Signup error:", errorMessage);
+            throw new Error(errorMessage);
         }
     }
 
@@ -17,8 +20,11 @@ export class UserAuthentication {
             const response = await apiClient.post(`/signin`, userData)
             return response.data
         } catch (error) {
-            console.error('Login error:', error.response?.data || error.message)
-            throw error
+            const errorMessage =
+                error.response?.data?.message ||
+                "Error when authenticating user";
+            console.error("Login error:", errorMessage);
+            throw new Error(errorMessage);
         }
     }
 

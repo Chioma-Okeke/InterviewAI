@@ -1,4 +1,3 @@
-import React from "react";
 import starBackground from "../../assets/background.svg";
 import Button from "../reusables/Button";
 import { GoArrowUpRight } from "react-icons/go";
@@ -24,7 +23,7 @@ function HeroSection() {
                     </div>
                     <div className="flex items-center justify-center">
                         <Link to={"/auth"}>
-                            <Button className="bg-brand-color rounded-3xl py-3 px-6 shadow-custom flex items-center gap-2 transition-all ease-in-out hover:scale-110 duration-500">
+                            <Button className="bg-brand-color rounded-3xl py-3 px-6 shadow-custom flex items-center gap-2 transition-all ease-in-out hover:scale-110 duration-300">
                                 <span>Get started</span>
                                 <GoArrowUpRight color="#ECECEC" size={18} />
                             </Button>

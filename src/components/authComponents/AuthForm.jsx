@@ -38,7 +38,10 @@ function AuthForm({ buttonText, authGate }) {
         if (!formData.password) {
             newErrors.password = "Password is required.";
         }
-        if (authGate === "registering" && formData.password !== formData.confirmPassword) {
+        if (
+            authGate === "registering" &&
+            formData.password !== formData.confirmPassword
+        ) {
             newErrors.confirmPassword = "Passwords do not match.";
         }
         return newErrors;
@@ -47,7 +50,7 @@ function AuthForm({ buttonText, authGate }) {
     async function handleLogin(e) {
         e.preventDefault();
         setIsLoading(true);
-        setErrors({}); 
+        setErrors({});
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -60,7 +63,10 @@ function AuthForm({ buttonText, authGate }) {
             const sanitizedFormData = {
                 email: DOMPurify.sanitize(formData.email),
                 password: DOMPurify.sanitize(formData.password),
-                confirmPassword: authGate === "registering" ? DOMPurify.sanitize(formData.confirmPassword) : undefined,
+                confirmPassword:
+                    authGate === "registering"
+                        ? DOMPurify.sanitize(formData.confirmPassword)
+                        : undefined,
             };
 
             if (authGate === "registering") {
@@ -70,7 +76,9 @@ function AuthForm({ buttonText, authGate }) {
                 });
                 if (res.status === "success") {
                     toast.success(res.msg);
-                    navigate("/auth/verifyemail");
+                    navigate("/auth/verifyemail", {
+                        state: { email: `${formData.email}` },
+                    });
                 }
             } else {
                 res = await userAuthentication.login(sanitizedFormData);
@@ -88,9 +96,7 @@ function AuthForm({ buttonText, authGate }) {
             }
         } catch (err) {
             console.error(err);
-            toast.error(
-                err.response?.data?.message || "Error when authenticating user"
-            );
+            toast.error(err.message || "Error when authenticating user");
         } finally {
             setIsLoading(false);
         }
@@ -178,7 +184,7 @@ function AuthForm({ buttonText, authGate }) {
 
 AuthForm.propTypes = {
     buttonText: PropTypes.string,
-    authGate: PropTypes.string
+    authGate: PropTypes.string,
 };
 
 export default AuthForm;
