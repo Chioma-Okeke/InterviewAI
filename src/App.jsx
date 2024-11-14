@@ -10,6 +10,7 @@ import AuthProvider from "./contexts/AuthContext";
 import useThemeSwitcher from "./hooks/useThemeSwitcher";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 //layouts
 import PageLayout from "./components/shared/layout/PageLayout";
 import Container from "./components/shared/layout/Container";

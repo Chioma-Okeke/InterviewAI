@@ -1,7 +1,7 @@
 // import { useContext } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { Player } from "@lottiefiles/react-lottie-player";
+// import { Player } from "@lottiefiles/react-lottie-player";
 
 import Button from "../reusables/Button";
 import { CircularProgress } from "@mui/material";
@@ -87,7 +87,10 @@ DialogBox.propTypes = {
     okText: PropTypes.string,
     cancelText: PropTypes.string,
     close: PropTypes.func,
-    handleSubmission: PropTypes.func
+    handleSubmission: PropTypes.func,
+    subHeading: PropTypes.string,
+    okTextClassName: PropTypes.string,
+    imgSrc: PropTypes.string
 
 };
 

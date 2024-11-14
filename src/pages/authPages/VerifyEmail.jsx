@@ -1,32 +1,36 @@
-import React from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
 import { toast } from "react-toastify";
-import Container from "../../components/shared/layout/Container";
 import { motion } from "framer-motion";
 import Logo from "../../assets/logo.svg";
+import Button from "../../components/reusables/Button";
 import LogoDark from "../../assets/logo-black-white.svg";
 import Envelop from "../../assets/verification-image.png";
-import Button from "../../components/reusables/Button";
 import useThemeSwitcher from "../../hooks/useThemeSwitcher";
+import DialogBox from "../../components/reusables/DialogBox";
 import { UserAuthentication } from "../../services/AuthServices";
-import { useLocation, useNavigate } from "react-router-dom";
 
 function VerifyEmail() {
     const [theme] = useThemeSwitcher();
-    const navigate = useNavigate();
     const location = useLocation();
     const { email } = location.state || {};
+    const [isEmailSent, SetIsEmailSent] = useState(false);
+    const [userEmail, setUserEmail] = useState({ email: email });
 
-    async function verifyUser() {
+    async function reSendEmail() {
         const userAuthentication = new UserAuthentication();
         try {
-            const response = await userAuthentication.verifyEmail();
-            if (response.status === "success") {
-                toast.success(response.msg);
-                navigate("/auth/login");
+            const response = await userAuthentication.resendEmail(userEmail);
+            if (response.success) {
+                SetIsEmailSent(true);
+                setTimeout(() => {
+                    SetIsEmailSent(false);
+                }, 4000);
             }
         } catch (err) {
             console.error(err);
-            toast.error(err.response?.data?.msg || "Something went wrong");
+            toast.error(err.message || "Error when resending email.");
         }
     }
 
@@ -68,8 +72,7 @@ function VerifyEmail() {
                         </div>
                         <div className="text-center flex flex-col gap-2 text-primary-dark dark:text-primary-light">
                             <p className="hidden sm:block">
-                                You’ve entered{" "}
-                                <b>{email}</b> as the email
+                                You’ve entered <b>{email}</b> as the email
                                 address for your account
                             </p>
                             <p>
@@ -77,6 +80,15 @@ function VerifyEmail() {
                                 verification email.
                             </p>
                         </div>
+                        <p className="text-[#3B3B3B] dark:text-ternary-light text-sm flex justify-center gap-1 w-full mt-[118px]">
+                            Didn’t receive the email?{" "}
+                            <Button
+                                onClick={reSendEmail}
+                                className="text-[#3D9963]"
+                            >
+                                Click to resend
+                            </Button>
+                        </p>
                         {/* <Button onClick={verifyUser} className="w-full mt-8 mb-6 text-white py-[18px] px-5 rounded-[15px] bg-[#3D9963] max-w-[300px] mx-auto">
                                 Verify your email
                             </Button>
@@ -89,6 +101,9 @@ function VerifyEmail() {
                     </div>
                 </div>
             </div>
+            {isEmailSent && (
+                <DialogBox message="Email Successful sent. Kindly check your email address." />
+            )}
         </motion.div>
     );
 }
